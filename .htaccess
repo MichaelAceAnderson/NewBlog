@@ -1,9 +1,9 @@
-ErrorDocument 401 /admin/errors/401.php
-ErrorDocument 403 /admin/errors/403.php
-ErrorDocument 404 /admin/errors/404.php
-ErrorDocument 406 /admin/errors/406.php
-ErrorDocument 500 /admin/errors/500.php
-ErrorDocument 503 /admin/errors/503.php
+ErrorDocument 401 /view/errors/401.php
+ErrorDocument 403 /view/errors/403.php
+ErrorDocument 404 /view/errors/404.php
+ErrorDocument 406 /view/errors/406.php
+ErrorDocument 500 /view/errors/500.php
+ErrorDocument 503 /view/errors/503.php
 
 
 # Disable directory browsing
@@ -14,4 +14,3 @@ Options -Indexes
     Order allow,deny
     Deny from all
 </FilesMatch>
-
