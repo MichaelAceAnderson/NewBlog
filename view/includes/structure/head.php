@@ -1,0 +1,34 @@
+<!DOCTYPE html>
+<html xml:lang="fr" xmlns="http://www.w3.org/1999/xhtml" lang="fr">
+
+<head>
+    <!-- On définit le titre de la page -->
+    <?php
+    // Par défaut, le nom du blog n'est pas défini
+    $blogName = false;
+    // Tenter de récupérer le nom du blog à partir de la méthode du contrôleur
+    $blogName = BlogController::getBlogName();
+    // Si le nom du blog est défini, le mettre en titre, sinon mettre "NewBlog"
+    echo $blogName ? '<title>' . $blogName . '</title>' : '<title>NewBlog</title>';
+    ?>
+
+    <!-- On précise comment est encodée la page -->
+    <meta charset="UTF-8">
+    <!-- On paramètre la largeur de l'appareil -->
+    <meta name="viewport" content="width=device-width, initial-scale=1">
+    <!-- On précise la description du site pour les moteurs de recherche -->
+    <meta name="description" content="NewBlog est un CMS permettant à un utilisateur de créer son propre blog">
+    <script src="/common/js/styleDebug.js"></script>
+    <!-- On met une icône à l'onglet -->
+    <link type="image/x-icon" rel="shortcut icon" href="/view/img/newblog.png">
+    <!-- On précharge les polices d'écriture -->
+    <link rel="preload" href="/common/style/fonts/agencyfb.ttf" as="font" type="font/ttf" crossorigin="anonymous">
+    <link rel="preload" href="/common/style/fonts/LCD.ttf" as="font" type="font/ttf" crossorigin="anonymous">
+    <!-- On relie la feuille de style avec la page -->
+    <link href="/common/style/styleGeneral.css" rel="stylesheet" onload="sheetLoaded('general')" onerror="sheetError('general')">
+    <link href="/common/style/styleLight.css" rel="stylesheet" media="(prefers-color-scheme: light)" onload="sheetLoaded('light')" onerror="sheetError('light')">
+    <link href="/common/style/styleDark.css" rel="stylesheet" media="(prefers-color-scheme: dark)" onload="sheetLoaded('dark')" onerror="sheetError('dark')">
+    <link href="/common/style/styleMobile.css" rel="stylesheet" onload="sheetLoaded('mobile')" onerror="sheetError('mobile')">
+    <link href="/common/style/stylePrint.css" rel="stylesheet" media="print" onload="sheetLoaded('print')" onerror="sheetError('print')">
+
+</head>

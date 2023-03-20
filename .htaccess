@@ -1,16 +1,15 @@
-ErrorDocument 401 /view/errors/401.php
-ErrorDocument 403 /view/errors/403.php
-ErrorDocument 404 /view/errors/404.php
-ErrorDocument 406 /view/errors/406.php
-ErrorDocument 500 /view/errors/500.php
-ErrorDocument 503 /view/errors/503.php
-
+ErrorDocument 401 /?page=error&code=401
+ErrorDocument 403 /?page=error&code=403
+ErrorDocument 404 /?page=error&code=404
+ErrorDocument 406 /?page=error&code=406
+ErrorDocument 500 /?page=error&code=500
+ErrorDocument 503 /?page=error&code=503
 
 # Disable directory browsing
 Options -Indexes
 
 # Prevent access to txt files
-<FilesMatch "\.(txt)$">
+<FilesMatch "\.(.txt|sql|loo|lo1|gitignore)$">
     Order allow,deny
     Deny from all
 </FilesMatch>

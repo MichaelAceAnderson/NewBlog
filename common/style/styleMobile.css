@@ -1,0 +1,27 @@
+/* Rappels: 
+IE/Edge CSS-prefix: -ms
+Firefox CSS-prefix: -moz 
+Opera CSS prefix: -o (Presto) and -webkit (Blink) 
+Safari CSS prefix: -webkit 
+Chrome CSS prefix: -webkit
+*/
+
+/* Responsive design */
+
+/* Large screens (+1080p) */
+@media screen and (min-width: 1500px) {
+
+    /* Titre */
+    .main .title h1 {
+        font-size: 35px;
+    }
+}
+
+/* Phones */
+@media screen and (max-width: 780px) {
+
+    /* Titre */
+    .main .title h1 {
+        font-size: 25px;
+    }
+}

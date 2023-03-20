@@ -1,0 +1,15 @@
+@media (prefers-color-scheme: light) {
+    :root {
+        /* Text colors */
+        --textcolor: black;
+        --themecolor: rgb(255, 255, 255, 0.9);
+    }
+
+    .outlined {
+        text-shadow: -1px -1px 0 white, 1px -1px 0 white, -1px 1px 0 white, 1px 1px 0 white;
+    }
+
+    .outlined hr {
+        box-shadow: -1px -1px 0 white, 1px -1px 0 white, -1px 1px 0 white, 1px 1px 0 white;
+    }
+}
