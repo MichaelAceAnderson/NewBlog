@@ -1,25 +1,37 @@
 # NewBlog
 
-NewBlog is a basic CMS (Content Managing system) allowing you to post text/image content on your own blog. It is written in PHP and all the data is stored in text files locally in order not to depend on a database.
+NewBlog is a basic CMS (Content Managing system) written in PHP allowing you to post text/image content on your own blog.
+
+## Upcoming
+
+### Version 2.1 - Developers update
+
+- [ ] Password encryption
+
+### Version 2.0 - Rewriting from scratch
+
+- [X] New design
+- [X] Storage via database
+- [X] Page indexation
+- [X] Improved security
 
 ## Changelog
 
 ### Version 1.1 - MVC Update
 
-- Converted structure to Model-View-Controller
-- Fixed errors due to obsolete URLs
-- Various bug fixes
+- [x] Fixed errors due to obsolete URLs
+- [x] Various bug fixes
 
 ### Version 1.0 - First release
 
 Features:
 
-- Text posts
-- Image posts
-- Admin panel
-- Choose logo
-- Choose background
-- Reset posts
-- Change blog title
-- Change blog description
-- Change login & password
+- [x] Text posts
+- [x] Image posts
+- [x] Admin panel
+- [x] Choose logo
+- [x] Choose background
+- [x] Change blog title
+- [x] Change blog description
+- [x] Change login & password
+- [x] Clear posts

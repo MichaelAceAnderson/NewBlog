@@ -1,0 +1,30 @@
+@media (prefers-color-scheme: dark),
+(prefers-color-scheme: no-preference) {
+    :root {
+        --textcolor: white;
+        --themecolor: rgb(23, 24, 25, 0.9);
+    }
+
+    .main p,
+    .title h1 {
+        text-shadow: -1px -1px 0 black,
+            1px -1px 0 black,
+            -1px 1px 0 black,
+            1px 1px 0 black;
+    }
+
+    .title hr {
+        box-shadow: -1px -1px 0 black,
+            1px -1px 0 black,
+            -1px 1px 0 black,
+            1px 1px 0 black;
+    }
+
+    .outlined {
+        text-shadow: -1px -1px 0 black, 1px -1px 0 black, -1px 1px 0 black, 1px 1px 0 black;
+    }
+
+    .outlined hr {
+        box-shadow: -1px -1px 0 black, 1px -1px 0 black, -1px 1px 0 black, 1px 1px 0 black;
+    }
+}

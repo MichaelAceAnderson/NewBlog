@@ -1,0 +1,379 @@
+/* Rappels: 
+IE/Edge CSS prefix: -ms
+Firefox CSS prefix: -moz 
+Opera CSS prefix: -o (Presto) and -webkit (Blink) 
+Safari CSS prefix: -webkit 
+Chrome CSS prefix: -webkit
+*/
+
+/* Default element/Background colors */
+:root {
+    --textcolor: white;
+    --themecolor: rgb(23, 24, 25, 0.9);
+    --darker: rgb(0, 0, 0, 0.2);
+    --darker2: rgb(0, 0, 0, 0.4);
+    --lighter: rgb(255, 255, 255, 0.1);
+    --lighter2: rgb(255, 255, 255, 0.2);
+}
+
+/* Propriétés générales du corps de la page */
+@font-face {
+    font-family: "Agency FB";
+    font-style: normal;
+    font-weight: 400;
+    src: local("Agency FB"), local("AgencyFB-Regular"),
+        url(/common/style/fonts/agencyfb.ttf) format("truetype");
+    font-display: swap;
+}
+
+@font-face {
+    font-family: "LCD";
+    font-style: normal;
+    font-weight: 400;
+    src: local("LCD"), url(/common/style/fonts/LCD.ttf) format("truetype");
+    font-display: swap;
+}
+
+* {
+    outline: none;
+    box-sizing: border-box;
+}
+
+/* Navigation par tabulation */
+*:focus-visible {
+    box-shadow: 0 0 2px 2px gray;
+}
+
+html {
+    /* Déplacement plus fluide de la page */
+    scroll-behavior: smooth;
+    /* Antialiasing des polices */
+    -webkit-font-smoothing: antialiased;
+}
+
+/* Position, couleur, police et image de fond du corps */
+body {
+    padding: 0;
+    margin: 0;
+    font-family: "Agency FB", sans-serif;
+    background-color: var(--themecolor);
+    background-repeat: no-repeat;
+    background-attachment: fixed;
+    background-size: cover;
+    background-image: url(/common/img/circuits.jpg);
+    color: var(--textcolor);
+    min-height: 100%;
+    position: relative;
+    z-index: 0;
+}
+
+/* Code destiné à styliser la barre de défilement sur les navigateurs à moteur Chromium (webkit) */
+::-webkit-scrollbar {
+    width: 20px;
+}
+
+::-webkit-scrollbar-track {
+    background: var(--themecolor);
+}
+
+::-webkit-scrollbar-thumb {
+    background: var(--lighter);
+}
+
+::-webkit-scrollbar-thumb:hover {
+    background: var(--lighter2);
+}
+
+::-webkit-scrollbar-thumb:active {
+    background: var(--lighter);
+}
+
+/* Styliser tous les liens */
+a {
+    text-decoration: none;
+    color: var(--textcolor);
+}
+
+/* En-tête */
+header {
+    background: linear-gradient(45deg, rgba(0, 100, 255, 0.8), transparent);
+    background-color: var(--darker2);
+    background-size: cover;
+    width: 100%;
+    position: relative;
+    top: 0;
+    z-index: 0;
+    text-align: center;
+    text-shadow: 2px 2px 0px black;
+}
+
+/* Liens en-tête */
+header a {
+    position: relative;
+    transition: 1s;
+    border: 2px solid transparent;
+    display: inline-block;
+}
+
+header a:hover {
+    cursor: pointer;
+    transition: 1s;
+    border: 2px solid white;
+}
+
+header a:active {
+    background: var(--lighter2);
+    border: 2px solid gray;
+    transition: 0.1s;
+}
+
+/* Titre en-tête */
+header a h1 {
+    font-family: "LCD";
+    margin: 0;
+    padding: 5px 20px;
+    font-size: 30px;
+    text-transform: uppercase;
+    font-size: 80px;
+    color: white;
+}
+
+header a h2 {
+    font-family: "Agency FB";
+    text-transform: uppercase;
+    margin: 0;
+    display: block;
+    font-size: 20px;
+    color: white;
+}
+header .login {
+    position: absolute;
+    right: 0;
+    top: 0;
+}
+header .login a {
+    display: block;
+}
+header .login h3,
+header .login h4 {
+    margin: 0;
+    padding: 5px;
+}
+
+/* Contenu */
+.main {
+    position: relative;
+    padding: 10px 5%;
+    overflow: hidden;
+    z-index: -1;
+    width: 100%;
+    min-height: 100vh;
+    background: var(--themecolor);
+    background-repeat: no-repeat;
+    background-attachment: fixed;
+    background-size: cover;
+    background-image: url(/common/img/bg.jpg);
+    transition: 0.3s;
+}
+
+.main iframe {
+    border: none;
+    margin: 10px;
+    width: 80%;
+    min-height: 500px;
+    display: block;
+    margin: 10px auto;
+}
+
+/* Posts */
+.main .content .post {
+    background: white;
+    color: black;
+    margin: 10px;
+}
+
+.main .content .post h1 {
+    text-shadow: none;
+    font-size: 20px;
+}
+
+.main .content .post h1.author {
+    padding: 10px;
+    background: gray;
+    margin: 0;
+}
+
+.main .content .post p {
+    text-shadow: none;
+    font-size: 20px;
+}
+
+.main .content .post p.content {
+    padding: 10px;
+    margin: 0;
+}
+
+.main .content .post p.timestamp {
+    padding: 10px;
+    margin: 0;
+}
+
+.main .content .post p.id {
+    padding: 10px;
+    margin: 0;
+}
+
+
+/* Titre de page */
+.main .title hr {
+    border: none;
+    height: 5px;
+    width: 75px;
+    background: var(--textcolor);
+    margin: 15px 0px;
+}
+
+.main .title h1 {
+    margin: 10px auto;
+    text-align: left;
+    font-size: 25px;
+}
+
+/* Formulaire de contact */
+
+.main form.contact {
+    background: white;
+    color: black;
+    text-align: center;
+    width: 50%;
+    margin: auto;
+    box-shadow: 0px 0px 1px black;
+}
+
+.main form.contact h1 {
+    background: black;
+    color: white;
+    padding: 15px;
+    font-size: 25px;
+}
+
+.main form.contact input[type="text"],
+.main form.contact textarea {
+    background-color: transparent;
+    border-radius: 0;
+    border-width: 0 0 2px 0;
+    border-color: black;
+    margin: 10px auto 10px auto;
+    display: block;
+    padding: 7px;
+    width: 50%;
+    height: 20px;
+    transition: 0.2s linear;
+    color: black;
+    font-family: "Agency FB", sans-serif;
+    font-size: 18px;
+    -ms-user-select: none;
+    -webkit-user-select: none;
+    user-select: none;
+}
+
+.main form.contact textarea {
+    height: 200px;
+}
+
+.main form.contact input[type="text"]:hover,
+.main form.contact textarea:hover {
+    border-color: #005aff;
+    transition: 0.2s linear;
+}
+
+.main form.contact input[type="text"]:focus,
+.main form.contact textarea:focus {
+    background-color: rgb(0 0 0 / 5%);
+    box-shadow: inset 0 0 2px var(--darker2);
+    transition: 0.2s linear;
+}
+
+.main form.contact .response {
+    color: white;
+    border-left: 8px solid var(--darker);
+    margin: 10px;
+    padding: 10px;
+    display: block;
+    font-size: 20px;
+}
+
+.main form.contact .response.error {
+    background: rgb(150 0 0 / 80%);
+}
+
+.main form.contact .response.success {
+    background: rgb(0 100 0 / 80%);
+}
+
+.main form.contact h3 {
+    margin: 0;
+}
+
+.main form.contact button {
+    color: white;
+    background: rgb(23 24 25);
+    border: 5px solid rgb(23 24 25);
+    border-radius: 0;
+    font-size: 20px;
+    padding: 15px;
+    display: inline;
+    margin: 5px auto 5px auto;
+    transition: 0.5s;
+    font-family: "Agency FB", sans-serif;
+}
+
+.main form.contact button:hover {
+    background: rgb(23 24 25);
+    border: 5px solid var(--lighter2);
+    cursor: pointer;
+    transition: 0.3s;
+}
+
+.main form.contact button:active {
+    background: radial-gradient(rgb(40 40 40), rgb(23 24 25));
+    border: 5px solid var(--darker2);
+}
+
+.error {
+    color: white;
+    border-left: 8px solid var(--darker);
+    margin: 10px;
+    padding: 10px;
+    display: block;
+    background: rgb(150 0 0 / 80%);
+    text-align: center;
+}
+
+.error p {
+    display: inline;
+}
+
+/* Informations de bas de page */
+footer {
+    position: relative;
+    color: white;
+    background: rgb(23 24 25);
+    text-shadow: 0 0 4px black;
+    bottom: 0;
+    z-index: -1;
+    width: 100%;
+    text-align: center;
+    font-size: 25px;
+    padding: 15px;
+    box-shadow: 0 0 2px black;
+}
+
+footer a {
+    color: white;
+}
+
+footer a:hover,
+footer a:focus {
+    text-decoration: underline;
+}
