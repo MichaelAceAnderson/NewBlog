@@ -6,7 +6,7 @@ require_once($_SERVER['DOCUMENT_ROOT'] . '/view/includes/structure/head.php');
 require_once($_SERVER['DOCUMENT_ROOT'] . '/view/includes/structure/header.php');
 if (isset($_GET['page'])) {
     if (file_exists($_SERVER['DOCUMENT_ROOT'] . '/view/includes/content/' . $_GET['page'] . '.php')) {
-        include_once($_SERVER['DOCUMENT_ROOT'] . '/view/includes/content/' . $_GET['page'] . '.php');
+        require_once($_SERVER['DOCUMENT_ROOT'] . '/view/includes/content/' . $_GET['page'] . '.php');
     } else {
         $_GET['code'] = '404';
         require_once($_SERVER['DOCUMENT_ROOT'] . '/view/includes/content/error.php');
