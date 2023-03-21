@@ -1,37 +1,3 @@
-<style>
-    .panel {
-        width: 100%;
-        position: relative;
-        display: inline-block;
-        background: white;
-        color: black;
-        vertical-align: top;
-    }
-
-    .panel p {
-        text-shadow: none;
-    }
-
-    .panel h1 {
-        text-align: center;
-        font-size: 20px;
-        padding: 10px;
-        margin: 0;
-        background: #333;
-        color: white;
-    }
-
-    .panel.content {
-        padding: 10px;
-    }
-
-    .panel.content label,
-    .panel.content input,
-    .panel.content textarea {
-        display: block;
-        margin: auto;
-    }
-</style>
 <div class="main">
     <!-- Définir les identifiants -->
     <div class="panel">
