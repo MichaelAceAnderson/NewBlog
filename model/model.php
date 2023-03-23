@@ -3,15 +3,24 @@
 
 declare(strict_types=1);
 
+// Hôte de la base de données
 define("DB_HOST", "localhost");
-define("DB_NAME", "NewBlog");
-define("LOGLEVEL", 0);
+// Nom de la base à utiliser
+define("DB_NAME", "newblog");
+// 0: Aucune erreur affichée/loggée, 
+// 1: Erreurs destinées à l'utilisateur, 
+// 2: Provenance directe des erreurs (développeurs), 
+// 3: Retraçace complet de la provenance (développeurs)
+define("LOGLEVEL", 3);
+// Constante pour le type d'affichage des erreurs
 define("RAW", 1);
 define("HTML", 2);
 class Model
 {
     /* PROPRIÉTÉS/ATTRIBUTS */
+    // Connection à la base de données
     private mixed $pdo = null;
+    // Requête à traiter
     private mixed $stmt = null;
 
     /* CONSTRUCTEUR */
@@ -23,15 +32,15 @@ class Model
                     $pass = "PG770rwx";
                     break;
                 }
-            case "reader": {
+            case "nb_reader": {
                     $pass = "PGlr4--";
                     break;
                 }
-            case "writer": {
+            case "nb_writer": {
                     $pass = "PGlw2--";
                     break;
                 }
-            case "editor": {
+            case "nb_editor": {
                     $pass = "PGlrw6--";
                     break;
                 }
@@ -50,6 +59,7 @@ class Model
                 [
                     \PDO::ATTR_DEFAULT_FETCH_MODE => \PDO::FETCH_OBJ,
                     \PDO::ATTR_ERRMODE => \PDO::ERRMODE_EXCEPTION,
+                    \PDO::ATTR_TIMEOUT => 3,
                     // \PDO::ATTR_EMULATE_PREPARES => true,
                     // \PDO::ATTR_PERSISTENT => true,
                     // \PDO::ATTR_STRINGIFY_FETCHES => true,
@@ -64,6 +74,7 @@ class Model
     }
 
     /* MÉTHODES */
+
     /* Setters */
     // Définir la requête à traiter
     public function setStmt(mixed $query): void
@@ -75,6 +86,7 @@ class Model
     {
         $this->pdo = $pdo;
     }
+
     /* Getters */
     // Récupérer la requête à traiter
     public function getStmt(): mixed

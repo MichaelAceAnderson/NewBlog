@@ -4,10 +4,12 @@
 <head>
     <!-- On définit le titre de la page -->
     <?php
+    // On stocke l'état de l'installation du blog dans une variable
+    $blogInstalled = BlogController::isInstalled();
     // Par défaut, le nom du blog n'est pas défini
     $blogName = false;
-    // Tenter de récupérer le nom du blog à partir de la méthode du contrôleur
-    $blogName = BlogController::getBlogName();
+    // Si le blog est installé, tenter de récupérer le nom du blog à partir de la méthode du contrôleur
+    if ($blogInstalled) $blogName = BlogController::getBlogName();
     // Si le nom du blog est défini, le mettre en titre, sinon mettre "NewBlog"
     echo $blogName ? '<title>' . $blogName . '</title>' : '<title>NewBlog</title>';
     ?>

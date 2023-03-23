@@ -4,6 +4,12 @@ require_once __DIR__ . '\controller\controller.php';
 
 require_once($_SERVER['DOCUMENT_ROOT'] . '/view/includes/structure/head.php');
 require_once($_SERVER['DOCUMENT_ROOT'] . '/view/includes/structure/header.php');
+
+if (BlogController::isInstalled() == false) {
+    if (!isset($_GET['page']) || $_GET['page'] != 'install') {
+        header('Location: /?page=install');
+    }
+}
 if (isset($_GET['page'])) {
     if (file_exists($_SERVER['DOCUMENT_ROOT'] . '/view/includes/content/' . $_GET['page'] . '.php')) {
         require_once($_SERVER['DOCUMENT_ROOT'] . '/view/includes/content/' . $_GET['page'] . '.php');

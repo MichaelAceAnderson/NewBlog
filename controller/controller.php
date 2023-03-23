@@ -52,9 +52,6 @@ class Controller
         return json_decode(file_get_contents("php://input"), true);
     }
 }
-if (!isset($_SESSION)) {
-    session_start();
-}
 
 include_once __DIR__ . '\entities\UserController.php';
 
