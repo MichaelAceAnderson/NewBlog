@@ -4,7 +4,7 @@
 } ?>
 <div class="main">
     <div class="content">
-        <h1 class="response error">
+        <h1 class="notification error">
             <?php
             echo 'Erreur ' . $_GET['code'] . ' : <br>';
             switch ($_GET['code']) {
@@ -21,7 +21,7 @@
                     break;
 
                 case '403':
-                    echo 'Acces interdit !';
+                    echo 'Accès interdit !';
                     break;
 
                 case '404':

@@ -1,4 +1,4 @@
 user-agent: *
-disallow: /common/
-disallow: /controller/
-disallow: /model/
+disallow: /common/*
+disallow: /controller/*
+disallow: /model/*

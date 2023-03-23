@@ -3,6 +3,12 @@
 
 declare(strict_types=1);
 
+// Si l'utilisateur n'est pas sur index.php, le rediriger à l'accueil
+if ($_SERVER['PHP_SELF'] != '/index.php') {
+    header('Location: /');
+    exit();
+}
+
 // Hôte de la base de données
 define("DB_HOST", "localhost");
 // Nom de la base à utiliser
