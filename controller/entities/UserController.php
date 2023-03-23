@@ -83,6 +83,13 @@ class UserController
             // Si l'utilisateur existe
 
             // Check si $password correspond au mot de passe
+            if (password_verify($password, $result[0]->password)) {
+                // Si oui, renvoyer son id
+                return $result[0];
+            } else {
+                // Si non, renvoyer faux
+                return false;
+            }
             if ($password == $result[0]->password) {
                 // Si oui, renvoyer son id
                 return $result[0];

@@ -6,8 +6,6 @@ NewBlog is a basic CMS (Content Managing system) written in PHP allowing you to 
 
 ### Version 2.1 - Developers update
 
-- [ ] Password encryption
-
 ### Version 2.0 - Rewriting from scratch
 
 - [X] New design

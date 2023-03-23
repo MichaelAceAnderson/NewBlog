@@ -26,7 +26,6 @@ Information for developers
 - [ ] Use Namespaces for PHP classes
 - [ ] DB roles separation OR single (persistent) PDO connection
 - [ ] Add conception/UML diagrams
-- [ ] Add password encryption
 - [ ] Add Model Unit Tests
 - [ ] Add Controller Unit Tests
 - [ ] Cookie storage for session variables
@@ -38,7 +37,8 @@ Information for developers
 - [X] Separate Model into entities
 - [X] New design
 - [X] Add Error logging
-- [ ] Add .htaccess page redirection (protection against direct access to files)
+- [X] Add password hashing
+- [ ] Add page redirection (protection against direct access to files)
 
 ## Changelog
 
