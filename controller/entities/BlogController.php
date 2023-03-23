@@ -3,11 +3,65 @@ class BlogController
 {
     /* MÉTHODES */
 
+    // Vérifier si le blog est installé
+    public static function isInstalled(): bool
+    {
+        $result = Blog::selectBlog();
+        if ($result instanceof PDOException) {
+            Model::printLog(Model::getError($result));
+            return false;
+        } else {
+            return !empty($result);
+        }
+    }
+
     /* Créations */
     // Installer le blog
-    public static function installBlog()
+    public static function installBlog(string $adminName, string $adminPass, string $blogName, string $blogDescription, string $bgURL): bool | Exception
     {
-        Blog::install();
+        // Création du blog
+        $dbInstallStatus = Blog::installDB();
+        if ($dbInstallStatus instanceof PDOException) {
+            // Si l'installation en base de données a échoué, on renvoie l'erreur
+            return $dbInstallStatus;
+        } else {
+            // Si l'installation en base de données a renvoyé une erreur
+            if (!$dbInstallStatus) {
+                // Si l'installation de la BDD a réussi mais qu'une erreur inconnue survient
+                return new Exception('Une erreur inattendue est survenue lors de l\'installation de la base de données !');
+            } else {
+                // Si l'installation de la base de données a réussi
+
+                // Créer l'utilisateur principal, admin et propriétaire
+                if (!UserController::createUser($adminName, $adminPass, true)) {
+                    // Si l'utilisateur n'a pas pu être créé, on arrête l'installation
+                    return new PDOException("L'utilisateur administrateur n'a pas pu être créé en base de données !");
+                } else {
+                    // Récupération de l'utilisateur admin, propriétaire du blog
+                    $adminAccount = UserController::getUserInfoByCredentials($adminName, $adminPass);
+                    if (!$adminAccount) {
+                        // Si l'utilisateur admin n'a pas pu être récupéré en base de données
+                        return new Exception("Impossible d'utiliser l'utilisateur administrateur pour continuer l'installation !");
+                    }
+                    // Si l'utilisateur admin a bien été créé et récupéré
+
+                    // Insertion des informations du blog en base de données
+                    $blogInsertStatus = Blog::insertBlog($blogName, $blogDescription, $bgURL, $adminAccount->id_user);
+                    if ($blogInsertStatus instanceof PDOException) {
+                        // Si l'installation de la BDD a réussi mais qu'une erreur survient lors de l'insertion des données du blog
+                        return $blogInsertStatus;
+                    } else {
+                        if (!$blogInsertStatus) {
+                            // Si les données du blog n'ont pas pu être insérées dans la base de données
+                            return new Exception('Les données du blog n\'ont pas pu être insérées en base de données !');
+                        } else {
+                            // Si le blog a été inséré, on renvoie true pour indiquer que l'installation est complète
+                            return true;
+                        }
+                    }
+                }
+            }
+        }
     }
 
     /* Modifications */
@@ -91,7 +145,33 @@ class BlogController
         }
     }
 }
-// if(isset($_POST['fInstall'])) {
-//     BlogController::setBlogName($_POST['fBlogName']);
-//     BlogController::setDescription($_POST['fDescription']);
-// }
+
+/* GESTION DES REQUÊTES PAR FORMULAIRE */
+
+// Si le formulaire d'installation a été soumis
+if (isset($_POST['fInstall'])) {
+    // Vérification des champs
+    if (
+        isset($_POST['fUserName']) && $_POST['fUserName'] != ""
+        && isset($_POST['fPass']) && $_POST['fPass'] != ""
+        && isset($_POST['fBlogName']) && $_POST['fBlogName'] != ""
+        && isset($_POST['fBlogDesc']) && $_POST['fBlogDesc'] != ""
+    ) {
+        $installStatus = BlogController::installBlog($_POST['fUserName'], $_POST['fPass'], $_POST['fBlogName'], $_POST['fBlogDesc'], $_POST['fBgURL']);
+        if ($installStatus instanceof Exception) {
+            // Si une erreur est survenue, on journalise le message d'erreur et on l'affiche à l'utilisateur
+            // Model::printLog(Model::getError($installStatus));
+            $formError = Model::getError($installStatus, HTML);
+        } else {
+            if ($installStatus) {
+                // Si l'installation a bien réussi, on redirige vers la page d'accueil
+                header('Location: /');
+            } else {
+                // Ne devrait jamais arriver
+                $formError = 'Une erreur est survenue lors de l\'installation du blog !';
+            }
+        }
+    } else {
+        $formError = 'Veuillez remplir tous les champs !';
+    }
+}

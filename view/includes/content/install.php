@@ -1,51 +1,56 @@
 <div class="main">
-    <!-- Définir les identifiants -->
-    <div class="panel">
-        <h1>Configurer les identifiants</h1>
-        <div class="panel-content">
-            <input type="text" autocomplete="off" name="fUsername" />
-            <input type="password" autocomplete="off" name="fPass" />
+    <!-- <iframe width="50%" height="350px" src="" frameborder="0" allowFullScreen="">
+        Bientôt » Vidéo d'installation du CMS !
+    </iframe> -->
+    <?php
+    if ($blogInstalled) {
+        echo '<h1 class="notification warning">⚠ Attention ! Si votre blog est déjà installé, cette nouvelle installation supprimera tous vos posts, vos utilisateurs et votre configuration !</h1>';
+    } else {
+        echo '<h1 class="notification warning">Assurez-vous d\'avoir une base de données PostGreSQL nommée "newblog" en cours d\'exécution !</h1>';
+    }
+    if (isset($formError)) {
+        echo '<h1 class="notification error">' . $formError . '</h1>';
+    }
+    ?>
+    <form method="post" action="" enctype="multipart/form-data" autocomplete="off">
+        <!-- Définir les identifiants -->
+        <div class="panel">
+            <h1>Configurer les identifiants</h1>
+            <div class="panel-content">
+                <label for="fUsername">Identifiant:</label>
+                <input type="text" name="fUserName" placeholder="MonNomCool123" autocomplete="new-password" aria-autocomplete="none" required />
+                <label for="fPass">Mot de passe:</label>
+                <input type="password" name="fPass" placeholder="Mot de passe" autocomplete="new-password" aria-autocomplete="none" required />
+            </div>
         </div>
-    </div>
-    <!-- Ajouter un post écrit -->
-    <div class="panel">
-        <h1>Ajouter un premier post écrit</h1>
-        <div class="panel-content">
-            <p>
-                <b>Attention</b>: <i>Les post ne sont pas modifiables une fois envoyés ! </i>
-            </p>
-            <input type="text" autocomplete="off" name="firstpost" />
+        <!-- Définir le nom du blog -->
+        <div class="panel">
+            <h1>Définir le nom du blog</h1>
+            <div class="panel-content">
+                <input type="text" autocomplete="off" name="fBlogName" placeholder="Nom du blog" required />
+            </div>
         </div>
-    </div>
-    <!-- Définir le nom du blog -->
-    <div class="panel">
-        <h1>Définir le nom du blog</h1>
-        <div class="panel-content">
-            <input type="text" autocomplete="off" name="fBlogName" />
+        <!-- Définir la description du blog -->
+        <div class="panel">
+            <h1>Saisissez la description du blog</h1>
+            <div class="panel-content">
+                <textarea name="fBlogDesc" placeholder="Description" required></textarea>
+            </div>
         </div>
-    </div>
-    <!-- Définir la description du blog -->
-    <div class="panel">
-        <h1>Changer la description du blog</h1>
-        <div class="panel-content">
-            <textarea style="width: 50%;" name="fBlogDesc"></textarea>
+        <!-- Définir l'URL de l'image de fond du blog -->
+        <div class="panel">
+            <h1>Définir l'URL de l'image de fond du blog</h1>
+            <div class="panel-content">
+                <p>Saisissez l'url de l'image de fond du blog (laissez vide pour laisser celle par défaut)</p>
+                <input type="text" name="fBgURL" placeholder="/common/img/background.jpg" />
+            </div>
         </div>
-    </div>
-    <!-- Terminer l'installation -->
-    <div class="panel">
-        <h1>Terminer l'installation</h1>
-        <div class="panel-content">
-            <form method="post" action="" enctype="multipart/form-data">
+        <!-- Terminer l'installation -->
+        <div class="panel">
+            <h1>Terminer l'installation</h1>
+            <div class="panel-content">
                 <input class="button" type="submit" value="Valider" name="fInstall" />
-            </form>
+            </div>
         </div>
-    </div>
+    </form>
 </div>
-<!-- // $version = file_get_contents($server . '/model/data/settings/version.txt');
-// $URL = "http://" . $_SERVER['HTTP_HOST'];
-// $SendInstall =
-file_get_contents("http://xdev.livehost.fr/creations/web/newblog/bloginstalled.php?url=$URL&version=$version"); -->
-
-<!-- <iframe width="50%" height="350px" src="" frameborder="0" allowFullScreen="">
-    Bientôt » Vidéo d'installation du CMS !
-</iframe> -->

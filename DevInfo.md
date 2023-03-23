@@ -10,6 +10,7 @@
   - [Documentation](#documentation)
     - [How a request is handled](#how-a-request-is-handled)
     - [To-do](#to-do)
+    - [Conception questions](#conception-questions)
 
 Information for developers
 
@@ -36,8 +37,8 @@ Information for developers
 - [X] Refactorization to Model-View-Controller
 - [X] Separate Model into entities
 - [X] New design
-- [ ] Add Error logging
-- [ ] Add .htaccess security
+- [X] Add Error logging
+- [ ] Add .htaccess page redirection (protection against direct access to files)
 
 ## Changelog
 
@@ -69,7 +70,7 @@ Form (View) -> POST request -> GET request (Controller) -> Call Model method -> 
 
 ### To-do
 
-- [ ] Add Installation system (front/back)
+- [ ] Remove useless DB connection if blog is not installed (back)
 - [ ] Add admin panel (front)
 - [ ] Add missing methods to controller & model (back)
 - [ ] Improve error handling and displaying (front/back)
@@ -77,3 +78,9 @@ Form (View) -> POST request -> GET request (Controller) -> Call Model method -> 
 - [ ] Try to find a way to make functions out of the code in each model method (back)
 - [ ] Fix links and headers style (front)
 - [ ] Error message when wrong email & wrong password (front/back)
+
+### Conception questions
+
+- Should I ask for the user to create the database or should I create it automatically ?
+- Should I use a single global DO connection or separate connections for each entity ?
+- Should I separate CSS classes in a component logic or in a specific context logic ?
