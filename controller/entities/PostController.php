@@ -91,3 +91,9 @@ class PostController
         }
     }
 }
+
+// Si un formulaire de création de post est soumis
+// Récupérer les informations de l'utilisateur connecté dans la session
+// Récupérer le contenu du post dans le formulaire
+// Appeler la méthode de création de post
+// Stocker un message de succès
