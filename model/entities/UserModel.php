@@ -24,11 +24,20 @@ class User
                 self::$model->setStmt(self::$model->getPdo()->prepare(
                     "INSERT INTO newblog.nb_user(nickname, password, is_mod) VALUES(:nickname, :password, :is_mod);"
                 ));
+                // Paramétrer le pseudo
                 self::$model->getStmt()->bindParam('nickname', $nickname, PDO::PARAM_STR);
+                // Hasher le mot de passe
+                $password = password_hash($password, PASSWORD_BCRYPT);
+                if (!$password) {
+                    // Si le hash n'a pas pu être créé
+                    throw new PDOException("Impossible de créer un hash pour le mot de passe !");
+                }
+                // Paramétrer le mot de passe
                 self::$model->getStmt()->bindParam('password', $password, PDO::PARAM_STR);
                 self::$model->getStmt()->bindParam('is_mod', $is_mod, PDO::PARAM_BOOL);
                 // Exécuter la requête
                 if (!self::$model->getStmt()->execute()) {
+                    // Si une erreur survient lors de l'exécution de la requête
                     throw new PDOException("Une erreur est survenue");
                 } else {
                     if (self::$model->getStmt()->rowCount() > 0) {
