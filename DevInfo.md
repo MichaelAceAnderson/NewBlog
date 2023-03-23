@@ -38,7 +38,7 @@ Information for developers
 - [X] New design
 - [X] Add Error logging
 - [X] Add password hashing
-- [ ] Add page redirection (protection against direct access to files)
+- [X] Add page redirection (protection against direct access to files)
 
 ## Changelog
 
