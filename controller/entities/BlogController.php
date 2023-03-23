@@ -55,7 +55,13 @@ class BlogController
                             // Si les données du blog n'ont pas pu être insérées dans la base de données
                             return new Exception('Les données du blog n\'ont pas pu être insérées en base de données !');
                         } else {
-                            // Si le blog a été inséré, on renvoie true pour indiquer que l'installation est complète
+                            // Si l'installation du blog a réussi, notifier le serveur de NewBlog via la page d'API
+
+                            // $version = file_get_contents($server . '/model/data/settings/version.txt');
+                            // $URL = "http://" . $_SERVER['HTTP_HOST'];
+                            // $SendInstall = file_get_contents("http://xdev.livehost.fr/creations/web/newblog/bloginstalled.php?url=$URL&version=$version");
+
+                            // On renvoie true pour indiquer que l'installation est complète
                             return true;
                         }
                     }
@@ -173,5 +179,55 @@ if (isset($_POST['fInstall'])) {
         }
     } else {
         $formError = 'Veuillez remplir tous les champs !';
+    }
+}
+
+// Si le formulaire de modification du nom du blog a été soumis
+if (isset($_POST['fChangeBlogName'])) {
+    // Vérification des champs
+    if (isset($_POST['fBlogName']) && $_POST['fBlogName'] != "") {
+        $blogNameUpdateStatus = BlogController::setBlogName($_POST['fBlogName']);
+        if ($blogNameUpdateStatus) {
+            // Si la modification a réussi, on stocke un message de succès
+            $formSuccess = 'Le nom du blog a bien été modifié !';
+        } else {
+            // Si la modification a échoué, on affiche un message d'erreur
+            $formError = 'Une erreur est survenue lors de la modification du nom du blog !';
+        }
+    } else {
+        $formError = 'Veuillez remplir tous les champs !';
+    }
+}
+
+// Si le formulaire de modification de la description a été soumis
+if (isset($_POST['fChangeBlogDesc'])) {
+    // Vérification des champs
+    if (isset($_POST['fBlogDesc']) && $_POST['fBlogDesc'] != "") {
+        $blogDescUpdateStatus = BlogController::setDescription($_POST['fBlogDesc']);
+        if ($blogDescUpdateStatus) {
+            // Si la modification a réussi, on stocke un message de succès
+            $formSuccess = 'La description a bien été modifiée !';
+        } else {
+            // Si la modification a échoué, on affiche un message d'erreur
+            $formError = 'Une erreur est survenue lors de la modification de la description !';
+        }
+    } else {
+        $formError = 'Veuillez remplir tous les champs !';
+    }
+}
+
+// Si le formulaire de modification de l'image de fond a été soumis
+if (isset($_POST['fChangeBgURL'])) {
+    // Vérification des champs
+    if (!isset($_POST['fBgURL']) || $_POST['fBgURL'] == "") {
+        $_POST['fBgURL'] = "/common/img/background.jpg";
+    }
+    $bgURLUpdateStatus = BlogController::setBackgroundURL($_POST['fBgURL']);
+    if ($bgURLUpdateStatus) {
+        // Si la modification a réussi, on stocke un message de succès
+        $formSuccess = 'L\'URL de l\'image de fond a bien été modifiée !';
+    } else {
+        // Si la modification a échoué, on affiche un message d'erreur
+        $formError = 'Une erreur est survenue lors de la modification de l\'image de fond !';
     }
 }

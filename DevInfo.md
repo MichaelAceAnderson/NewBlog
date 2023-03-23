@@ -71,7 +71,6 @@ Form (View) -> POST request -> GET request (Controller) -> Call Model method -> 
 ### To-do
 
 - [ ] Remove useless DB connection if blog is not installed (back)
-- [ ] Add admin panel (front)
 - [ ] Add missing methods to controller & model (back)
 - [ ] Improve error handling and displaying (front/back)
 - [ ] Pass error logging to model (back)
@@ -82,5 +81,5 @@ Form (View) -> POST request -> GET request (Controller) -> Call Model method -> 
 ### Conception questions
 
 - Should I ask for the user to create the database or should I create it automatically ?
-- Should I use a single global DO connection or separate connections for each entity ?
-- Should I separate CSS classes in a component logic or in a specific context logic ?
+- Should I use a single global PDO connection or separate connections for each entity ?
+- Should I separate CSS classes in a reusable component logic or in a specific context logic ?
