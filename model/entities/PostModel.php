@@ -9,7 +9,7 @@ class Post
 
     /* MÉTHODES */
     // Création d'un post en BDD
-    public static function addPost(string $content, int $authorId): bool | PDOException
+    public static function addPost(int $authorId, string $content): bool | PDOException
     {
         // Résultat initial = échec
         $result = false;

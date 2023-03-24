@@ -93,7 +93,15 @@ class PostController
 }
 
 // Si un formulaire de création de post est soumis
-// Récupérer les informations de l'utilisateur connecté dans la session
-// Récupérer le contenu du post dans le formulaire
-// Appeler la méthode de création de post
-// Stocker un message de succès
+if (isset($_POST['fPost'])) {
+    $formSuccess = $_POST['fPostContent'];
+    if (!isset($_POST['fPostContent']) || empty($_POST['fPostContent'])) {
+        $formError = 'Le contenu du post est vide';
+    } else {
+        if (PostController::createPost($_SESSION['id_user'], $_POST['fPostContent'])) {
+            $formSuccess = 'Le post a bien été ajouté !';
+        } else {
+            $formError = 'Une erreur est survenue lors de l\'ajout du post';
+        }
+    }
+}

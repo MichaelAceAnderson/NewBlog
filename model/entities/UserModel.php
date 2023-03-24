@@ -230,13 +230,19 @@ class User
                 // Si la connexion à réussi
                 // Préparer la requête
                 self::$model->setStmt(self::$model->getPdo()->prepare(
-                    "UPDATE newblog.nb_user SET nickname = :newNickname WHERE newblog.nb_user.id_user = :id;"
+                    "UPDATE newblog.nb_user SET password = :newPassword WHERE newblog.nb_user.id_user = :id;"
                 ));
                 self::$model->getStmt()->bindParam(
                     'id',
                     $id,
                     PDO::PARAM_INT
                 );
+                // Hasher le mot de passe
+                $newPassword = password_hash($newPassword, PASSWORD_BCRYPT);
+                if (!$newPassword) {
+                    // Si le hash n'a pas pu être créé
+                    throw new PDOException("Impossible de créer un hash pour le mot de passe !");
+                }
                 self::$model->getStmt()->bindParam('newPassword', $newPassword, PDO::PARAM_STR);
                 // Exécuter la requête
                 if (!self::$model->getStmt()->execute()) {

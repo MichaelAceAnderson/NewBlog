@@ -7,7 +7,7 @@ final class Blog
     /* MÉTHODES */
 
     /* Insertions */
-    // Installer le blog (À faire)        
+    // Installer le blog (À faire)
     public static function installDB(): bool | PDOException
     {
         $result = false;

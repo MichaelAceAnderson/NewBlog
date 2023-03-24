@@ -26,7 +26,7 @@ echo $bgURL ? '<body style="background: black url(' . $bgURL . ') repeat fixed">
     if ($blogInstalled) {
         echo '<span class="login">';
         if (isset($_SESSION['id_user'])) {
-            echo '<h3>' . $_SESSION['nickname'] . '</h3>';
+            echo '<a href="/?page=account"><h3>' . $_SESSION['nickname'] . '</h3></a>';
             if (isset($_SESSION['is_mod']) && $_SESSION['is_mod'] === true)
                 echo '<a href="/?page=admin"><h4>Page admin</h4></a>';
             echo '<form action="" method="post"><h4><input type="submit" name="fLogOut" value="Déconnexion"></h4></form>';
