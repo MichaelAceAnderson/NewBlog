@@ -70,6 +70,7 @@ Form (View) -> POST request -> GET request (Controller) -> Call Model method -> 
 
 ### To-do
 
+- [ ] Separate SESSION variables into array (back)
 - [ ] Remove useless DB connection if blog is not installed (back)
 - [ ] Add missing methods to controller & model (back)
 - [ ] Improve error handling and displaying (front/back)
