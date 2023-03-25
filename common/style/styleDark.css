@@ -1,10 +1,14 @@
+/* Si l'utilisateur n'a pas de préférence ou qu'il privilégie le thème sombre */
 @media (prefers-color-scheme: dark),
 (prefers-color-scheme: no-preference) {
+
+    /* Variables communes */
     :root {
         --textcolor: white;
         --themecolor: rgb(23, 24, 25, 0.9);
     }
 
+    /* Paragraphes principaux & titres de sections */
     .main p,
     .title h1 {
         text-shadow: -1px -1px 0 black,
@@ -13,6 +17,7 @@
             1px 1px 0 black;
     }
 
+    /* Barre de titres */
     .title hr {
         box-shadow: -1px -1px 0 black,
             1px -1px 0 black,
@@ -20,10 +25,12 @@
             1px 1px 0 black;
     }
 
+    /* Contours du texte */
     .outlined {
         text-shadow: -1px -1px 0 black, 1px -1px 0 black, -1px 1px 0 black, 1px 1px 0 black;
     }
 
+    /* Contours de la barre de titres */
     .outlined hr {
         box-shadow: -1px -1px 0 black, 1px -1px 0 black, -1px 1px 0 black, 1px 1px 0 black;
     }

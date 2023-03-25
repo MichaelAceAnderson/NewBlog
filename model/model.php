@@ -24,15 +24,17 @@ define("HTML", 2);
 class Model
 {
     /* PROPRIÉTÉS/ATTRIBUTS */
-    // Connection à la base de données
-    private mixed $pdo = null;
+    // Connexion à la base de données
+    private PDO $pdo = null;
     // Requête à traiter
     private mixed $stmt = null;
 
     /* CONSTRUCTEUR */
     function __construct(string $role)
     {
+        // Par défaut, le mot de passe est erronné
         $pass = null;
+        // Selon le nom de l'utilisateur ($role), on définit le mot de passe à utiliser
         switch (strtolower($role)) {
             case "postgres": {
                     $pass = "PG770rwx";
@@ -51,8 +53,10 @@ class Model
                     break;
                 }
             default: {
+                    // Si l'utilisateur spécifié n'existe pas en base de connées, on détruit la connexion
                     $this->pdo = null;
-                    break;
+                    self::printLog('Connexion à la base de données impossible avec l\'utilisateur spécifié (' . $role . ')');
+                    throw new Exception("L'utilisateur spécifié n'existe pas en base de données");
                 }
         }
         try {
@@ -72,8 +76,10 @@ class Model
                 ]
             );
         } catch (PDOException $e) {
+            // Si une erreur survient, on détruit la connexion
             $this->pdo = null;
         }
+        // Si la connexion est établie, on logge le message
         if ($this->pdo != null) {
             self::printLog("Connexion à la base de données réussie");
         }
