@@ -6,7 +6,7 @@ Safari CSS prefix: -webkit
 Chrome CSS prefix: -webkit
 */
 
-/* Default element/Background colors */
+/* Variables communes */
 :root {
     --textcolor: white;
     --themecolor: rgb(23, 24, 25, 0.9);
@@ -16,7 +16,8 @@ Chrome CSS prefix: -webkit
     --lighter2: rgb(255, 255, 255, 0.2);
 }
 
-/* Propriétés générales du corps de la page */
+/* Polices d'écriture */
+
 @font-face {
     font-family: "Agency FB";
     font-style: normal;
@@ -34,6 +35,7 @@ Chrome CSS prefix: -webkit
     font-display: swap;
 }
 
+/* Tous les éléments */
 * {
     outline: none;
     box-sizing: border-box;
@@ -42,8 +44,10 @@ Chrome CSS prefix: -webkit
 /* Navigation par tabulation */
 *:focus-visible {
     box-shadow: 0 0 2px 2px gray;
+    /* À changer */
 }
 
+/* Toute la page */
 html {
     /* Déplacement plus fluide de la page */
     scroll-behavior: smooth;
@@ -115,12 +119,14 @@ header a {
     display: inline-block;
 }
 
+/* Liens en-tête surlignés */
 header a:hover {
     cursor: pointer;
     transition: 1s;
     border: 2px solid white;
 }
 
+/* Liens en-tête en cours de clic */
 header a:active {
     background: var(--lighter2);
     border: 2px solid gray;
@@ -138,6 +144,7 @@ header a h1 {
     color: white;
 }
 
+/* Sous-titres en-tête */
 header a h2 {
     font-family: "Agency FB";
     text-transform: uppercase;
@@ -147,23 +154,26 @@ header a h2 {
     color: white;
 }
 
+/* Partie connexion de l'en-tête */
 header .login {
     position: absolute;
     right: 0;
     top: 0;
 }
 
+/* Liens de la partie connexion de l'en-tête */
 header .login a {
     display: block;
 }
 
+/* Sous-liens de la partie connexion de l'en-tête */
 header .login h3,
 header .login h4 {
     margin: 0;
     padding: 5px;
 }
 
-/* Contenu */
+/* Contenu principal */
 .main {
     position: relative;
     padding: 10px 5%;
@@ -179,6 +189,23 @@ header .login h4 {
     transition: 0.3s;
 }
 
+/* Titres  */
+.main .title h1 {
+    margin: 10px auto;
+    text-align: left;
+    font-size: 25px;
+}
+
+/* Ligne de titres de section */
+.main .title hr {
+    border: none;
+    height: 5px;
+    width: 75px;
+    background: var(--textcolor);
+    margin: 15px 0px;
+}
+
+/* Cadres vers d'autres pages web */
 .main iframe {
     border: none;
     margin: 10px;
@@ -195,63 +222,41 @@ header .login h4 {
     margin: 10px;
 }
 
+/* Titres des posts */
 .main .content .post h1 {
     text-shadow: none;
     font-size: 20px;
 }
 
+/* Auteurs des posts */
 .main .content .post h1.author {
     padding: 10px;
     background: gray;
     margin: 0;
 }
 
+/* Paragraphes des posts */
 .main .content .post p {
     text-shadow: none;
     font-size: 20px;
 }
 
+/* Paragraphes du contenu des posts */
 .main .content .post p.content {
     padding: 10px;
     margin: 0;
 }
 
+/* Dates des posts */
 .main .content .post p.timestamp {
     padding: 10px;
     margin: 0;
 }
 
+/* Identifiant de l'utilisateur à l'origine des posts */
 .main .content .post p.id {
     padding: 10px;
     margin: 0;
-}
-
-
-/* Titre de page */
-.main .title hr {
-    border: none;
-    height: 5px;
-    width: 75px;
-    background: var(--textcolor);
-    margin: 15px 0px;
-}
-
-.main .title h1 {
-    margin: 10px auto;
-    text-align: left;
-    font-size: 25px;
-}
-
-.main form.contact button:hover {
-    background: rgb(23 24 25);
-    border: 5px solid var(--lighter2);
-    cursor: pointer;
-    transition: 0.3s;
-}
-
-.main form.contact button:active {
-    background: radial-gradient(rgb(40 40 40), rgb(23 24 25));
-    border: 5px solid var(--darker2);
 }
 
 /* Notifications */
@@ -266,12 +271,12 @@ header .login h4 {
     text-align: center;
 }
 
-/* Avertissement */
+/* Avertissements */
 .notification.warning {
     background: rgba(150, 150, 0, 0.8);
 }
 
-/* Erreur */
+/* Erreurs */
 .notification.error {
     background: rgb(150 0 0 / 80%);
 }
@@ -313,6 +318,7 @@ header .login h4 {
     text-shadow: none;
 }
 
+/* Labels, champs de saisie et zones de texte du panel */
 .panel-content label,
 .panel-content input,
 .panel-content textarea {
@@ -323,10 +329,6 @@ header .login h4 {
     padding: 2px 2px;
     min-width: 230px;
     max-width: 80%;
-}
-
-.error p {
-    display: inline;
 }
 
 /* Informations de bas de page */

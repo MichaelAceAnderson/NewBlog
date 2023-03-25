@@ -6,11 +6,14 @@ class BlogController
     // Vérifier si le blog est installé
     public static function isInstalled(): bool
     {
+        // Tenter de récupérer les infos du blog en base de données
         $result = Blog::selectBlog();
+        // Si une erreur survient, on renvoie faux et on logge l'erreur
         if ($result instanceof PDOException) {
             Model::printLog(Model::getError($result));
             return false;
         } else {
+            // Si la BDD est installée et que les infos du blog existent, on renvoie vrai
             return !empty($result);
         }
     }
@@ -19,7 +22,7 @@ class BlogController
     // Installer le blog
     public static function installBlog(string $adminName, string $adminPass, string $blogName, string $blogDescription, string $bgURL): bool | Exception
     {
-        // Création du blog
+        // Création du blog en base de données
         $dbInstallStatus = Blog::installDB();
         if ($dbInstallStatus instanceof PDOException) {
             // Si l'installation en base de données a échoué, on renvoie l'erreur
@@ -74,33 +77,42 @@ class BlogController
     // Définir le nom du blog
     public static function setBlogName($newBlogName): bool
     {
+        // On tente de mettre à jour le nom du blog en base de données
         $result = Blog::updateBlogName($newBlogName);
+        // Si une erreur survient, on renvoie faux et on logge l'erreur
         if ($result instanceof PDOException) {
             Model::printLog(Model::getError($result));
             return false;
         } else {
+            // Si la mise à jour du nom du blog a réussi, on renvoie vrai
             return $result;
         }
     }
     // Changer l'image image de fond 
     public static function setBackgroundURL($newBackgroundURL): bool
     {
+        // On tente de mettre à jour l'URL de l'image de fond
         $result = Blog::updateBackgroundURL($newBackgroundURL);
+        // Si une erreur survient, on renvoie faux et on logge l'erreur
         if ($result instanceof PDOException) {
             Model::printLog(Model::getError($result));
             return false;
         } else {
+            // Si la mise à jour de l'URL de l'image de fond a réussi, on renvoie vrai
             return $result;
         }
     }
     // Changer la description 
     public static function setDescription($newDescription): bool
     {
+        // On tente de mettre à jour la description du blog en base de données
         $result = Blog::updateDescription($newDescription);
+        // Si une erreur survient, on renvoie faux et on logge l'erreur
         if ($result instanceof PDOException) {
             Model::printLog(Model::getError($result));
             return false;
         } else {
+            // Si la mise à jour de la description du blog a réussi, on renvoie vrai
             return $result;
         }
     }
@@ -109,45 +121,57 @@ class BlogController
     // Récupérer le nom du blog
     public static function getBlogName(): string | false
     {
+        // On tente de récupérer les infos du blog en base de données
         $result = Blog::selectBlog();
         if ($result instanceof PDOException) {
+            // Si une erreur survient, on renvoie faux et on logge l'erreur
             Model::printLog(Model::getError($result));
             return false;
         } else {
+            // Si la récupération des infos du blog a réussi, on renvoie le nom du blog s'il y en a un
             return $result[0]->blog_name ?? false;
         }
     }
     // Récupérer l'URL de l'image de fond du blog
     public static function getBackgroundURL(): string | false
     {
+        // On tente de récupérer les infos du blog en base de données
         $result = Blog::selectBlog();
+        // Si une erreur survient, on renvoie faux et on logge l'erreur
         if ($result instanceof PDOException) {
             Model::printLog(Model::getError($result));
             return false;
         } else {
+            // Si la récupération des infos du blog a réussi, on renvoie l'URL de l'image de fond s'il y en a une
             return $result[0]->background_url ?? false;
         }
     }
     // Récupérer la description du blog
     public static function getBlogDescription(): string | false
     {
+        // On tente de récupérer les infos du blog en base de données
         $result = Blog::selectBlog();
+        // Si une erreur survient, on renvoie faux et on logge l'erreur
         if ($result instanceof PDOException) {
             Model::printLog(Model::getError($result));
             return false;
         } else {
+            // Si la récupération des infos du blog a réussi, on renvoie la description du blog s'il y en a une
             return $result[0]->description ?? false;
         }
     }
     // Récupérer la date de création du blog
     public static function getCreationDate(): string | false
     {
+        // On tente de récupérer les infos du blog en base de données
         $result = Blog::selectBlog();
+        // Si une erreur survient, on renvoie faux et on logge l'erreur
         if ($result instanceof PDOException) {
             Model::printLog(Model::getError($result));
             return false;
         } else {
-            return $result[0]['creation_date'] ?? false;
+            // Si la récupération des infos du blog a réussi, on renvoie la date de création du blog s'il y en a une
+            return $result[0]->creation_date ?? false;
         }
     }
 }

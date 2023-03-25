@@ -1,3 +1,4 @@
+// /!\ ARCHIVE 1.0 INUTILISÉE POUR LE MOMENT 
 
 function _(elmt) {
     return document.getElementById(elmt);

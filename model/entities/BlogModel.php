@@ -10,6 +10,7 @@ final class Blog
     // Installer le blog (À faire)
     public static function installDB(): bool | PDOException
     {
+        // Résultat initial = échec
         $result = false;
         try {
             // Initialiser la connexion
@@ -106,6 +107,7 @@ final class Blog
     // Récupérer le premier blog
     public static function selectBlog(): array | PDOException
     {
+        // Résultat initial = tableau vide
         $result = [];
         try {
             // Initialiser la connexion
@@ -143,6 +145,7 @@ final class Blog
     // Récupérer le nom du blog
     public static function selectBlogByName($blogName): array | PDOException
     {
+        // Résultat initial = tableau vide
         $result = [];
         try {
             // Initialiser la connexion
@@ -181,6 +184,7 @@ final class Blog
     // Changer le nom du blog 
     public static function updateBlogName(string $newBlogName): bool | PDOException
     {
+        // Résultat initial = false
         $result = false;
         try {
             // Initialiser la connexion
@@ -222,6 +226,7 @@ final class Blog
     // Changer la description 
     public static function updateDescription(string $newDescription): bool | PDOException
     {
+        // Résultat initial = false
         $result = false;
         try {
             // Initialiser la connexion
@@ -263,6 +268,7 @@ final class Blog
     // Changer l'image image de fond 
     public static function updateBackgroundURL(string $newBackground): bool | PDOException
     {
+        // Résultat initial = false
         $result = false;
         try {
             // Initialiser la connexion

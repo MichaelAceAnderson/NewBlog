@@ -1,3 +1,4 @@
+/* Si l'utilisateur privilégie un thème clair */
 @media (prefers-color-scheme: light) {
     :root {
         /* Text colors */
@@ -5,10 +6,12 @@
         --themecolor: rgb(255, 255, 255, 0.9);
     }
 
+    /* Contours du texte */
     .outlined {
         text-shadow: -1px -1px 0 white, 1px -1px 0 white, -1px 1px 0 white, 1px 1px 0 white;
     }
 
+    /* Contours des lignes de titres */
     .outlined hr {
         box-shadow: -1px -1px 0 white, 1px -1px 0 white, -1px 1px 0 white, 1px 1px 0 white;
     }
