@@ -25,6 +25,7 @@ CREATE TABLE IF NOT EXISTS nb_blog(
    background_url TEXT NOT NULL DEFAULT '/common/img/background.jpg',
    creation_date TIMESTAMP(0) NOT NULL DEFAULT now(),
    id_user_owner INT NOT NULL,
+   register_date TIMESTAMP(0) NOT NULL DEFAULT now(),
    CONSTRAINT PK_nb_blog_name PRIMARY KEY(blog_name),
    CONSTRAINT FK_nb_blog_nb_user_owner FOREIGN KEY(id_user_owner) REFERENCES nb_user(id_user)
 );
