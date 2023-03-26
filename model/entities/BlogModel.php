@@ -24,7 +24,7 @@ final class Blog
                     // Installer la base de données via le fichier SQL
 
                     // Récupérer le contenu du fichier SQL d'installation de la BDD
-                    $sqlFile = file_get_contents(__DIR__ . "\..\NewBlog.sql");
+                    $sqlFile = file_get_contents(__DIR__ . "\..\NewBlogDB_install.sql");
                     // Exécuter le contenu du fichier SQL
                     self::$model->getPdo()->exec($sqlFile);
                     // Si l'installation a réussi
