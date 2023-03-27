@@ -128,11 +128,6 @@ class UserController
         }
     }
 }
-// Si la session n'est pas démarrée, la démarrer
-if (!isset($_SESSION)) {
-    session_start();
-}
-
 // Si l'utilisateur soumet un formulaire de connexion
 if (isset($_POST['fLogin'])) {
     // Vérifier que les champs sont remplis

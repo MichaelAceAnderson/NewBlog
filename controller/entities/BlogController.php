@@ -194,7 +194,14 @@ if (isset($_POST['fInstall'])) {
             $formError = Model::getError($installStatus, HTML);
         } else {
             if ($installStatus) {
-                // Si l'installation a bien réussi, on redirige vers la page d'accueil
+                // Si l'installation a bien réussi
+                if (isset($_SESSION)) {
+                    // Retirer toutes les variables de la session
+                    unset($_SESSION);
+                    // Détruire la session
+                    session_destroy();
+                }
+                // On redirige vers l'accueil
                 header('Location: /');
             } else {
                 // Ne devrait jamais arriver
