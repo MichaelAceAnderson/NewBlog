@@ -25,7 +25,7 @@ class Model
 {
     /* PROPRIÉTÉS/ATTRIBUTS */
     // Connexion à la base de données
-    private PDO $pdo = null;
+    private ?PDO $pdo = null;
     // Requête à traiter
     private mixed $stmt = null;
 
@@ -106,7 +106,7 @@ class Model
         return $this->stmt;
     }
     // Récupérer la connexion à utiliser
-    public function getPdo(): PDO | null
+    public function getPdo(): ?PDO
     {
         return $this->pdo;
     }
