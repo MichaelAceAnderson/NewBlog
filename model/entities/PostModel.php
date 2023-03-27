@@ -63,7 +63,7 @@ class Post
                 // Si la connexion à réussi
                 // Préparer la requête
                 self::$model->setStmt(self::$model->getPdo()->prepare(
-                    "SELECT * FROM newblog.nb_post"
+                    "SELECT * FROM newblog.nb_post ORDER BY time_stamp DESC;"
                 ));
                 // Exécuter la requête
                 if (!self::$model->getStmt()->execute()) {

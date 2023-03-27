@@ -14,6 +14,7 @@ CREATE TABLE IF NOT EXISTS nb_user(
    nickname VARCHAR(32) NOT NULL,
    password TEXT NOT NULL,
    is_mod BOOLEAN,
+   register_date TIMESTAMP(0) NOT NULL DEFAULT now(),
    CONSTRAINT PK_nb_user PRIMARY KEY(id_user),
    CONSTRAINT AK_nb_user UNIQUE(nickname)
 );
@@ -25,7 +26,6 @@ CREATE TABLE IF NOT EXISTS nb_blog(
    background_url TEXT NOT NULL DEFAULT '/common/img/background.jpg',
    creation_date TIMESTAMP(0) NOT NULL DEFAULT now(),
    id_user_owner INT NOT NULL,
-   register_date TIMESTAMP(0) NOT NULL DEFAULT now(),
    CONSTRAINT PK_nb_blog_name PRIMARY KEY(blog_name),
    CONSTRAINT FK_nb_blog_nb_user_owner FOREIGN KEY(id_user_owner) REFERENCES nb_user(id_user)
 );
@@ -36,6 +36,7 @@ ALTER SEQUENCE post_seq RESTART WITH 1; -- Redémarre le compteur à 1
 CREATE TABLE IF NOT EXISTS nb_post(
    id_post INT DEFAULT NEXTVAL ('post_seq'),
    content TEXT NOT NULL,
+   media_url TEXT,
    time_stamp TIMESTAMP(0) NOT NULL DEFAULT now(),
    id_user_author INT NOT NULL,
    CONSTRAINT PK_nb_post PRIMARY KEY(id_post),
