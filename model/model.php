@@ -9,6 +9,12 @@ if ($_SERVER['PHP_SELF'] != '/index.php') {
     exit();
 }
 
+// Si la session du client n'est pas démarrée, la démarrer
+if (!isset($_SESSION)) {
+    session_start();
+}
+
+
 // Hôte de la base de données
 define("DB_HOST", "localhost");
 // Nom de la base à utiliser
