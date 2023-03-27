@@ -12,15 +12,17 @@
         echo '<h1 class="notification error">' . $formError . '</h1>';
     }
     ?>
-    <form method="post" action="" enctype="multipart/form-data" autocomplete="off">
+    <form method="post" action="" autocomplete="off">
         <!-- Définir les identifiants -->
         <div class="panel">
             <h1>Configurer les identifiants</h1>
             <div class="panel-content">
                 <label for="fUsername">Identifiant:</label>
-                <input type="text" name="fUserName" placeholder="MonNomCool123" autocomplete="new-password" aria-autocomplete="none" required />
+                <input type="text" name="fUserName" placeholder="MonNomCool123" autocomplete="new-password"
+                    aria-autocomplete="none" required />
                 <label for="fPass">Mot de passe:</label>
-                <input type="password" name="fPass" placeholder="Mot de passe" autocomplete="new-password" aria-autocomplete="none" required />
+                <input type="password" name="fPass" placeholder="Mot de passe" autocomplete="new-password"
+                    aria-autocomplete="none" required />
             </div>
         </div>
         <!-- Définir le nom du blog -->

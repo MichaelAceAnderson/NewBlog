@@ -7,12 +7,12 @@
                 echo '<h1 class="notification error">' . $formError . '</h1>';
             }
             ?>
-            <form method="post" action="" enctype="multipart/form-data">
+            <form method="post" action="">
                 <label for="fUsername">Identifiant:</label>
                 <input type="text" name="fUserName" required />
                 <label for="fUsername">Mot de passe:</label>
-                <input type="password" name="fPass" />
-                <input type="submit" class="button" value="Connexion" name="fLogin" required />
+                <input type="password" name="fPass" required />
+                <input type="submit" class="button" value="Connexion" name="fLogin" />
             </form>
         </div>
     </div>
