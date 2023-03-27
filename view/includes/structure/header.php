@@ -3,7 +3,7 @@
 $bgURL = false;
 // Si le blog est installé, on récupère l'URL de l'image de fond
 if ($blogInstalled) $bgURL = BlogController::getBackgroundURL();
-echo $bgURL ? '<body style="background: black url(' . $bgURL . ') repeat fixed">' : '<body>';
+echo $bgURL ? '<body style="background: var(--themecolor) url(' . $bgURL . ') repeat fixed">' : '<body>';
 ?>
 <!-- En-tête  -->
 <header>
