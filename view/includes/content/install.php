@@ -4,7 +4,7 @@
     </iframe> -->
     <?php
     if ($blogInstalled) {
-        echo '<h1 class="notification warning">⚠ Attention ! Si votre blog est déjà installé, cette nouvelle installation supprimera tous vos posts, vos utilisateurs et votre configuration !</h1>';
+        echo '<h1 class="notification warning">⚠️ Attention ! Si votre blog est déjà installé, cette nouvelle installation supprimera tous vos posts, vos utilisateurs et votre configuration !</h1>';
     } else {
         echo '<h1 class="notification warning">Assurez-vous d\'avoir une base de données PostGreSQL nommée "newblog" en cours d\'exécution !</h1>';
     }
@@ -51,7 +51,7 @@
         <div class="panel">
             <h1>Terminer l'installation</h1>
             <div class="panel-content">
-                <input class="button" type="submit" value="Valider" name="fInstall" />
+                <input type="submit" value="Valider" name="fInstall" />
             </div>
         </div>
     </form>

@@ -10,10 +10,14 @@ Chrome CSS prefix: -webkit
 :root {
     --textcolor: white;
     --themecolor: rgb(23, 24, 25, 0.9);
+    --themecolor2: rgb(0 100 255 / 80%);
     --darker: rgb(0, 0, 0, 0.2);
     --darker2: rgb(0, 0, 0, 0.4);
     --lighter: rgb(255, 255, 255, 0.1);
     --lighter2: rgb(255, 255, 255, 0.2);
+    --blogfont: "Agency FB", sans-serif;
+    --bloglogo: "LCD", sans-serif;
+    --userfont: "Agency FB", sans-serif;
 }
 
 /* Polices d'écriture */
@@ -44,7 +48,12 @@ Chrome CSS prefix: -webkit
 /* Navigation par tabulation */
 *:focus-visible {
     box-shadow: 0 0 2px 2px gray;
-    /* À changer */
+}
+
+/* Supprimer l'ombre portée sur les champs textuels */
+input:focus,
+textarea:focus {
+    box-shadow: none;
 }
 
 /* Toute la page */
@@ -59,7 +68,7 @@ html {
 body {
     padding: 0;
     margin: 0;
-    font-family: "Agency FB", sans-serif;
+    font-family: var(--userfont);
     background-color: var(--themecolor);
     background-repeat: no-repeat;
     background-attachment: fixed;
@@ -106,7 +115,7 @@ a {
 
 /* En-tête */
 header {
-    background: linear-gradient(45deg, rgba(0, 100, 255, 0.8), transparent);
+    background: linear-gradient(45deg, var(--themecolor2), transparent);
     background-color: var(--darker2);
     background-size: cover;
     width: 100%;
@@ -141,7 +150,7 @@ header a:active {
 
 /* Titre en-tête */
 header a h1 {
-    font-family: "LCD";
+    font-family: var(--bloglogo);
     margin: 0;
     padding: 5px 20px;
     font-size: 30px;
@@ -152,7 +161,7 @@ header a h1 {
 
 /* Sous-titres en-tête */
 header a h2 {
-    font-family: "Agency FB";
+    font-family: var(--blogfont);
     text-transform: uppercase;
     margin: 0;
     display: block;
@@ -222,44 +231,45 @@ header .login h4 {
 }
 
 /* Posts */
-.main .content .post {
+.post {
     background: white;
     color: black;
     margin: 10px;
 }
 
 /* Titres des posts */
-.main .content .post h1 {
+.post h1 {
     text-shadow: none;
     font-size: 20px;
 }
 
 /* Auteurs des posts */
-.main .content .post-author {
+.post-author {
     padding: 10px;
     background: gray;
     margin: 0;
 }
 
 /* Paragraphes des posts */
-.main .content .post p {
+.post-container p.post-content {
     text-shadow: none;
     font-size: 20px;
 }
 
 /* Paragraphes du contenu des posts */
-.main .content .post-content {
+.post-container .post-content {
     padding: 10px;
     margin: 0;
 }
 
 /* Dates des posts */
-.main .content .post-timestamp {
+.post-container .post-timestamp {
     text-align: right;
+    text-shadow: none;
 }
 
 /* Media des posts */
-.main .content .post-media {
+.post-container .post-media {
     margin: auto;
     width: 50%;
     display: block;
@@ -279,7 +289,7 @@ header .login h4 {
 
 /* Avertissements */
 .notification.warning {
-    background: rgba(150, 150, 0, 0.8);
+    background: rgba(255, 255, 0, 0.8);
 }
 
 /* Erreurs */
@@ -327,9 +337,10 @@ header .login h4 {
 /* Labels, champs de saisie et zones de texte du panel */
 .panel-content label,
 .panel-content input,
-.panel-content textarea {
+.panel-content textarea,
+.panel-content button {
     display: block;
-    margin: auto;
+    margin: 5px auto;
     font-family: inherit;
     font-size: 15px;
     padding: 2px 2px;
@@ -337,8 +348,48 @@ header .login h4 {
     max-width: 80%;
 }
 
-/* Boutons de soumission du formulaire */
-.panel-content input[type="submit"] {
+/* Champs textuels du panel */
+.panel-content input[type="text"],
+.panel-content input[type="password"] {
+    border: 0;
+    border-bottom: 2px solid var(--darker2);
+    transition: 0.5s;
+}
+
+/* Champs textuels survolés du panel */
+.panel-content input[type="text"]:hover,
+.panel-content input[type="password"]:hover {
+    border-bottom: 2px solid black;
+    transition: 0.5s;
+}
+
+/* Champs textuels actifs du panel */
+.panel-content input[type="text"]:focus,
+.panel-content input[type="text"]:active,
+.panel-content input[type="password"]:focus,
+.panel-content input[type="password"]:active {
+    border-bottom: 2px solid var(--themecolor2);
+    transition: 0.5s;
+}
+
+/* Zone de texte du panel */
+.panel textarea {
+    border: 1px solid var(--darker2);
+}
+
+/* Zone de texte survolée du panel */
+.panel textarea:hover {
+    border: 1px solid black;
+}
+
+/* Zone de texte active du panel */
+.panel textarea:focus {
+    border: 1px solid var(--themecolor2);
+}
+
+/* Boutons de soumission du panel */
+.panel-content input[type="submit"],
+.panel-content button {
     background: var(--themecolor);
     color: white;
     border: 3px var(--lighter2) solid;
@@ -349,13 +400,24 @@ header .login h4 {
     transition: 0.5s ease-in;
 }
 
-/* Boutons de soumission sélectionnés du formulaire */
-.panel-content input[type="submit"]:active {
+/* Boutons de soumission survolés du panel */
+.panel-content input[type="submit"]:hover,
+.panel-content button:hover {
+    background: var(--themecolor2);
+    color: white;
+    border: 3px var(--darker) solid;
+    transition: 0.5s ease-out;
+}
+
+/* Boutons de soumission sélectionnés du panel */
+.panel-content input[type="submit"]:active,
+.panel-content button:active,
+.panel-content input[type="submit"]:focus,
+.panel-content button:focus {
     background: transparent;
-    cursor: default;
     border: 3px var(--darker2) solid;
     color: black;
-    transition: 0.5s ease-out;
+    transition: 0.1s;
 }
 
 /* Informations de bas de page */
@@ -371,12 +433,15 @@ footer {
     font-size: 25px;
     padding: 15px;
     box-shadow: 0 0 2px black;
+    font-family: var(--blogfont);
 }
 
+/* Liens de bas de page */
 footer a {
     color: white;
 }
 
+/* Liens de bas de page survolés/cliqués */
 footer a:hover,
 footer a:focus {
     text-decoration: underline;
