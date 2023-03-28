@@ -8,7 +8,7 @@ final class Blog
 
     /* Insertions */
     // Installer le blog (À faire)
-    public static function installDB(): bool | PDOException
+    public static function installDB(): bool|PDOException
     {
         // Résultat initial = échec
         $result = false;
@@ -43,7 +43,7 @@ final class Blog
         return $result;
     }
     // Insertions des informations du blog
-    public static function insertBlog(string $blogName, string $description, string $bgURL = "", int $adminId): bool | PDOException
+    public static function insertBlog(string $blogName, string $description, int $adminId, string $bgURL = ""): bool|PDOException
     {
         // Résultat initial = échec
         $result = false;
@@ -61,7 +61,8 @@ final class Blog
                         // Si l'image de fond n'est pas définie, on ne l'insère pas dans la requête
                         "INSERT INTO newblog.nb_blog (blog_name, description, id_user_owner)
                         VALUES (:blog_name, :description, :id_user_owner);"
-                    ));
+                    )
+                    );
                 } else {
                     // Si l'image de fond est définie, on l'insère dans la requête
                     self::$model->setStmt(
@@ -105,7 +106,7 @@ final class Blog
 
     /* Récupérations */
     // Récupérer le premier blog
-    public static function selectBlog(): array | PDOException
+    public static function selectBlog(): array|PDOException
     {
         // Résultat initial = tableau vide
         $result = [];
@@ -122,7 +123,8 @@ final class Blog
                     "SELECT * 
                     FROM newblog.nb_blog 
                     LIMIT 1"
-                ));
+                )
+                );
                 // Exécuter la requête
                 if (!self::$model->getStmt()->execute()) {
                     // Si la requête n'a pas pu être exécutée
@@ -143,7 +145,7 @@ final class Blog
         return $result;
     }
     // Récupérer le nom du blog
-    public static function selectBlogByName($blogName): array | PDOException
+    public static function selectBlogByName($blogName): array|PDOException
     {
         // Résultat initial = tableau vide
         $result = [];
@@ -160,7 +162,8 @@ final class Blog
                     "SELECT * 
                     FROM newblog.nb_blog 
                     WHERE newblog.nb_blog.blog_name = :blogname"
-                ));
+                )
+                );
                 self::$model->getStmt()->bindParam('blogname', $blogName, PDO::PARAM_STR);
 
                 // Exécuter la requête
@@ -182,7 +185,7 @@ final class Blog
 
     /* Modifications */
     // Changer le nom du blog 
-    public static function updateBlogName(string $newBlogName): bool | PDOException
+    public static function updateBlogName(string $newBlogName): bool|PDOException
     {
         // Résultat initial = false
         $result = false;
@@ -198,7 +201,8 @@ final class Blog
                 self::$model->setStmt(self::$model->getPdo()->prepare(
                     "UPDATE newblog.nb_blog 
                     SET blog_name = :newBlogName"
-                ));
+                )
+                );
                 self::$model->getStmt()->bindParam('newBlogName', $newBlogName, PDO::PARAM_STR);
 
                 // Exécuter la requête
@@ -224,7 +228,7 @@ final class Blog
         return $result;
     }
     // Changer la description 
-    public static function updateDescription(string $newDescription): bool | PDOException
+    public static function updateDescription(string $newDescription): bool|PDOException
     {
         // Résultat initial = false
         $result = false;
@@ -240,7 +244,8 @@ final class Blog
                 self::$model->setStmt(self::$model->getPdo()->prepare(
                     "UPDATE newblog.nb_blog 
                     SET description = :newDescription"
-                ));
+                )
+                );
                 self::$model->getStmt()->bindParam('newDescription', $newDescription, PDO::PARAM_STR);
 
                 // Exécuter la requête
@@ -266,7 +271,7 @@ final class Blog
         return $result;
     }
     // Changer l'image image de fond 
-    public static function updateBackgroundURL(string $newBackground): bool | PDOException
+    public static function updateBackgroundURL(string $newBackground): bool|PDOException
     {
         // Résultat initial = false
         $result = false;
@@ -282,7 +287,8 @@ final class Blog
                 self::$model->setStmt(self::$model->getPdo()->prepare(
                     "UPDATE newblog.nb_blog 
                 SET background_url = :newBackground"
-                ));
+                )
+                );
                 self::$model->getStmt()->bindParam('newBackground', $newBackground, PDO::PARAM_STR);
 
                 // Exécuter la requête

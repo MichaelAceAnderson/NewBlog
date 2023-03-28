@@ -9,7 +9,7 @@ class Post
 
     /* MÉTHODES */
     // Création d'un post en BDD
-    public static function addPost(int $authorId, string $content): bool | PDOException
+    public static function addPost(int $authorId, string $content, ?string $mediaUrl): bool|PDOException
     {
         // Résultat initial = échec
         $result = false;
@@ -22,9 +22,22 @@ class Post
             } else {
                 // Si la connexion à réussi
                 // Préparer la requête
-                self::$model->setStmt(self::$model->getPdo()->prepare(
-                    "INSERT INTO newblog.nb_post (content, id_user_author) VALUES (:content, :id_user_author);"
-                ));
+                if (!empty($mediaUrl)) {
+                    // S'il y a un média à ajouter au post
+                    self::$model->setStmt(
+                        self::$model->getPdo()->prepare(
+                            "INSERT INTO newblog.nb_post (content, media_url, id_user_author) VALUES (:content, :media_url, :id_user_author);"
+                        )
+                    );
+                    self::$model->getStmt()->bindParam('media_url', $mediaUrl, PDO::PARAM_STR);
+                } else {
+                    // S'il n y a pas de média à ajouter au post, on ne l'ajoute pas
+                    self::$model->setStmt(
+                        self::$model->getPdo()->prepare(
+                            "INSERT INTO newblog.nb_post (content, id_user_author) VALUES (:content, :id_user_author);"
+                        )
+                    );
+                }
                 self::$model->getStmt()->bindParam('content', $content, PDO::PARAM_STR);
                 self::$model->getStmt()->bindParam('id_user_author', $authorId, PDO::PARAM_INT);
                 // Exécuter la requête
@@ -49,7 +62,7 @@ class Post
         return $result;
     }
     // Récupérer le tableau des posts
-    public static function selectPosts(): array | PDOException
+    public static function selectPosts(): array|PDOException
     {
         // Résultat initial = tableau vide
         $result = [];
@@ -62,9 +75,11 @@ class Post
             } else {
                 // Si la connexion à réussi
                 // Préparer la requête
-                self::$model->setStmt(self::$model->getPdo()->prepare(
-                    "SELECT * FROM newblog.nb_post ORDER BY time_stamp DESC;"
-                ));
+                self::$model->setStmt(
+                    self::$model->getPdo()->prepare(
+                        "SELECT * FROM newblog.nb_post ORDER BY time_stamp DESC;"
+                    )
+                );
                 // Exécuter la requête
                 if (!self::$model->getStmt()->execute()) {
                     // Si la requête n'a pas pu être exécutée
@@ -85,7 +100,7 @@ class Post
         return $result;
     }
     // Récupérer la ligne d'un seul post
-    public static function selectPost(int $postId): array | PDOException
+    public static function selectPost(int $postId): array|PDOException
     {
         // Résultat initial = tableau vide
         $result = [];
@@ -98,12 +113,14 @@ class Post
             } else {
                 // Si la connexion à réussi
                 // Préparer la requête
-                self::$model->setStmt(self::$model->getPdo()->prepare(
-                    "SELECT newblog.nb_post.id_user_author, newblog.nb_user.nickname, newblog.nb_post.content, newblog.nb_post.time_stamp
+                self::$model->setStmt(
+                    self::$model->getPdo()->prepare(
+                        "SELECT newblog.nb_post.id_user_author, newblog.nb_user.nickname, newblog.nb_post.content, newblog.nb_post.time_stamp
                     FROM newblog.nb_post JOIN newblog.nb_user
                     ON newblog.nb_post.id_user_author=nb_user.id_user
                     WHERE newblog.nb_post.id_post=:id_post"
-                ));
+                    )
+                );
                 self::$model->getStmt()->bindParam('id_post', $postId, PDO::PARAM_INT);
                 // Exécuter la requête
                 if (!self::$model->getStmt()->execute()) {
@@ -125,7 +142,7 @@ class Post
         return $result;
     }
     // Création d'un post en BDD
-    public static function clearPosts(): bool | PDOException
+    public static function clearPosts(): bool|PDOException
     {
         // Résultat initial = échec
         $result = [];
@@ -138,9 +155,11 @@ class Post
             } else {
                 // Si la connexion à réussi
                 // Préparer la requête
-                self::$model->setStmt(self::$model->getPdo()->prepare(
-                    "DELETE * FROM newblog.nb_post"
-                ));
+                self::$model->setStmt(
+                    self::$model->getPdo()->prepare(
+                        "DELETE * FROM newblog.nb_post"
+                    )
+                );
                 // Exécuter la requête
                 if (!self::$model->getStmt()->execute()) {
                     throw new PDOException("Une erreur est survenue");
@@ -164,7 +183,7 @@ class Post
     }
 
     // Supprimer un post
-    public static function deletePost(int $id): bool | PDOException
+    public static function deletePost(int $id): bool|PDOException
     {
         // Résultat initial = échec
         $result = [];
@@ -177,9 +196,11 @@ class Post
             } else {
                 // Si la connexion à réussi
                 // Préparer la requête
-                self::$model->setStmt(self::$model->getPdo()->prepare(
-                    "DELETE FROM newblog.nb_post WHERE newblog.nb_post.id_post = :id;"
-                ));
+                self::$model->setStmt(
+                    self::$model->getPdo()->prepare(
+                        "DELETE FROM newblog.nb_post WHERE newblog.nb_post.id_post = :id;"
+                    )
+                );
                 self::$model->getStmt()->bindParam('id', $id, PDO::PARAM_INT);
                 // Exécuter la requête
                 if (!self::$model->getStmt()->execute()) {

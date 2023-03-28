@@ -27,11 +27,21 @@
         } else {
             foreach ($posts as $post) {
                 echo '<div class="post">';
-                echo '<h1 class="post author">' . UserController::getUserNameById($post->id_user_author) . '</h1>';
-                echo '<div class="post container">';
-                echo '<p class="post content">' . $post->content . '</p>';
-                echo '<p class="post timestamp">' . $post->time_stamp . '</p>';
-                echo '<p class="post id">' . $post->id_post . '</p>';
+                echo '<h1 class="post-author">' . UserController::getUserNameById($post->id_user_author) . '</h1>';
+                echo '<div class="post-container">';
+                echo '<p class="post-content">' . $post->content . '';
+                if ($post->media_url) {
+                    if (preg_match('/\/video\//', $post->media_url)) {
+                        echo '<video class="post-media" alt="Vidéo du post" preload ="auto" controls autoplay loop>
+                            <source src="' . $post->media_url . '">
+                        </video>';
+                    } else {
+                        echo '<img class="post-media" src="' . $post->media_url . '" alt="Image du post">';
+                    }
+                }
+                echo '</p>';
+                echo '<p class="post-timestamp">' . $post->time_stamp . '</p>';
+                echo '<p class="hidden">' . $post->id_post . '</p>';
                 echo '</div>';
                 echo '</div>';
             }

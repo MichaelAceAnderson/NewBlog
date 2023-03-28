@@ -72,24 +72,30 @@ body {
 }
 
 /* Code destiné à styliser la barre de défilement sur les navigateurs à moteur Chromium (webkit) */
-::-webkit-scrollbar {
+*::-webkit-scrollbar {
     width: 20px;
 }
 
-::-webkit-scrollbar-track {
+*::-webkit-scrollbar-track {
     background: var(--themecolor);
 }
 
-::-webkit-scrollbar-thumb {
+*::-webkit-scrollbar-thumb {
     background: var(--lighter);
 }
 
-::-webkit-scrollbar-thumb:hover {
+*::-webkit-scrollbar-thumb:hover {
     background: var(--lighter2);
 }
 
-::-webkit-scrollbar-thumb:active {
+*::-webkit-scrollbar-thumb:active {
     background: var(--lighter);
+}
+
+/* Cacher l'élément */
+.hidden {
+    display: none;
+    visibility: hidden;
 }
 
 /* Styliser tous les liens */
@@ -229,7 +235,7 @@ header .login h4 {
 }
 
 /* Auteurs des posts */
-.main .content .post h1.author {
+.main .content .post-author {
     padding: 10px;
     background: gray;
     margin: 0;
@@ -242,21 +248,21 @@ header .login h4 {
 }
 
 /* Paragraphes du contenu des posts */
-.main .content .post p.content {
+.main .content .post-content {
     padding: 10px;
     margin: 0;
 }
 
 /* Dates des posts */
-.main .content .post p.timestamp {
-    padding: 10px;
-    margin: 0;
+.main .content .post-timestamp {
+    text-align: right;
 }
 
-/* Identifiant de l'utilisateur à l'origine des posts */
-.main .content .post p.id {
-    padding: 10px;
-    margin: 0;
+/* Media des posts */
+.main .content .post-media {
+    margin: auto;
+    width: 50%;
+    display: block;
 }
 
 /* Notifications */
@@ -329,6 +335,27 @@ header .login h4 {
     padding: 2px 2px;
     min-width: 230px;
     max-width: 80%;
+}
+
+/* Boutons de soumission du formulaire */
+.panel-content input[type="submit"] {
+    background: var(--themecolor);
+    color: white;
+    border: 3px var(--lighter2) solid;
+    padding: 5px 10px;
+    margin: 10px auto;
+    font-size: 15px;
+    cursor: pointer;
+    transition: 0.5s ease-in;
+}
+
+/* Boutons de soumission sélectionnés du formulaire */
+.panel-content input[type="submit"]:active {
+    background: transparent;
+    cursor: default;
+    border: 3px var(--darker2) solid;
+    color: black;
+    transition: 0.5s ease-out;
 }
 
 /* Informations de bas de page */
