@@ -1,6 +1,6 @@
 # NewBlog
 
-NewBlog is a basic CMS (Content Managing system) written in PHP allowing you to post text/image content on your own blog.
+NewBlog is a basic CMS (Content Managing system) written in PHP allowing you to post text/media content on your own blog.
 
 ## Upcoming
 

@@ -1,2 +1,1 @@
-**/*.log
-/common/files/message.txt
+/common/files/**/*.*

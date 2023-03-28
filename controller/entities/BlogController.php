@@ -20,7 +20,7 @@ class BlogController
 
     /* Créations */
     // Installer le blog
-    public static function installBlog(string $adminName, string $adminPass, string $blogName, string $blogDescription, string $bgURL): bool | Exception
+    public static function installBlog(string $adminName, string $adminPass, string $blogName, string $blogDescription, string $bgURL): bool|Exception
     {
         // Création du blog en base de données
         $dbInstallStatus = Blog::installDB();
@@ -49,7 +49,7 @@ class BlogController
                     // Si l'utilisateur admin a bien été créé et récupéré
 
                     // Insertion des informations du blog en base de données
-                    $blogInsertStatus = Blog::insertBlog($blogName, $blogDescription, $bgURL, $adminAccount->id_user);
+                    $blogInsertStatus = Blog::insertBlog($blogName, $blogDescription, $adminAccount->id_user, $bgURL);
                     if ($blogInsertStatus instanceof PDOException) {
                         // Si l'installation de la BDD a réussi mais qu'une erreur survient lors de l'insertion des données du blog
                         return $blogInsertStatus;
@@ -119,7 +119,7 @@ class BlogController
 
     /* Récupérations */
     // Récupérer le nom du blog
-    public static function getBlogName(): string | false
+    public static function getBlogName(): string|false
     {
         // On tente de récupérer les infos du blog en base de données
         $result = Blog::selectBlog();
@@ -133,7 +133,7 @@ class BlogController
         }
     }
     // Récupérer l'URL de l'image de fond du blog
-    public static function getBackgroundURL(): string | false
+    public static function getBackgroundURL(): string|false
     {
         // On tente de récupérer les infos du blog en base de données
         $result = Blog::selectBlog();
@@ -147,7 +147,7 @@ class BlogController
         }
     }
     // Récupérer la description du blog
-    public static function getBlogDescription(): string | false
+    public static function getBlogDescription(): string|false
     {
         // On tente de récupérer les infos du blog en base de données
         $result = Blog::selectBlog();
@@ -161,7 +161,7 @@ class BlogController
         }
     }
     // Récupérer la date de création du blog
-    public static function getCreationDate(): string | false
+    public static function getCreationDate(): string|false
     {
         // On tente de récupérer les infos du blog en base de données
         $result = Blog::selectBlog();

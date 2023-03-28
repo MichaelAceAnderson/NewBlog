@@ -55,6 +55,8 @@ if (!isset($_SESSION['id_user'])) {
                     <label for="fPostContent">Contenu du post:</label>
                     <textarea autocomplete="off" name="fPostContent" placeholder="Contenu textuel de votre post"
                         required></textarea>
+                    <label for="fPostMedia">Photo/vidéo:</label>
+                    <input type="file" name="fPostMedia" />
                     <input class="button" type="submit" value="Valider" name="fPost" />
                 </form>
             </div>
