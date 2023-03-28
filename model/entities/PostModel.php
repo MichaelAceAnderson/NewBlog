@@ -157,7 +157,7 @@ class Post
                 // Préparer la requête
                 self::$model->setStmt(
                     self::$model->getPdo()->prepare(
-                        "DELETE * FROM newblog.nb_post"
+                        "DELETE FROM newblog.nb_post"
                     )
                 );
                 // Exécuter la requête

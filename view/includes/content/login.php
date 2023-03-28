@@ -12,7 +12,7 @@
                 <input type="text" name="fUserName" required />
                 <label for="fUsername">Mot de passe:</label>
                 <input type="password" name="fPass" required />
-                <input type="submit" class="button" value="Connexion" name="fLogin" />
+                <input type="submit" value="Connexion" name="fLogin" />
             </form>
         </div>
     </div>

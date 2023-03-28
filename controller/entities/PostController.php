@@ -168,3 +168,14 @@ if (isset($_POST['fPost'])) {
         }
     }
 }
+// Si un formulaire de suppression de tous les posts est soumis
+if (isset($_POST['fClearPosts'])) {
+    // On tente de supprimer tous les posts en base de données
+    if (PostController::clearPosts()) {
+        // Si la suppression des posts s'est bien déroulée, on stocke le message de succès à afficher
+        $formSuccess = 'Tous les posts ont bien été supprimés !';
+    } else {
+        // Sinon, on stocke le message d'erreur à afficher
+        $formError = 'Une erreur est survenue lors de la suppression des posts';
+    }
+}
