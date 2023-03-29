@@ -51,7 +51,7 @@
         <div class="panel">
             <h1>Terminer l'installation</h1>
             <div class="panel-content">
-                <input type="submit" value="Valider" name="fInstall" />
+                <input type="submit" value="✔️ Valider" name="fInstall" />
             </div>
         </div>
     </form>

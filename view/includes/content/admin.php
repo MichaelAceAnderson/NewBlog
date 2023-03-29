@@ -15,7 +15,7 @@
         <div class="panel-content">
             <form method="POST" action="">
                 <input type="text" autocomplete="off" name="fBlogName" placeholder="Nouveau nom du blog" required />
-                <input type="submit" value="Valider" name="fChangeBlogName" />
+                <input type="submit" value="✔️ Valider" name="fChangeBlogName" />
             </form>
         </div>
     </div>
@@ -26,7 +26,7 @@
             <form method="POST" action="">
                 <textarea style="width: 50%;" name="fBlogDesc" placeholder="Nouvelle description du blog"
                     required></textarea>
-                <input type="submit" value="Valider" name="fChangeBlogDesc" />
+                <input type="submit" value="✔️ Valider" name="fChangeBlogDesc" />
             </form>
         </div>
     </div>
@@ -37,7 +37,7 @@
             <p><b>Note: </b>Laissez vide pour remettre l'image de fond par défaut</p>
             <form method="POST" action="">
                 <input type="text" name="fBgURL" placeholder="/common/img/background.jpg" />
-                <input type="submit" value="Valider" name="fChangeBgURL" />
+                <input type="submit" value="✔️ Valider" name="fChangeBgURL" />
             </form>
         </div>
     </div>
