@@ -124,6 +124,7 @@ header {
     z-index: 0;
     text-align: center;
     text-shadow: 2px 2px 0px black;
+    box-shadow: 0 0 10px 0px black;
 }
 
 /* Liens en-tête */
@@ -353,14 +354,14 @@ header .login h4 {
 .panel-content input[type="password"] {
     border: 0;
     border-bottom: 2px solid var(--darker2);
-    transition: 0.5s;
+    transition: 0.3s;
 }
 
 /* Champs textuels survolés du panel */
 .panel-content input[type="text"]:hover,
 .panel-content input[type="password"]:hover {
     border-bottom: 2px solid black;
-    transition: 0.5s;
+    transition: 0.3s;
 }
 
 /* Champs textuels actifs du panel */
@@ -369,7 +370,7 @@ header .login h4 {
 .panel-content input[type="password"]:focus,
 .panel-content input[type="password"]:active {
     border-bottom: 2px solid var(--themecolor2);
-    transition: 0.5s;
+    transition: 0.3s;
 }
 
 /* Zone de texte du panel */
@@ -397,7 +398,7 @@ header .login h4 {
     margin: 10px auto;
     font-size: 15px;
     cursor: pointer;
-    transition: 0.5s ease-in;
+    transition: 0.3s ease-in;
 }
 
 /* Boutons de soumission survolés du panel */
@@ -406,7 +407,7 @@ header .login h4 {
     background: var(--themecolor2);
     color: white;
     border: 3px var(--darker) solid;
-    transition: 0.5s ease-out;
+    transition: 0.3s ease-out;
 }
 
 /* Boutons de soumission sélectionnés du panel */
