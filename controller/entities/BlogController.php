@@ -22,6 +22,24 @@ class BlogController
     // Installer le blog
     public static function installBlog(string $adminName, string $adminPass, string $blogName, string $blogDescription, string $bgURL): bool|Exception
     {
+        // Supprimer toutes les images de post dans le cas d'une réinstallation
+        foreach (glob('common/files/img/*') as $img) {
+            // Si c'est un fichier et pas un sous-dossier
+            if (is_file($img)) {
+                // Supprimer le fichier
+                unlink($img);
+            }
+        }
+        // Supprimer toutes les vidéos de post dans le cas d'une réinstallation
+        foreach (glob('common/files/video/*') as $video) {
+            // Si c'est un fichier et pas un sous-dossier
+            if (is_file($video)) {
+                // Supprimer le fichier
+                unlink($video);
+            }
+        }
+
+
         // Création du blog en base de données
         $dbInstallStatus = Blog::installDB();
         if ($dbInstallStatus instanceof PDOException) {

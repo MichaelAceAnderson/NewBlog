@@ -19,6 +19,15 @@
     <div class="content">
         <!-- Afficher un panel pour chaque post  -->
         <?php
+        if (isset($formError)) {
+            // Si le contrôleur a stocké une erreur, l'afficher
+            echo '<h1 class="notification error">' . $formError . '</h1>';
+        }
+        if (isset($formSuccess)) {
+            // Si le contrôleur a stocké un succès, l'afficher
+            echo '<h1 class="notification success">' . $formSuccess . '</h1>';
+        }
+
         $posts = PostController::getAllPosts();
         if ($posts === []) {
             echo "Il n'y a aucun post à afficher pour le moment !";
@@ -27,7 +36,14 @@
         } else {
             foreach ($posts as $post) {
                 echo '<div class="post">';
-                echo '<h1 class="post-author">' . UserController::getUserNameById($post->id_user_author) . '</h1>';
+                echo '<h1 class="post-author">' . UserController::getUserNameById($post->id_user_author);
+                if (isset($_SESSION['is_mod']) && $_SESSION['is_mod'] === true) {
+                    echo '<form action="" method="POST">
+                    <input type="hidden" value="' . $post->id_post . '" name="fDeletePostId"/>
+                    <input type="submit" value="🗑️"/>
+                    </form>';
+                }
+                echo '</h1>';
                 echo '<div class="post-container">';
                 echo '<p class="post-content">' . $post->content . '';
                 if ($post->media_url) {
@@ -41,7 +57,6 @@
                 }
                 echo '</p>';
                 echo '<p class="post-timestamp">' . $post->time_stamp . '</p>';
-                echo '<p class="hidden">' . $post->id_post . '</p>';
                 echo '</div>';
                 echo '</div>';
             }
