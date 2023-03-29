@@ -244,6 +244,12 @@ header .login h4 {
     font-size: 20px;
 }
 
+
+/* Formulaire de suppression */
+.post h1 form {
+    float: right;
+}
+
 /* Auteurs des posts */
 .post-author {
     padding: 10px;

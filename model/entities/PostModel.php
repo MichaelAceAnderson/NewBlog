@@ -142,10 +142,28 @@ class Post
         return $result;
     }
     // Création d'un post en BDD
-    public static function clearPosts(): bool|PDOException
+    public static function clearPosts(): int|PDOException
     {
         // Résultat initial = échec
-        $result = [];
+        $result = -1;
+
+        // Supprimer toutes les images de post
+        foreach (glob('common/files/img/*') as $img) {
+            // Si c'est un fichier et pas un sous-dossier
+            if (is_file($img)) {
+                // Supprimer le fichier
+                unlink($img);
+            }
+        }
+        // Supprimer toutes les vidéos de post
+        foreach (glob('common/files/video/*') as $video) {
+            // Si c'est un fichier et pas un sous-dossier
+            if (is_file($video)) {
+                // Supprimer le fichier
+                unlink($video);
+            }
+        }
+
         try {
             // Initialiser la connexion
             self::$model = new Model("postgres");
@@ -164,13 +182,8 @@ class Post
                 if (!self::$model->getStmt()->execute()) {
                     throw new PDOException("Une erreur est survenue");
                 } else {
-                    if (self::$model->getStmt()->rowCount() > 0) {
-                        // Si suppression effectuée
-                        $result = true;
-                    } else {
-                        // Si suppression pas effectuée
-                        $result = false;
-                    }
+                    // Si suppression effectuée, renvoyer le nombre d'éléments supprimés
+                    $result = self::$model->getStmt()->rowCount();
                 }
             }
         } catch (PDOException $e) {
@@ -186,7 +199,16 @@ class Post
     public static function deletePost(int $id): bool|PDOException
     {
         // Résultat initial = échec
-        $result = [];
+        $result = false;
+
+
+        // Si un média est attaché au post
+        // Si un fichier existe bien
+        // if (is_file($mediaFile)) {
+        //     // Supprimer le fichier
+        //     unlink($mediaFile);
+        // }
+
         try {
             // Initialiser la connexion
             self::$model = new Model("postgres");

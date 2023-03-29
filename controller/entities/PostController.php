@@ -82,16 +82,16 @@ class PostController
 
     /* Suppressions */
     // Réinitialiser les posts
-    public static function clearPosts(): bool
+    public static function clearPosts(): int
     {
-        // On tente de supprimer tous les posts en base de données
+        // On tente de supprimer tous les posts en base de données et les fichiers associés
         $result = Post::clearPosts();
         // Si une erreur est survenue, on l'affiche et on la logge
         if ($result instanceof PDOException) {
             Model::printLog(Model::getError($result));
-            return false;
+            return -1; // Retourner -1 pour indiquer que la requête a échouée
         } else {
-            // Sinon, on retourne le résultat de la requête (vrai/faux)
+            // Sinon, on retourne le nombre de lignes supprimées (0 ou plus)
             return $result;
         }
     }
@@ -168,14 +168,27 @@ if (isset($_POST['fPost'])) {
         }
     }
 }
+
 // Si un formulaire de suppression de tous les posts est soumis
 if (isset($_POST['fClearPosts'])) {
     // On tente de supprimer tous les posts en base de données
-    if (PostController::clearPosts()) {
-        // Si la suppression des posts s'est bien déroulée, on stocke le message de succès à afficher
-        $formSuccess = 'Tous les posts ont bien été supprimés !';
-    } else {
+    if (PostController::clearPosts() < 0) {
         // Sinon, on stocke le message d'erreur à afficher
         $formError = 'Une erreur est survenue lors de la suppression des posts';
+    } else {
+        // Si la suppression des posts s'est bien déroulée, on stocke le message de succès à afficher
+        $formSuccess = 'Tous les posts ont bien été supprimés !';
+    }
+}
+
+// Si un formulaire de suppression de tous les posts est soumis
+if (isset($_POST['fDeletePostId'])) {
+    // On tente de supprimer le post précisé en base de données
+    if (!PostController::deletePost($_POST['fDeletePostId'])) {
+        // Sinon, on stocke le message d'erreur à afficher
+        $formError = 'Une erreur est survenue lors de la suppression du post';
+    } else {
+        // Si la suppression du post s'est bien déroulée, on stocke le message de succès à afficher
+        $formSuccess = 'Le post a bien été supprimé !';
     }
 }
