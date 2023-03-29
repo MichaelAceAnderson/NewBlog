@@ -38,14 +38,14 @@
                 echo '<div class="post">';
                 echo '<h1 class="post-author">' . UserController::getUserNameById($post->id_user_author);
                 if (isset($_SESSION['is_mod']) && $_SESSION['is_mod'] === true) {
-                    echo '<form action="" method="POST">
+                    echo '<form class="post-delete" action="" method="POST">
                     <input type="hidden" value="' . $post->id_post . '" name="fDeletePostId"/>
-                    <input type="submit" value="🗑️"/>
+                    <input type="submit" title="Supprimer" value="🗑️"/>
                     </form>';
                 }
                 echo '</h1>';
                 echo '<div class="post-container">';
-                echo '<p class="post-content">' . $post->content . '';
+                echo '<div class="post-content">';
                 if ($post->media_url) {
                     if (preg_match('/\/video\//', $post->media_url)) {
                         echo '<video class="post-media" alt="Vidéo du post" preload ="auto" controls autoplay loop>
@@ -55,7 +55,8 @@
                         echo '<img class="post-media" src="' . $post->media_url . '" alt="Image du post">';
                     }
                 }
-                echo '</p>';
+                echo '<p>' . $post->content . '</p>';
+                echo '</div>';
                 echo '<p class="post-timestamp">' . $post->time_stamp . '</p>';
                 echo '</div>';
                 echo '</div>';
