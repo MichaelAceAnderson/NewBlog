@@ -120,6 +120,7 @@ Specific changes
 
 To-do:
 
+- [ ] Remove file associated to removed post (back)
 - [ ] Destroy SESSION variables when blog is reinstalled (back)
 - [ ] Don't use SESSION variables when blog is not installed (back)
 - [ ] Remove useless DB connection if blog is not installed (back)
