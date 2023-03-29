@@ -1,16 +1,23 @@
+<?php
+if (!isset($_SESSION['is_mod']) || $_SESSION['is_mod'] == false) {
+    // Si l'utilisateur n'est pas admin, on le redirige vers la page d'accueil
+    header('Location: /');
+}
+?>
+
 <style>
-b {
-    text-shadow: 0px 0px 5px black, 2px 2px 0px black;
-    color: red;
-}
+    b {
+        text-shadow: 0px 0px 5px black, 2px 2px 0px black;
+        color: red;
+    }
 
-span {
-    line-break: anywhere;
-}
+    span {
+        line-break: anywhere;
+    }
 
-* {
-    font-size: 25px;
-}
+    * {
+        font-size: 25px;
+    }
 </style>
 <?php
 // Définitions de variables arbitraires à afficher par le debug
