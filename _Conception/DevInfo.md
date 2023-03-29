@@ -23,6 +23,7 @@ into a single project. It is not yet finished but it aimes to use:
   - [Table of contents](#table-of-contents)
   - [Getting started](#getting-started)
   - [To do (upcoming versions)](#to-do-upcoming-versions)
+    - [Version 3.0 - API update](#version-30---api-update)
     - [Version 2.1 - Developers update](#version-21---developers-update)
     - [Version 2.0 - Rewriting from scratch](#version-20---rewriting-from-scratch)
   - [Changelog (global changes)](#changelog-global-changes)
@@ -67,6 +68,15 @@ Step 7: Use the account page (click on the username in the top right corner) to 
 Step 8: Use the admin page to manage the blog settings
 
 ## To do (upcoming versions)
+
+### Version 3.0 - API update
+
+General changes
+
+- [ ] Add API for external applications
+- [ ] Add JS live updates
+
+ ![3.0](https://img.shields.io/badge/3.0-yellow)
 
 ### Version 2.1 - Developers update
 
