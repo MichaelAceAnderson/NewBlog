@@ -22,7 +22,7 @@ into a single project. It is not yet finished but it aimes to use:
 - [NewBlog](#newblog)
   - [Table of contents](#table-of-contents)
   - [Getting started](#getting-started)
-  - [Upcoming versions](#upcoming-versions)
+  - [To do (upcoming versions)](#to-do-upcoming-versions)
     - [Version 2.1 - Developers update](#version-21---developers-update)
     - [Version 2.0 - Rewriting from scratch](#version-20---rewriting-from-scratch)
   - [Changelog (global changes)](#changelog-global-changes)
@@ -32,6 +32,10 @@ into a single project. It is not yet finished but it aimes to use:
     - [How a request is handled](#how-a-request-is-handled)
     - [How a page is structured](#how-a-page-is-structured)
     - [How the database is structured](#how-the-database-is-structured)
+    - [How the app is structured](#how-the-app-is-structured)
+      - [Model](#model)
+    - [Controller](#controller)
+      - [View](#view)
 
 ## Getting started
 
@@ -54,7 +58,7 @@ Step 3: Make sure you have a "newblog" database with a "postgres" user and passw
 
 Step 4: Open the project in your IDE
 
-Step 5: Open [http://localhost/](the project) in your browser
+Step 5: Open [the project](http://localhost/) in your browser
 
 Step 6: Install the blog
 
@@ -62,7 +66,7 @@ Step 7: Use the account page (click on the username in the top right corner) to 
 
 Step 8: Use the admin page to manage the blog settings
 
-## Upcoming versions
+## To do (upcoming versions)
 
 ### Version 2.1 - Developers update
 
@@ -109,11 +113,12 @@ To-do:
 - [ ] Destroy SESSION variables when blog is reinstalled (back)
 - [ ] Don't use SESSION variables when blog is not installed (back)
 - [ ] Remove useless DB connection if blog is not installed (back)
-- [ ] Add missing methods to controller & model (back)
 - [ ] Make separate logs for view/controller/model (back)
 - [ ] Try to find a way to make functions out of the code in each model method (back)
 - [ ] Improve error handling to handle all cases and display them properly (front/back)
 - [ ] Update design for posts (front)
+- [ ] Restore logo changing feature (front/back)
+- [ ] Make CSS rules reusable (front)
 
 ## Changelog (global changes)
 
@@ -153,3 +158,63 @@ Form (View) -> POST request -> GET request (Controller) -> Call Model method -> 
 ### How the database is structured
 
 ![Database structure](DBStructure.png)
+
+### How the app is structured
+
+#### Model
+
+model.php is only used to store generic functions related to PDO connection and error handling.
+
+```php
+class Model{
+    /* CONSTRUCTOR */ // (returns Exception on database connection failure)
+    /* PROPERTIES */ // (PDO connection, statement to execute, etc...)
+    /* METHODS */ // (accessors and error logging functions)
+
+    // Include other models
+}
+```
+
+Every other model is yet to become a child of the Model class and is used to store functions related to a specific table.
+
+```php
+class SpecificModel{
+    /* METHODS */ // (return arrays or Exceptions)
+}
+```
+
+### Controller
+
+controller.php is only used to store generic functions related to redirection and error displaying.
+
+```php
+class Controller{
+    // Include model
+
+    /* CONSTRUCTOR */ // (returns Exception on database connection failure)
+    /* METHODS */ // (data conversion [HTTP/JSON], used for future API)
+
+    // Include other controllers
+}
+```
+
+Every other controller is yet to become a child of the Controller class and is used to store functions handling requests between the view and a specific model.
+
+```php
+class SpecificController{
+    /* METHODS */ // (return booleans adapted to the context or Exceptions on Model-related errors)
+}
+```
+
+#### View
+
+index.php is the main page and handles every user interaction with the blog.
+It includes the common structure and the content specific to the page requested (via GET)
+
+```php
+// Include head
+// Include header
+// Redirect user to the install page if the blog is not installed (or corrupted)
+// Include content
+// Include footer
+```
