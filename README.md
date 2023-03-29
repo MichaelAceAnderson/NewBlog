@@ -6,7 +6,11 @@ NewBlog is a basic CMS (Content Managing system) written in PHP allowing you to 
 
 ### Version 2.1 - Developers update
 
-### Version 2.0 - Rewriting from scratch
+ ![2.1](https://img.shields.io/badge/2.1-yellow)
+
+### > Version 2.0 - Rewriting from scratch
+
+ ![2.0](https://img.shields.io/badge/2.0-blue)
 
 - [X] New design
 - [X] Storage via database
@@ -17,11 +21,14 @@ NewBlog is a basic CMS (Content Managing system) written in PHP allowing you to 
 
 ### Version 1.1 - MVC Update
 
+ ![1.1](https://img.shields.io/badge/1.1-default)
+
 - [x] Fixed errors due to obsolete URLs
 - [x] Various bug fixes
 
 ### Version 1.0 - First release
 
+ ![1.0](https://img.shields.io/badge/1.0-default)
 Features:
 
 - [x] Text posts
