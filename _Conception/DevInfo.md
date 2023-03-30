@@ -105,6 +105,7 @@ Specific changes
 - [ ] Create the database automatically (back)
 - [ ] Add a "remember me" option for login (front/back)
 - [ ] Use a single PDO Connection for all operations ?
+- [ ] Upload & delete files into folders named by post id (back)
 
 ### Version 2.0 - Rewriting from scratch
 
@@ -124,10 +125,9 @@ To-do:
 - [ ] Destroy SESSION variables when blog is reinstalled (back)
 - [ ] Don't use SESSION variables when blog is not installed (back)
 - [ ] Remove useless DB connection if blog is not installed (back)
-- [ ] Make separate logs for view/controller/model (back)
+- [ ] Make separate & improved logs for view/controller/model (back)
 - [ ] Try to find a way to make functions out of the code in each model method (back)
 - [ ] Improve error handling to handle all cases and display them properly (front/back)
-- [ ] Update design for posts (front)
 - [ ] Restore logo changing feature (front/back)
 - [ ] Make CSS rules reusable (front)
 
@@ -135,7 +135,7 @@ To-do:
 
 ### Version 1.1 - MVC Update
 
- ![1.1](https://img.shields.io/badge/1.1-default)
+ ![1.1](https://img.shields.io/badge/1.1-brightgreen)
 
 - [x] Converted structure to Model-View-Controller
 - [x] Fixed errors due to obsolete URLs
@@ -143,7 +143,7 @@ To-do:
 
 ### Version 1.0 - First release
 
- ![1.0](https://img.shields.io/badge/1.0-default)
+ ![1.0](https://img.shields.io/badge/1.0-brightgreen)
 Features:
 
 - [x] Text posts
