@@ -269,7 +269,6 @@ header .account form input[type="submit"] {
     font-size: 20px;
     font-weight: bold;
     cursor: pointer;
-    text-shadow: 0 0 2px black;
     transition: 1s;
     transition: 1s cubic-bezier(0, 0.02, 0.35, 1.40);
 }
