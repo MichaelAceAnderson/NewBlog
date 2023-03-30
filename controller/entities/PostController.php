@@ -146,7 +146,7 @@ if (isset($_POST['fPost'])) {
             // S'il n'y a aucune erreur liée à l'upload
             if (!isset($formError)) {
                 // S'il y a un média à ajouter au post, il sera compris dans la requête
-                if (PostController::createPost($_SESSION['id_user'], $_POST['fPostContent'], "http://" . $_SERVER["SERVER_NAME"] . $mediaUrl)) {
+                if (PostController::createPost($_SESSION['id_user'], $_POST['fPostContent'], $mediaUrl)) {
                     // Si l'ajout du post s'est bien déroulé, on stocke le message de succès à afficher
                     $formSuccess = 'Le post a bien été ajouté !';
                 } else {

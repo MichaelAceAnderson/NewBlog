@@ -115,7 +115,7 @@ class Post
                 // Préparer la requête
                 self::$model->setStmt(
                     self::$model->getPdo()->prepare(
-                        "SELECT newblog.nb_post.id_user_author, newblog.nb_user.nickname, newblog.nb_post.content, newblog.nb_post.time_stamp
+                        "SELECT newblog.nb_post.id_user_author, newblog.nb_user.nickname, newblog.nb_post.content, newblog.nb_post.media_url, newblog.nb_post.time_stamp
                     FROM newblog.nb_post JOIN newblog.nb_user
                     ON newblog.nb_post.id_user_author=nb_user.id_user
                     WHERE newblog.nb_post.id_post=:id_post"
@@ -127,8 +127,13 @@ class Post
                     // Si la requête n'a pas pu être exécutée
                     throw new PDOException("La requête de récupération des données du blog a échoué !");
                 } else {
-                    // Si la requête a réussi, récupérer les résultats
-                    $result = self::$model->getStmt()->fetchAll();
+                    if (self::$model->getStmt()->rowCount() > 0) {
+                        // Si la requête a réussi, récupérer les résultats
+                        $result = self::$model->getStmt()->fetchAll();
+                    } else {
+                        // Si la requête a réussi mais qu'il n'y a pas de résultat
+                        throw new PDOException("Le post spécifié n'existe pas !");
+                    }
                 }
             }
         } catch (PDOException $e) {
@@ -201,47 +206,63 @@ class Post
         // Résultat initial = échec
         $result = false;
 
-
-        // Si un média est attaché au post
-        // Si un fichier existe bien
-        // if (is_file($mediaFile)) {
-        //     // Supprimer le fichier
-        //     unlink($mediaFile);
-        // }
-
-        try {
-            // Initialiser la connexion
-            self::$model = new Model("postgres");
-            if (is_null(self::$model->getPdo())) {
-                // Si la connexion n'a pas pu être créée
-                throw new PDOException("La connexion avec la base de données n'a pas pu être établie !");
-            } else {
-                // Si la connexion à réussi
-                // Préparer la requête
-                self::$model->setStmt(
-                    self::$model->getPdo()->prepare(
-                        "DELETE FROM newblog.nb_post WHERE newblog.nb_post.id_post = :id;"
-                    )
-                );
-                self::$model->getStmt()->bindParam('id', $id, PDO::PARAM_INT);
-                // Exécuter la requête
-                if (!self::$model->getStmt()->execute()) {
-                    throw new PDOException("Une erreur est survenue");
-                } else {
-                    if (self::$model->getStmt()->rowCount() > 0) {
-                        // Si suppression effectuée
-                        $result = true;
+        // On vérifie si le post existe
+        $post = self::selectPost($id);
+        if ($post instanceof PDOException) {
+            $result = new PDOException("Une erreur est survenue lors de la suppression du post !");
+        } else {
+            if ($post) {
+                // Si un média est attaché au post
+                if (isset($post[0]->media_url) && !is_null($post[0]->media_url)) {
+                    // S'il ne s'agit pas d'un fichier ou qu'il n'existe pas
+                    if (!is_file($_SERVER['DOCUMENT_ROOT'] . $post[0]->media_url)) {
+                        return new PDOException("Le fichier associé au post n'existe pas et ne peut pas être supprimé !");
                     } else {
-                        // Si suppression pas effectuée
-                        $result = false;
+                        // Si le fichier existe, on le supprime
+                        if (!unlink($_SERVER['DOCUMENT_ROOT'] . $post[0]->media_url)) {
+                            return new PDOException("Une erreur est survenue lors de la suppression du fichier associé au post !");
+                        }
                     }
                 }
+
+            } else {
+                return new PDOException("Le post que vous souhaitez supprimer n'existe pas !");
             }
-        } catch (PDOException $e) {
-            $result = $e;
-        } finally {
-            //Terminer la connexion
-            self::$model = null;
+
+            try {
+                // Initialiser la connexion
+                self::$model = new Model("postgres");
+                if (is_null(self::$model->getPdo())) {
+                    // Si la connexion n'a pas pu être créée
+                    throw new PDOException("La connexion avec la base de données n'a pas pu être établie !");
+                } else {
+                    // Si la connexion à réussi
+                    // Préparer la requête
+                    self::$model->setStmt(
+                        self::$model->getPdo()->prepare(
+                            "DELETE FROM newblog.nb_post WHERE newblog.nb_post.id_post = :id;"
+                        )
+                    );
+                    self::$model->getStmt()->bindParam('id', $id, PDO::PARAM_INT);
+                    // Exécuter la requête
+                    if (!self::$model->getStmt()->execute()) {
+                        throw new PDOException("Une erreur est survenue");
+                    } else {
+                        if (self::$model->getStmt()->rowCount() > 0) {
+                            // Si suppression effectuée
+                            $result = true;
+                        } else {
+                            // Si suppression pas effectuée
+                            $result = false;
+                        }
+                    }
+                }
+            } catch (PDOException $e) {
+                $result = $e;
+            } finally {
+                //Terminer la connexion
+                self::$model = null;
+            }
         }
         return $result;
     }
