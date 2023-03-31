@@ -9,11 +9,11 @@
     // Par défaut, le nom du blog n'est pas défini
     $blogName = false;
     // Si le blog est installé, tenter de récupérer le nom du blog à partir de la méthode du contrôleur
-    if ($blogInstalled) $blogName = BlogController::getBlogName();
+    if ($blogInstalled)
+        $blogName = BlogController::getBlogName();
     // Si le nom du blog est défini, le mettre en titre, sinon mettre "NewBlog"
     echo $blogName ? '<title>' . $blogName . '</title>' : '<title>NewBlog</title>';
     ?>
-
     <!-- On précise comment est encodée la page -->
     <meta charset="UTF-8">
     <!-- On paramètre la largeur de l'appareil -->
@@ -21,8 +21,8 @@
     <!-- On précise la description du site pour les moteurs de recherche -->
     <meta name="description" content="NewBlog est un CMS permettant à un utilisateur de créer son propre blog">
     <script src="/common/js/styleDebug.js"></script>
-    <!-- On met une icône à l'onglet -->
-    <link type="image/x-icon" rel="shortcut icon" href="/common/img/newblog.png">
+    <!-- Si une icône existe, on l'affiche -->
+    <link rel="icon" type="image/png" href="/common/img/logo.png" />
     <!-- On précharge les polices d'écriture -->
     <link rel="preload" href="/common/style/fonts/agencyfb.ttf" as="font" type="font/ttf" crossorigin="anonymous">
     <link rel="preload" href="/common/style/fonts/LCD.ttf" as="font" type="font/ttf" crossorigin="anonymous">

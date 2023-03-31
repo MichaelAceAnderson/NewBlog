@@ -280,3 +280,28 @@ if (isset($_POST['fChangeBgURL'])) {
         $formError = 'Une erreur est survenue lors de la modification de l\'image de fond !';
     }
 }
+// Si le formulaire de modification du logo a été soumis
+if (isset($_POST['fChangeLogo'])) {
+    // Si le logo n'a pas été uploadé, on stocke le message d'erreur à afficher
+    if (!empty($_FILES) && $_FILES['fLogoFile']['error'] != UPLOAD_ERR_NO_FILE) {
+        // Erreur éventuelle de l'upload
+        $error = $_FILES['fLogoFile']['error'];
+
+        if ($_FILES['fLogoFile']['error'] != UPLOAD_ERR_OK || !$_FILES['fLogoFile']['tmp_name']) {
+            // Si une erreur est survenue lors de l'upload, on stocke le message d'erreur à afficher
+            $formError = 'Erreur: Le fichier n\'a pas pu être uploadé';
+        } elseif (!preg_match("/image\//", $_FILES['fLogoFile']['type'])) {
+            // Si le fichier n'est pas une image, on stocke le message d'erreur à afficher
+            $formError = 'Votre fichier doit être une image ou une vidéo !';
+        } elseif ($_FILES['fLogoFile']['size'] > 1000000000) {
+            // Si la taille du fichier est supérieure à 10Mo, on stocke le message d'erreur à afficher
+            $formError = 'Le fichier est trop volumineux !';
+        } else {
+            if (!move_uploaded_file($_FILES['fLogoFile']['tmp_name'], $_SERVER['DOCUMENT_ROOT'] . '/common/img/logo.png')) {
+                $formError = 'Impossible d\'uploader le fichier en raison d\'une erreur côté serveur';
+            } else {
+                $formSuccess = 'Le logo a bien été modifié !';
+            }
+        }
+    }
+}
