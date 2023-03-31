@@ -54,4 +54,15 @@
             </form>
         </div>
     </div>
+    <!-- Ajouter un logo -->
+    <div class="panel">
+        <h1>Ajouter un logo</h1>
+        <div class="panel-content">
+            <form method="POST" action="" enctype="multipart/form-data">
+                <label for="fLogoFile">Image:</label>
+                <input type="file" name="fLogoFile" />
+                <input type="submit" value="✔️ Valider" name="fChangeLogo" />
+            </form>
+        </div>
+    </div>
 </div>

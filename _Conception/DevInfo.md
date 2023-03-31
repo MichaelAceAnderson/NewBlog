@@ -31,6 +31,7 @@ into a single project. It is not yet finished but it aimes to use:
     - [Version 1.0 - First release](#version-10---first-release)
   - [Documentation](#documentation)
     - [How a request is handled](#how-a-request-is-handled)
+    - [How errors are handled](#how-errors-are-handled)
     - [How a page is structured](#how-a-page-is-structured)
     - [How the database is structured](#how-the-database-is-structured)
     - [How the app is structured](#how-the-app-is-structured)
@@ -161,6 +162,10 @@ Features:
 ### How a request is handled
 
 Form (View) -> POST request -> GET request (Controller) -> Call Model method -> Return array/error (Model) -> Return array/false -> Display result/error (View)
+
+### How errors are handled
+
+\(to be updated\)
 
 ### How a page is structured
 
