@@ -4,7 +4,7 @@
 @media screen and (min-width: 1500px) {
 
     /* Titres de sections */
-    .main .title h1 {
+    .title h1 {
         font-size: 35px;
     }
 }
@@ -13,7 +13,7 @@
 @media screen and (max-width: 780px) {
 
     /* Titres de sections */
-    .main .title h1 {
+    .title h1 {
         font-size: 25px;
     }
 }

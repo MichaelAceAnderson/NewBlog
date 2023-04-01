@@ -125,6 +125,7 @@ header {
     text-align: center;
     text-shadow: 2px 2px 0px black;
     box-shadow: 0 0 10px 0px black;
+    color: white;
 }
 
 /* Liens en-tête */
@@ -133,13 +134,15 @@ header a {
     transition: 1s;
     border: 2px solid transparent;
     display: inline-block;
+    color: inherit;
 }
 
 /* Liens en-tête surlignés */
 header a:hover {
     cursor: pointer;
     transition: 1s;
-    border: 2px solid var(--textcolor);
+    border: 2px solid white;
+    box-shadow: 0 0 1px 0px black;
 }
 
 /* Liens en-tête en cours de clic */
@@ -149,7 +152,7 @@ header a:active {
     transition: 0.1s;
 }
 
-/* Titre en-tête */
+/* Titres en-tête */
 header a h1 {
     font-family: var(--bloglogo);
     margin: 0;
@@ -157,17 +160,15 @@ header a h1 {
     font-size: 30px;
     text-transform: uppercase;
     font-size: 80px;
-    color: var(--textcolor);
 }
 
-/* Sous-titres en-tête */
+/* Sous-titres en-tête (description) */
 header a h2 {
     font-family: var(--blogfont);
     text-transform: uppercase;
     margin: 0;
     display: block;
     font-size: 20px;
-    color: var(--textcolor);
 }
 
 /* Partie connexion de l'en-tête */
@@ -187,6 +188,7 @@ header .account h4 {
 header .account a {
     display: block;
     padding: 5px;
+    color: inherit;
 }
 
 /* Bouton de déconnexion */
@@ -216,14 +218,14 @@ header .account form input[type="submit"] {
 }
 
 /* Titres  */
-.main .title h1 {
+.title h1 {
     margin: 10px auto;
     text-align: left;
     font-size: 25px;
 }
 
 /* Ligne de titres de section */
-.main .title hr {
+.title hr {
     border: none;
     height: 5px;
     width: 75px;
@@ -432,7 +434,7 @@ header .account form input[type="submit"] {
 /* Boutons de soumission du panel */
 .panel-content input[type="submit"],
 .panel-content button {
-    background: var(--themecolor);
+    background: #333;
     color: white;
     border: 3px var(--lighter2) solid;
     padding: 5px 10px;
@@ -465,7 +467,7 @@ header .account form input[type="submit"] {
 /* Informations de bas de page */
 footer {
     position: relative;
-    color: var(--textcolor);
+    color: white;
     background: rgb(23 24 25);
     text-shadow: 0 0 4px black;
     bottom: 0;
@@ -480,7 +482,7 @@ footer {
 
 /* Liens de bas de page */
 footer a {
-    color: var(--textcolor);
+    color: inherit;
 }
 
 /* Liens de bas de page survolés/cliqués */
