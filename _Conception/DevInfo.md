@@ -121,8 +121,6 @@ Specific changes
 
 To-do:
 
-- [ ] Destroy SESSION variables when blog is reinstalled (back)
-- [ ] Don't use SESSION variables when blog is not installed (back)
 - [ ] Remove useless DB connection if blog is not installed (back)
 - [ ] Make separate & improved logs for view/controller/model (back)
 - [ ] Try to find a way to make functions out of the code in each model method (back)
