@@ -20,8 +20,9 @@ echo $bgURL ? '<body style="background: var(--themecolor) url(' . $bgURL . ') re
     echo $blogName ? '<h1>' . $blogName . '</h1>' : '<h1>NewBlog</h1>';
     // Récupérer la description du blog à partir du contrôleur
     $blogDescription = false;
-    if ($blogInstalled)
+    if ($blogInstalled) {
         $blogDescription = BlogController::getBlogDescription();
+    }
     // Si la description du blog est définie, l'afficher, sinon afficher "Votre nouveau blog !"
     echo $blogDescription ? '<h2>' . $blogDescription . '</h2>' : '<h2>Votre nouveau blog !</h2>';
     echo '</a>';

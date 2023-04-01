@@ -9,8 +9,13 @@
     // Par défaut, le nom du blog n'est pas défini
     $blogName = false;
     // Si le blog est installé, tenter de récupérer le nom du blog à partir de la méthode du contrôleur
-    if ($blogInstalled)
+    if ($blogInstalled) {
         $blogName = BlogController::getBlogName();
+    } else {
+        // Si le blog n'est pas installé, on détruit la session et ses variables
+        unset($_SESSION);
+        session_destroy();
+    }
     // Si le nom du blog est défini, le mettre en titre, sinon mettre "NewBlog"
     echo $blogName ? '<title>' . $blogName . '</title>' : '<title>NewBlog</title>';
     ?>
