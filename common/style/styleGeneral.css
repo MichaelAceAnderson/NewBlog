@@ -303,6 +303,7 @@ header .account form input[type="submit"] {
 .post-container .post-media {
     margin: auto;
     max-height: 300px;
+    max-width: 100%;
     display: block;
 }
 

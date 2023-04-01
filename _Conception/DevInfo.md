@@ -105,8 +105,7 @@ Specific changes
 - [ ] Fix links and headers style (front)
 - [ ] Create the database automatically (back)
 - [ ] Add a "remember me" option for login (front/back)
-- [ ] Use a single PDO Connection for all operations ?
-- [ ] Upload & delete files into folders named by post id (back)
+- [ ] Use a single PDO Connection for all operations ? (back)
 
 ### Version 2.0 - Rewriting from scratch
 
@@ -122,14 +121,12 @@ Specific changes
 
 To-do:
 
-- [ ] Remove file associated to removed post (back)
 - [ ] Destroy SESSION variables when blog is reinstalled (back)
 - [ ] Don't use SESSION variables when blog is not installed (back)
 - [ ] Remove useless DB connection if blog is not installed (back)
 - [ ] Make separate & improved logs for view/controller/model (back)
 - [ ] Try to find a way to make functions out of the code in each model method (back)
 - [ ] Improve error handling to handle all cases and display them properly (front/back)
-- [ ] Restore logo changing feature (front/back)
 - [ ] Make CSS rules reusable (front)
 
 ## Changelog (global changes)

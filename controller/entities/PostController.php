@@ -7,7 +7,7 @@ class PostController
 
     /* Insertions */
     // Ajouter un post 
-    public static function createPost(int $authorId, string $content, string $mediaUrl = null): bool
+    public static function createPost(int $authorId, string $content, string $mediaUrl = null): int
     {
         // On tente d'ajouter le post en base de données
         $result = Post::addPost($authorId, $content, $mediaUrl);
@@ -16,7 +16,7 @@ class PostController
             Model::printLog(Model::getError($result));
             return false;
         } else {
-            // Sinon, on retourne le résultat de la requête (vrai/faux)
+            // Sinon, on retourne le résultat de la requête (id du post créé)
             return $result;
         }
     }
@@ -119,50 +119,48 @@ if (isset($_POST['fPost'])) {
         $formError = 'Le contenu du post est vide';
     } else {
         // Sinon, on tente d'ajouter le post en base de données
-        // Si un fichier a bien été uploadé
-        if (!empty($_FILES) && $_FILES['fPostMedia']['error'] != UPLOAD_ERR_NO_FILE) {
-            // Erreur éventuelle de l'upload
-            $error = $_FILES['fPostMedia']['error'];
-
-            if ($_FILES['fPostMedia']['error'] != UPLOAD_ERR_OK || !$_FILES['fPostMedia']['tmp_name']) {
-                // Si une erreur est survenue lors de l'upload, on stocke le message d'erreur à afficher
-                $formError = 'Erreur: Le fichier n\'a pas pu être uploadé';
-            } elseif ((!preg_match("/video\//", $_FILES['fPostMedia']['type'])) && !preg_match("/image\//", $_FILES['fPostMedia']['type'])) {
-                // Si le fichier n'est pas une image ou une vidéo, on stocke le message d'erreur à afficher
-                $formError = 'Votre fichier doit être une image ou une vidéo !';
-            } elseif ($_FILES['fPostMedia']['size'] > 1000000000) {
-                // Si la taille du fichier est supérieure à 10Mo, on stocke le message d'erreur à afficher
-                $formError = 'Le fichier est trop volumineux !';
-            } else {
-                if (preg_match("/image\//", $_FILES['fPostMedia']['type'])) {
-                    $mediaUrl = "/common/files/img/" . $_FILES['fPostMedia']['name'];
-                } elseif (preg_match("/video\//", $_FILES['fPostMedia']['type'])) {
-                    $mediaUrl = "/common/files/video/" . $_FILES['fPostMedia']['name'];
-                }
-                if (!move_uploaded_file($_FILES['fPostMedia']['tmp_name'], $_SERVER['DOCUMENT_ROOT'] . $mediaUrl)) {
-                    $formError = 'Impossible d\'uploader le fichier en raison d\'une erreur côté serveur';
-                }
-            }
-            // S'il n'y a aucune erreur liée à l'upload
-            if (!isset($formError)) {
-                // S'il y a un média à ajouter au post, il sera compris dans la requête
-                if (PostController::createPost($_SESSION['id_user'], $_POST['fPostContent'], $mediaUrl)) {
-                    // Si l'ajout du post s'est bien déroulé, on stocke le message de succès à afficher
-                    $formSuccess = 'Le post a bien été ajouté !';
-                } else {
-                    // Sinon, on stocke le message d'erreur à afficher
-                    $formError = 'Une erreur est survenue lors de l\'ajout du post';
-                }
-            }
+        $postId = PostController::createPost($_SESSION['id_user'], $_POST['fPostContent']);
+        if ($postId) {
+            // Si l'ajout du post s'est bien déroulé, on stocke le message de succès à afficher
+            $formSuccess = 'Le post a bien été ajouté !';
         } else {
-            // S'il n'y a aucune erreur liée à l'upload
-            if (!isset($formError)) {
-                if (PostController::createPost($_SESSION['id_user'], $_POST['fPostContent'])) {
-                    // Si l'ajout du post s'est bien déroulé, on stocke le message de succès à afficher
-                    $formSuccess = 'Le post a bien été ajouté !';
+            // Sinon, on stocke le message d'erreur à afficher
+            $formError = 'Une erreur est survenue lors de l\'ajout du post';
+        }
+
+        // S'il n'y a eu aucune erreur d'insertion en base de données
+        if (!isset($formError)) {
+            // Si un fichier a été uploadé
+            if (!empty($_FILES) && $_FILES['fPostMedia']['error'] != UPLOAD_ERR_NO_FILE) {
+                // Erreur éventuelle de l'upload
+                $error = $_FILES['fPostMedia']['error'];
+
+                if ($_FILES['fPostMedia']['error'] != UPLOAD_ERR_OK || !$_FILES['fPostMedia']['tmp_name']) {
+                    // Si une erreur est survenue lors de l'upload, on stocke le message d'erreur à afficher
+                    $formError = 'Erreur: Le fichier n\'a pas pu être uploadé';
+                } elseif ((!preg_match("/video\//", $_FILES['fPostMedia']['type'])) && !preg_match("/image\//", $_FILES['fPostMedia']['type'])) {
+                    // Si le fichier n'est pas une image ou une vidéo, on stocke le message d'erreur à afficher
+                    $formError = 'Votre fichier doit être une image ou une vidéo !';
+                } elseif ($_FILES['fPostMedia']['size'] > 1000000000) {
+                    // Si la taille du fichier est supérieure à 10Mo, on stocke le message d'erreur à afficher
+                    $formError = 'Le fichier est trop volumineux !';
                 } else {
-                    // Sinon, on stocke le message d'erreur à afficher
-                    $formError = 'Une erreur est survenue lors de l\'ajout du post';
+                    if (preg_match("/image\//", $_FILES['fPostMedia']['type'])) {
+                        // Si le fichier est une vidéo
+                        // On crée le dossier du post partie vidéo
+                        mkdir($_SERVER['DOCUMENT_ROOT'] . '/common/files/img/' . $postId);
+                        // On le place dans le dossier du post partie vidéo
+                        $mediaUrl = '/common/files/img/' . $postId . '/' . $_FILES['fPostMedia']['name'];
+                    } elseif (preg_match("/video\//", $_FILES['fPostMedia']['type'])) {
+                        // Si le fichier est une vidéo
+                        // On crée le dossier du post partie vidéo
+                        mkdir($_SERVER['DOCUMENT_ROOT'] . '/common/files/video/' . $postId);
+                        // On le place dans le dossier du post partie vidéo
+                        $mediaUrl = '/common/files/video/' . $postId . '/' . $_FILES['fPostMedia']['name'];
+                    }
+                    if (!move_uploaded_file($_FILES['fPostMedia']['tmp_name'], $_SERVER['DOCUMENT_ROOT'] . $mediaUrl)) {
+                        $formError = 'Impossible d\'uploader le fichier en raison d\'une erreur côté serveur';
+                    }
                 }
             }
         }
