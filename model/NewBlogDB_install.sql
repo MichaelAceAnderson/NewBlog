@@ -36,7 +36,6 @@ ALTER SEQUENCE post_seq RESTART WITH 1; -- Redémarre le compteur à 1
 CREATE TABLE IF NOT EXISTS nb_post(
    id_post INT DEFAULT NEXTVAL ('post_seq'),
    content TEXT NOT NULL,
-   media_url TEXT,
    time_stamp TIMESTAMP(0) NOT NULL DEFAULT now(),
    id_user_author INT NOT NULL,
    CONSTRAINT PK_nb_post PRIMARY KEY(id_post),

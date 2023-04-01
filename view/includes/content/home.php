@@ -46,15 +46,28 @@
                 echo '</h1>';
                 echo '<div class="post-container">';
                 echo '<div class="post-content">';
-                if ($post->media_url) {
-                    if (preg_match('/\/video\//', $post->media_url)) {
+
+                // S'il existe un dossier contenant les vidéos du post
+                $videoPath = $_SERVER['DOCUMENT_ROOT'] . '/common/files/video/' . $post->id_post;
+                if (file_exists($videoPath) && is_dir($videoPath)) {
+                    // Si le dossier existe
+                    foreach (glob($videoPath . '/*') as $videoFile) {
+                        // Pour tous les fichiers dans le dossier
                         echo '<video class="post-media" alt="Vidéo du post" preload ="auto" controls autoplay loop>
-                            <source src="' . $post->media_url . '">
-                        </video>';
-                    } else {
-                        echo '<img class="post-media" src="' . $post->media_url . '" alt="Image du post">';
+                                <source src="' . str_replace($_SERVER['DOCUMENT_ROOT'], '', $videoFile) . '">
+                            </video>';
                     }
                 }
+                // S'il existe un dossier contenant les images du post
+                $imagePath = $_SERVER['DOCUMENT_ROOT'] . '/common/files/img/' . $post->id_post;
+                if (file_exists($imagePath) && is_dir($imagePath)) {
+                    // Si le dossier existe
+                    foreach (glob($imagePath . '/*') as $imageFile) {
+                        // Pour tous les fichiers dans le dossier
+                        echo '<img class="post-media" src="' . str_replace($_SERVER['DOCUMENT_ROOT'], '', $imageFile) . '" alt="Image du post"/>';
+                    }
+                }
+
                 echo '<p>' . $post->content . '</p>';
                 echo '</div>';
                 echo '<p class="post-timestamp">' . $post->time_stamp . '</p>';

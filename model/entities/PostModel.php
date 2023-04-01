@@ -9,7 +9,7 @@ class Post
 
     /* MÉTHODES */
     // Création d'un post en BDD
-    public static function addPost(int $authorId, string $content, ?string $mediaUrl): bool|PDOException
+    public static function addPost(int $authorId, string $content, ?string $mediaUrl): int|PDOException
     {
         // Résultat initial = échec
         $result = false;
@@ -21,23 +21,13 @@ class Post
                 throw new PDOException("La connexion avec la base de données n'a pas pu être établie !");
             } else {
                 // Si la connexion à réussi
+
                 // Préparer la requête
-                if (!empty($mediaUrl)) {
-                    // S'il y a un média à ajouter au post
-                    self::$model->setStmt(
-                        self::$model->getPdo()->prepare(
-                            "INSERT INTO newblog.nb_post (content, media_url, id_user_author) VALUES (:content, :media_url, :id_user_author);"
-                        )
-                    );
-                    self::$model->getStmt()->bindParam('media_url', $mediaUrl, PDO::PARAM_STR);
-                } else {
-                    // S'il n y a pas de média à ajouter au post, on ne l'ajoute pas
-                    self::$model->setStmt(
-                        self::$model->getPdo()->prepare(
-                            "INSERT INTO newblog.nb_post (content, id_user_author) VALUES (:content, :id_user_author);"
-                        )
-                    );
-                }
+                self::$model->setStmt(
+                    self::$model->getPdo()->prepare(
+                        "INSERT INTO newblog.nb_post (content, id_user_author) VALUES (:content, :id_user_author);"
+                    )
+                );
                 self::$model->getStmt()->bindParam('content', $content, PDO::PARAM_STR);
                 self::$model->getStmt()->bindParam('id_user_author', $authorId, PDO::PARAM_INT);
                 // Exécuter la requête
@@ -45,8 +35,8 @@ class Post
                     throw new PDOException("Une erreur est survenue");
                 } else {
                     if (self::$model->getStmt()->rowCount() > 0) {
-                        // Si insertion effectuée
-                        $result = true;
+                        // Si insertion effectuée, renvoyer l'id du post
+                        $result = self::$model->getPdo()->lastInsertId();
                     } else {
                         // Si insertion pas effectuée
                         $result = false;
@@ -115,7 +105,7 @@ class Post
                 // Préparer la requête
                 self::$model->setStmt(
                     self::$model->getPdo()->prepare(
-                        "SELECT newblog.nb_post.id_user_author, newblog.nb_user.nickname, newblog.nb_post.content, newblog.nb_post.media_url, newblog.nb_post.time_stamp
+                        "SELECT newblog.nb_post.id_user_author, newblog.nb_user.nickname, newblog.nb_post.content, newblog.nb_post.time_stamp
                     FROM newblog.nb_post JOIN newblog.nb_user
                     ON newblog.nb_post.id_user_author=nb_user.id_user
                     WHERE newblog.nb_post.id_post=:id_post"
@@ -153,7 +143,7 @@ class Post
         $result = -1;
 
         // Supprimer toutes les images de post
-        foreach (glob('common/files/img/*') as $img) {
+        foreach (glob($_SERVER['DOCUMENT_ROOT'] . '/common/files/img/*') as $img) {
             // Si c'est un fichier et pas un sous-dossier
             if (is_file($img)) {
                 // Supprimer le fichier
@@ -161,7 +151,7 @@ class Post
             }
         }
         // Supprimer toutes les vidéos de post
-        foreach (glob('common/files/video/*') as $video) {
+        foreach (glob($_SERVER['DOCUMENT_ROOT'] . '/common/files/video/*') as $video) {
             // Si c'est un fichier et pas un sous-dossier
             if (is_file($video)) {
                 // Supprimer le fichier
@@ -212,16 +202,21 @@ class Post
             $result = new PDOException("Une erreur est survenue lors de la suppression du post !");
         } else {
             if ($post) {
-                // Si un média est attaché au post
-                if (isset($post[0]->media_url) && !is_null($post[0]->media_url)) {
-                    // S'il ne s'agit pas d'un fichier ou qu'il n'existe pas
-                    if (!is_file($_SERVER['DOCUMENT_ROOT'] . $post[0]->media_url)) {
-                        return new PDOException("Le fichier associé au post n'existe pas et ne peut pas être supprimé !");
-                    } else {
-                        // Si le fichier existe, on le supprime
-                        if (!unlink($_SERVER['DOCUMENT_ROOT'] . $post[0]->media_url)) {
-                            return new PDOException("Une erreur est survenue lors de la suppression du fichier associé au post !");
-                        }
+
+                // Supprimer toutes les vidéos de ce post
+                foreach (glob('common/files/video/' . $id . '/*') as $videoFile) {
+                    // Si c'est un fichier et pas un sous-dossier
+                    if (is_file($videoFile)) {
+                        // Supprimer le fichier
+                        unlink($videoFile);
+                    }
+                }
+                // Supprimer toutes les images de ce post
+                foreach (glob('common/files/image/' . $id . '/*') as $imageFile) {
+                    // Si c'est un fichier et pas un sous-dossier
+                    if (is_file($imageFile)) {
+                        // Supprimer le fichier
+                        unlink($imageFile);
                     }
                 }
 
