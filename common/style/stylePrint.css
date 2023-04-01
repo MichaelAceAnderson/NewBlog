@@ -1,16 +1,28 @@
 /* Style pour l'impression, mettre en thème clair peu importe la préférence utilisateur */
+/* Pour l'impression, mettre en thème clair peu importe la préférence utilisateur */
 @media (prefers-color-scheme: dark),
 (prefers-color-scheme: light),
 (prefers-color-scheme: no-preference) {
     :root {
-        /* Couleur de texte */
+        /* Text colors */
         --textcolor: black;
-        /* Couleur du thème global */
         --themecolor: white;
-        /* Couleurs transparentes */
+        /* Element/Background colors */
         --darker: rgb(0, 0, 0, 0.2);
         --evendarker: rgb(0, 0, 0, 0.4);
         --highlight: rgb(0, 0, 0, 0.1);
         --highlight2: rgb(0, 0, 0, 0.2);
     }
+}
+
+* {
+    outline: none;
+    break-after: avoid-page;
+    break-before: avoid-page;
+    break-inside: avoid-page;
+}
+
+/* Informations de bas de page */
+footer {
+    display: none;
 }

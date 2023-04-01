@@ -36,7 +36,7 @@ into a single project. It is not yet finished but it aimes to use:
     - [How the database is structured](#how-the-database-is-structured)
     - [How the app is structured](#how-the-app-is-structured)
       - [Model](#model)
-    - [Controller](#controller)
+      - [Controller](#controller)
       - [View](#view)
 
 ## Getting started
@@ -72,12 +72,12 @@ Step 8: Use the admin page to manage the blog settings
 
 ### Version 3.0 - API update
 
+ ![3.0](https://img.shields.io/badge/3.0-yellow)
+
 General changes
 
 - [ ] Add API for external applications
 - [ ] Add JS live updates
-
- ![3.0](https://img.shields.io/badge/3.0-yellow)
 
 ### Version 2.1 - Developers update
 
@@ -102,10 +102,9 @@ Specific changes
 - [ ] Turn all static methods into custom object methods (back)
 - [ ] Add inheritance for controllers and models (back)
 - [ ] Separate SESSION variables into array (back)
-- [ ] Fix links and headers style (front)
 - [ ] Create the database automatically (back)
 - [ ] Add a "remember me" option for login (front/back)
-- [ ] Use a single PDO Connection for all operations ? (back)
+- [ ] Try to find a way to make functions out of the code in each model method (back)
 
 ### Version 2.0 - Rewriting from scratch
 
@@ -119,13 +118,12 @@ Specific changes
 - [X] Add page redirection (protection against direct access to files)
 - [X] Add conception/UML diagrams
 
-To-do:
+To-do (by chronological order):
 
-- [ ] Remove useless DB connection if blog is not installed (back)
-- [ ] Make separate & improved logs for view/controller/model (back)
-- [ ] Try to find a way to make functions out of the code in each model method (back)
 - [ ] Improve error handling to handle all cases and display them properly (front/back)
-- [ ] Make CSS rules reusable (front)
+- [ ] Make separate & improved logs for view/controller/model (back)
+- [ ] Remove useless DB connection if blog is not installed (back)
+- [ ] Use a single PDO Connection for all operations ? (back)
 
 ## Changelog (global changes)
 
@@ -194,7 +192,7 @@ class SpecificModel{
 }
 ```
 
-### Controller
+#### Controller
 
 controller.php is only used to store generic functions related to redirection and error displaying.
 

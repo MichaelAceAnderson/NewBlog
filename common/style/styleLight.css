@@ -6,6 +6,22 @@
         --themecolor: rgb(255, 255, 255, 0.9);
     }
 
+    *::-webkit-scrollbar-track {
+        background: var(--themecolor);
+    }
+
+    *::-webkit-scrollbar-thumb {
+        background: var(--darker);
+    }
+
+    *::-webkit-scrollbar-thumb:hover {
+        background: var(--darker);
+    }
+
+    *::-webkit-scrollbar-thumb:active {
+        background: var(--darker2);
+    }
+
     /* Contours du texte */
     .outlined {
         text-shadow: -1px -1px 0 white, 1px -1px 0 white, -1px 1px 0 white, 1px 1px 0 white;
