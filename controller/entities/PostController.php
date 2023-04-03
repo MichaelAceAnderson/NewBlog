@@ -147,12 +147,24 @@ if (isset($_POST['fPost'])) {
                 } else {
                     if (preg_match("/image\//", $_FILES['fPostMedia']['type'])) {
                         // Si le fichier est une vidéo
+
+                        // Si le dossier de stockage des images de post n'existe pas
+                        if (!file_exists($_SERVER['DOCUMENT_ROOT'] . '/common/files/img/')) {
+                            // Le créer
+                            mkdir($_SERVER['DOCUMENT_ROOT'] . '/common/files/img/');
+                        }
                         // On crée le dossier du post partie vidéo
                         mkdir($_SERVER['DOCUMENT_ROOT'] . '/common/files/img/' . $postId);
                         // On le place dans le dossier du post partie vidéo
                         $mediaUrl = '/common/files/img/' . $postId . '/' . $_FILES['fPostMedia']['name'];
                     } elseif (preg_match("/video\//", $_FILES['fPostMedia']['type'])) {
                         // Si le fichier est une vidéo
+
+                        // Si le dossier de stockage des images de post n'existe pas
+                        if (!file_exists($_SERVER['DOCUMENT_ROOT'] . '/common/files/video/')) {
+                            // Le créer
+                            mkdir($_SERVER['DOCUMENT_ROOT'] . '/common/files/video/');
+                        }
                         // On crée le dossier du post partie vidéo
                         mkdir($_SERVER['DOCUMENT_ROOT'] . '/common/files/video/' . $postId);
                         // On le place dans le dossier du post partie vidéo

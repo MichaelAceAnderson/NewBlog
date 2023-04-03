@@ -151,18 +151,32 @@ class Model
         if (!fclose($logFile)) return false;
         return true;
     }
-
-
-    /* DESTRUCTEUR (appelé automatiquement via un garbage collector quand objet inutile et inaccessible) */
-    public function __destruct()
+    public static function rmdir_r(string $path): bool
     {
-        if ($this->stmt !== null) {
-            $this->stmt = null;
+        // S'il s'agit d'un dossier
+        if (!is_dir($path)) {
+            return false;
+        } else {
+            // On scanne le contenu du dossier
+            $objects = scandir($path);
+            // Pour chaque élément du dossier
+            foreach ($objects as $object) {
+                // S'il ne s'agit ni du dossier courant, ni du dossier parent
+                if ($object != "." && $object != "..") {
+                    // Si l'élément est un dossier
+                    if (is_dir($path . DIRECTORY_SEPARATOR . $object) && !is_link($path . "/" . $object))
+                        // On relance la fonction sur ce sous-dossier
+                        self::rmdir_r($path . DIRECTORY_SEPARATOR . $object);
+                    else
+                        // S'il s'agit d'un fichier, on supprime l'élément
+                        unlink($path . DIRECTORY_SEPARATOR . $object);
+                }
+            }
+            rmdir($path);
         }
-        if ($this->pdo !== null) {
-            $this->pdo = null;
-        }
+        return true;
     }
+}
 }
 
 require_once __DIR__ . '\entities\BlogModel.php';
