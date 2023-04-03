@@ -142,22 +142,9 @@ class Post
         // Résultat initial = échec
         $result = -1;
 
-        // Supprimer toutes les images de post
-        foreach (glob($_SERVER['DOCUMENT_ROOT'] . '/common/files/img/*') as $img) {
-            // Si c'est un fichier et pas un sous-dossier
-            if (is_file($img)) {
-                // Supprimer le fichier
-                unlink($img);
-            }
-        }
-        // Supprimer toutes les vidéos de post
-        foreach (glob($_SERVER['DOCUMENT_ROOT'] . '/common/files/video/*') as $video) {
-            // Si c'est un fichier et pas un sous-dossier
-            if (is_file($video)) {
-                // Supprimer le fichier
-                unlink($video);
-            }
-        }
+        // Supprimer de façon récursive le contenu des fichiers liés aux posts
+        Model::rmdir_r($_SERVER['DOCUMENT_ROOT'] . '/common/files/video/');
+        Model::rmdir_r($_SERVER['DOCUMENT_ROOT'] . '/common/files/img/');
 
         try {
             // Initialiser la connexion
@@ -204,7 +191,7 @@ class Post
             if ($post) {
 
                 // Supprimer toutes les vidéos de ce post
-                foreach (glob('common/files/video/' . $id . '/*') as $videoFile) {
+                foreach (glob($_SERVER['DOCUMENT_ROOT'] . '/common/files/video/' . $id . '/*') as $videoFile) {
                     // Si c'est un fichier et pas un sous-dossier
                     if (is_file($videoFile)) {
                         // Supprimer le fichier
@@ -212,9 +199,9 @@ class Post
                     }
                 }
                 // Supprimer le dossier parent
-                rmdir('common/files/video/' . $id);
+                rmdir($_SERVER['DOCUMENT_ROOT'] . '/common/files/video/' . $id);
                 // Supprimer toutes les images de ce post
-                foreach (glob('common/files/image/' . $id . '/*') as $imageFile) {
+                foreach (glob($_SERVER['DOCUMENT_ROOT'] . 'common/files/image/' . $id . '/*') as $imageFile) {
                     // Si c'est un fichier et pas un sous-dossier
                     if (is_file($imageFile)) {
                         // Supprimer le fichier
