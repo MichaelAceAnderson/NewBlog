@@ -211,6 +211,8 @@ class Post
                         unlink($videoFile);
                     }
                 }
+                // Supprimer le dossier parent
+                rmdir('common/files/video/' . $id);
                 // Supprimer toutes les images de ce post
                 foreach (glob('common/files/image/' . $id . '/*') as $imageFile) {
                     // Si c'est un fichier et pas un sous-dossier
@@ -219,6 +221,8 @@ class Post
                         unlink($imageFile);
                     }
                 }
+                // Supprimer le dossier parent
+                rmdir('common/files/image/' . $id);
 
             } else {
                 return new PDOException("Le post que vous souhaitez supprimer n'existe pas !");
