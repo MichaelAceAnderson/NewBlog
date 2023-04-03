@@ -1,6 +1,7 @@
 <!-- Contenu de la page -->
 <section class="main" id="main">
     <?php
+    // Code pour la future mise à jour dynamique de la page
     // if (file_exists($_SERVER['DOCUMENT_ROOT'] . "/controller/liveUpdate.js")) {
     //     if (file_exists($_SERVER['DOCUMENT_ROOT'] . "/common/js/lib/axios.js")) {
     //         echo '<script src="/common/js/lib/axios.js"></script>';
@@ -53,7 +54,7 @@
                     // Si le dossier existe
                     foreach (glob($videoPath . '/*') as $videoFile) {
                         // Pour tous les fichiers dans le dossier
-                        echo '<video class="post-media" alt="Vidéo du post" preload ="auto" controls autoplay loop>
+                        echo '<video class="post-media" alt="Vidéo du post" preload ="auto" controls autoplay muted loop playsinline>
                                 <source src="' . str_replace($_SERVER['DOCUMENT_ROOT'], '', $videoFile) . '">
                             </video>';
                     }
