@@ -105,6 +105,7 @@ Specific changes
 - [ ] Create the database automatically (back)
 - [ ] Add a "remember me" option for login (front/back)
 - [ ] Try to find a way to make functions out of the code in each model method (back)
+- [ ] Upload progress bar (front/back)
 
 ### Version 2.0 - Rewriting from scratch
 
