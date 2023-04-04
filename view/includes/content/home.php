@@ -49,7 +49,7 @@
                 echo '<div class="post-content">';
 
                 // S'il existe un dossier contenant les vidéos du post
-                $videoPath = $_SERVER['DOCUMENT_ROOT'] . '/common/files/video/' . $post->id_post;
+                $videoPath = $_SERVER['DOCUMENT_ROOT'] . '/blog_data/posts/video/' . $post->id_post;
                 if (file_exists($videoPath) && is_dir($videoPath)) {
                     // Si le dossier existe
                     foreach (glob($videoPath . '/*') as $videoFile) {
@@ -60,7 +60,7 @@
                     }
                 }
                 // S'il existe un dossier contenant les images du post
-                $imagePath = $_SERVER['DOCUMENT_ROOT'] . '/common/files/img/' . $post->id_post;
+                $imagePath = $_SERVER['DOCUMENT_ROOT'] . '/blog_data/posts/img/' . $post->id_post;
                 if (file_exists($imagePath) && is_dir($imagePath)) {
                     // Si le dossier existe
                     foreach (glob($imagePath . '/*') as $imageFile) {

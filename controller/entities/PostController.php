@@ -50,6 +50,20 @@ class PostController
             return $result;
         }
     }
+    // Récupérer l'id du prochain post à créer
+    public static function getNextPostId(): int|false
+    {
+        // On tente de récupérer l'id du prochain post à créer en base de données
+        $result = Post::selectNextPostId();
+        // Si une erreur est survenue, on l'affiche et on la logge
+        if ($result instanceof Exception) {
+            Model::printLog(Model::getError($result));
+            return false;
+        } else {
+            // Sinon, on retourne le résultat de la requête (id du prochain post)
+            return $result;
+        }
+    }
     /* Modifications */
     // Changer le pseudo d'un utilisateur
     public static function changeUsername(int $id, string $newNickname): bool
@@ -118,15 +132,10 @@ if (isset($_POST['fPost'])) {
         // Si le contenu du post est vide, on affiche un message d'erreur
         $formError = 'Le contenu du post est vide';
     } else {
-        // Sinon, on tente d'ajouter le post en base de données
-        $postId = PostController::createPost($_SESSION['id_user'], $_POST['fPostContent']);
+        $postId = PostController::getNextPostId();
         if (!$postId) {
-            // Sinon, on stocke le message d'erreur à afficher
-            $formError = 'Une erreur est survenue lors de l\'ajout du post';
-        }
-
-        // S'il n'y a eu aucune erreur d'insertion en base de données
-        if (!isset($formError)) {
+            $formError = 'Une erreur est survenue lors de la communication avec la base de données';
+        } else {
             // Si un fichier a été uploadé
             if (!empty($_FILES) && $_FILES['fPostMedia']['error'] != UPLOAD_ERR_NO_FILE) {
                 // Erreur éventuelle de l'upload
@@ -146,26 +155,26 @@ if (isset($_POST['fPost'])) {
                         // Si le fichier est une vidéo
 
                         // Si le dossier de stockage des images de post n'existe pas
-                        if (!file_exists($_SERVER['DOCUMENT_ROOT'] . '/common/files/img/')) {
+                        if (!file_exists($_SERVER['DOCUMENT_ROOT'] . '/blog_data/posts/img/')) {
                             // Le créer
-                            mkdir($_SERVER['DOCUMENT_ROOT'] . '/common/files/img/');
+                            mkdir($_SERVER['DOCUMENT_ROOT'] . '/blog_data/posts/img/');
                         }
-                        // On crée le dossier du post partie vidéo
-                        mkdir($_SERVER['DOCUMENT_ROOT'] . '/common/files/img/' . $postId);
-                        // On le place dans le dossier du post partie vidéo
-                        $mediaUrl = '/common/files/img/' . $postId . '/' . $_FILES['fPostMedia']['name'];
+                        // On crée le dossier du post partie image
+                        mkdir($_SERVER['DOCUMENT_ROOT'] . '/blog_data/posts/img/' . $postId);
+                        // On le place dans le dossier du post partie image
+                        $mediaUrl = '/blog_data/posts/img/' . $postId . '/' . $_FILES['fPostMedia']['name'];
                     } elseif (preg_match("/video\//", $_FILES['fPostMedia']['type'])) {
                         // Si le fichier est une vidéo
 
                         // Si le dossier de stockage des images de post n'existe pas
-                        if (!file_exists($_SERVER['DOCUMENT_ROOT'] . '/common/files/video/')) {
+                        if (!file_exists($_SERVER['DOCUMENT_ROOT'] . '/blog_data/posts/video/')) {
                             // Le créer
-                            mkdir($_SERVER['DOCUMENT_ROOT'] . '/common/files/video/');
+                            mkdir($_SERVER['DOCUMENT_ROOT'] . '/blog_data/posts/video/');
                         }
                         // On crée le dossier du post partie vidéo
-                        mkdir($_SERVER['DOCUMENT_ROOT'] . '/common/files/video/' . $postId);
+                        mkdir($_SERVER['DOCUMENT_ROOT'] . '/blog_data/posts/video/' . $postId);
                         // On le place dans le dossier du post partie vidéo
-                        $mediaUrl = '/common/files/video/' . $postId . '/' . $_FILES['fPostMedia']['name'];
+                        $mediaUrl = '/blog_data/posts/video/' . $postId . '/' . $_FILES['fPostMedia']['name'];
                     }
                     if (!move_uploaded_file($_FILES['fPostMedia']['tmp_name'], $_SERVER['DOCUMENT_ROOT'] . $mediaUrl)) {
                         $formError = 'Impossible d\'uploader le fichier en raison d\'une erreur côté serveur';
@@ -173,8 +182,15 @@ if (isset($_POST['fPost'])) {
                 }
             }
         }
-        // S'il n'y a eu aucune erreur quelle qu'elle soit
-        if (!isset($formError)) {
+    }
+    // S'il n'y a eu aucune erreur
+    if (!isset($formError)) {
+        // On tente d'ajouter le post en base de données
+        $postCreation = PostController::createPost($_SESSION['id_user'], $_POST['fPostContent']);
+        if (!$postCreation) {
+            // Si une erreur survient, on stocke le message d'erreur à afficher
+            $formError = 'Une erreur est survenue lors de l\'ajout du post';
+        } else {
             // Si l'ajout du post s'est bien déroulé, on stocke le message de succès à afficher
             $formSuccess = 'Le post a bien été ajouté !';
         }

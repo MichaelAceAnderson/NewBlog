@@ -23,7 +23,7 @@ class BlogController
     public static function installBlog(string $adminName, string $adminPass, string $blogName, string $blogDescription, string $bgURL): bool|Exception
     {
         // Supprimer toutes les images de post dans le cas d'une réinstallation
-        foreach (glob('common/files/img/*') as $img) {
+        foreach (glob('blog_data/posts/img/*') as $img) {
             // Si c'est un fichier et pas un sous-dossier
             if (is_file($img)) {
                 // Supprimer le fichier
@@ -31,7 +31,7 @@ class BlogController
             }
         }
         // Supprimer toutes les vidéos de post dans le cas d'une réinstallation
-        foreach (glob('common/files/video/*') as $video) {
+        foreach (glob('blog_data/posts/video/*') as $video) {
             // Si c'est un fichier et pas un sous-dossier
             if (is_file($video)) {
                 // Supprimer le fichier
