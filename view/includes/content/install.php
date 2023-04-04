@@ -5,8 +5,6 @@
     <?php
     if ($blogInstalled) {
         echo '<h1 class="notification warning">⚠️ Attention ! Si votre blog est déjà installé, cette nouvelle installation supprimera tous vos posts, vos utilisateurs et votre configuration !</h1>';
-    } else {
-        echo '<h1 class="notification warning">Assurez-vous d\'avoir une base de données PostGreSQL nommée "newblog" en cours d\'exécution !</h1>';
     }
     if (isset($formError)) {
         echo '<h1 class="notification error">' . $formError . '</h1>';
