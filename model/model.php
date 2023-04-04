@@ -19,6 +19,10 @@ if (!isset($_SESSION)) {
 define("DB_HOST", "localhost");
 // Nom de la base à utiliser
 define("DB_NAME", "newblog");
+// Nom de l'utilisateur de BDD
+define("DB_USER", "postgres");
+// Nom de l'utilisateur de BDD
+define("DB_PASS", "PG770rwx");
 // 0: Aucune erreur affichée/loggée, 
 // 1: Erreurs destinées à l'utilisateur, 
 // 2: Provenance directe des erreurs (développeurs), 
@@ -31,90 +35,34 @@ class Model
 {
     /* PROPRIÉTÉS/ATTRIBUTS */
     // Connexion à la base de données
-    private ?PDO $pdo = null;
+    private static ?PDO $pdo = null;
     // Requête à traiter
-    private mixed $stmt = null;
-
-    /* CONSTRUCTEUR */
-    function __construct(string $role)
-    {
-        // Par défaut, le mot de passe est erronné
-        $pass = null;
-        // Selon le nom de l'utilisateur ($role), on définit le mot de passe à utiliser
-        switch (strtolower($role)) {
-            case "postgres": {
-                    $pass = "PG770rwx";
-                    break;
-                }
-            case "nb_reader": {
-                    $pass = "PGlr4--";
-                    break;
-                }
-            case "nb_writer": {
-                    $pass = "PGlw2--";
-                    break;
-                }
-            case "nb_editor": {
-                    $pass = "PGlrw6--";
-                    break;
-                }
-            default: {
-                    // Si l'utilisateur spécifié n'existe pas en base de connées, on détruit la connexion
-                    $this->pdo = null;
-                    self::printLog('Connexion à la base de données impossible avec l\'utilisateur spécifié (' . $role . ')');
-                    throw new Exception("L'utilisateur spécifié n'existe pas en base de données");
-                }
-        }
-        try {
-            // Utilisation de PDO (PHP Data Objects) pour se connecter à la base de données
-            // PDO a l'avantage d'être compatible avec plusieurs SGBD (MySQL, PostgreSQL, SQLite, etc.)
-            $this->pdo = new \PDO(
-                'pgsql:host=' . DB_HOST . ';port=5432;dbname=' . DB_NAME . '',
-                $role,
-                $pass,
-                [
-                    \PDO::ATTR_DEFAULT_FETCH_MODE => \PDO::FETCH_OBJ,
-                    \PDO::ATTR_ERRMODE => \PDO::ERRMODE_EXCEPTION,
-                    \PDO::ATTR_TIMEOUT => 3,
-                    // \PDO::ATTR_EMULATE_PREPARES => true,
-                    // \PDO::ATTR_PERSISTENT => true,
-                    // \PDO::ATTR_STRINGIFY_FETCHES => true,
-                ]
-            );
-        } catch (PDOException $e) {
-            // Si une erreur survient, on détruit la connexion
-            $this->pdo = null;
-        }
-        // Si la connexion est établie, on logge le message
-        if ($this->pdo != null) {
-            self::printLog("Connexion à la base de données réussie");
-        }
-    }
+    private static mixed $stmt = null;
 
     /* MÉTHODES */
 
     /* Setters */
     // Définir la requête à traiter
-    public function setStmt(mixed $query): void
+    public static function setStmt(mixed $query): void
     {
-        $this->stmt = $query;
+        self::$stmt = $query;
     }
     // Définir la connexion à utiliser
-    public function setPdo(PDO $pdo): void
+    public static function setPdo(PDO|null $pdo): void
     {
-        $this->pdo = $pdo;
+        self::$pdo = $pdo;
     }
 
     /* Getters */
     // Récupérer la requête à traiter
-    public function getStmt(): mixed
+    public static function getStmt(): mixed
     {
-        return $this->stmt;
+        return self::$stmt;
     }
     // Récupérer la connexion à utiliser
-    public function getPdo(): ?PDO
+    public static function getPdo(): ?PDO
     {
-        return $this->pdo;
+        return self::$pdo;
     }
 
     /* AUTRES MÉTHODES */
@@ -144,11 +92,23 @@ class Model
     {
         $date = new DateTime();
         $date = $date->format("y-m-d h:i:s");
-        if (LOGLEVEL < 1) return false;
+        if (LOGLEVEL < 1) {
+            // Si le niveau de log est inférieur à 1, on ne logge pas
+            return false;
+        }
         $logFile = fopen(__DIR__ . '\..\common\files\log.log', 'a+');
-        if (!$logFile) return false;
-        if (!fwrite($logFile, "\n[" . $date . "]: " . $msg)) return false;
-        if (!fclose($logFile)) return false;
+        if (!$logFile) {
+            // S'il est impossible d'ouvrir le fichier de log
+            return false;
+        }
+        if (!fwrite($logFile, "\n[" . $date . "]: " . $msg)) {
+            // S'il est impossible d'écrire dans le fichier de log
+            return false;
+        }
+        if (!fclose($logFile)) {
+            // S'il est impossible de fermer le fichier de log
+            return false;
+        }
         return true;
     }
     public static function rmdir_r(string $path): bool
@@ -177,6 +137,35 @@ class Model
         return true;
     }
 }
+
+// Tenter de créer une connexion à la base de données
+try {
+    // Utilisation de PDO (PHP Data Objects) pour se connecter à la base de données
+    // PDO a l'avantage d'être compatible avec plusieurs SGBD (MySQL, PostgreSQL, SQLite, etc.)
+    Model::setPdo(
+        new \PDO(
+            'pgsql:host=' . DB_HOST . ';port=5432;dbname=' . DB_NAME . '',
+            DB_USER,
+            DB_PASS,
+            [
+                    \PDO::ATTR_DEFAULT_FETCH_MODE => \PDO::FETCH_OBJ,
+                    \PDO::ATTR_ERRMODE => \PDO::ERRMODE_EXCEPTION,
+                    \PDO::ATTR_TIMEOUT => 2,
+                // \PDO::ATTR_EMULATE_PREPARES => true,
+                // \PDO::ATTR_PERSISTENT => true,
+                // \PDO::ATTR_STRINGIFY_FETCHES => true,
+            ]
+        )
+    );
+} catch (PDOException $e) {
+    // On logge l'erreur
+    Model::printLog(Model::getError($e));
+    // Si une erreur survient, on détruit la connexion
+    Model::setPdo(null);
+}
+// Si la connexion est établie, on logge le message
+if (Model::getPdo() != null) {
+    Model::printLog("Connexion à la base de données réussie");
 }
 
 require_once __DIR__ . '\entities\BlogModel.php';

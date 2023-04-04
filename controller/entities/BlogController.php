@@ -9,7 +9,7 @@ class BlogController
         // Tenter de récupérer les infos du blog en base de données
         $result = Blog::selectBlog();
         // Si une erreur survient, on renvoie faux et on logge l'erreur
-        if ($result instanceof PDOException) {
+        if ($result instanceof Exception) {
             Model::printLog(Model::getError($result));
             return false;
         } else {
@@ -42,7 +42,7 @@ class BlogController
 
         // Création du blog en base de données
         $dbInstallStatus = Blog::installDB();
-        if ($dbInstallStatus instanceof PDOException) {
+        if ($dbInstallStatus instanceof Exception) {
             // Si l'installation en base de données a échoué, on renvoie l'erreur
             return $dbInstallStatus;
         } else {
@@ -56,7 +56,7 @@ class BlogController
                 // Créer l'utilisateur principal, admin et propriétaire
                 if (!UserController::createUser($adminName, $adminPass, true)) {
                     // Si l'utilisateur n'a pas pu être créé, on arrête l'installation
-                    return new PDOException("L'utilisateur administrateur n'a pas pu être créé en base de données !");
+                    return new Exception("L'utilisateur administrateur n'a pas pu être créé en base de données !");
                 } else {
                     // Récupération de l'utilisateur admin, propriétaire du blog
                     $adminAccount = UserController::getUserInfoByCredentials($adminName, $adminPass);
@@ -68,7 +68,7 @@ class BlogController
 
                     // Insertion des informations du blog en base de données
                     $blogInsertStatus = Blog::insertBlog($blogName, $blogDescription, $adminAccount->id_user, $bgURL);
-                    if ($blogInsertStatus instanceof PDOException) {
+                    if ($blogInsertStatus instanceof Exception) {
                         // Si l'installation de la BDD a réussi mais qu'une erreur survient lors de l'insertion des données du blog
                         return $blogInsertStatus;
                     } else {
@@ -98,7 +98,7 @@ class BlogController
         // On tente de mettre à jour le nom du blog en base de données
         $result = Blog::updateBlogName($newBlogName);
         // Si une erreur survient, on renvoie faux et on logge l'erreur
-        if ($result instanceof PDOException) {
+        if ($result instanceof Exception) {
             Model::printLog(Model::getError($result));
             return false;
         } else {
@@ -112,7 +112,7 @@ class BlogController
         // On tente de mettre à jour l'URL de l'image de fond
         $result = Blog::updateBackgroundURL($newBackgroundURL);
         // Si une erreur survient, on renvoie faux et on logge l'erreur
-        if ($result instanceof PDOException) {
+        if ($result instanceof Exception) {
             Model::printLog(Model::getError($result));
             return false;
         } else {
@@ -126,7 +126,7 @@ class BlogController
         // On tente de mettre à jour la description du blog en base de données
         $result = Blog::updateDescription($newDescription);
         // Si une erreur survient, on renvoie faux et on logge l'erreur
-        if ($result instanceof PDOException) {
+        if ($result instanceof Exception) {
             Model::printLog(Model::getError($result));
             return false;
         } else {
@@ -141,7 +141,7 @@ class BlogController
     {
         // On tente de récupérer les infos du blog en base de données
         $result = Blog::selectBlog();
-        if ($result instanceof PDOException) {
+        if ($result instanceof Exception) {
             // Si une erreur survient, on renvoie faux et on logge l'erreur
             Model::printLog(Model::getError($result));
             return false;
@@ -156,7 +156,7 @@ class BlogController
         // On tente de récupérer les infos du blog en base de données
         $result = Blog::selectBlog();
         // Si une erreur survient, on renvoie faux et on logge l'erreur
-        if ($result instanceof PDOException) {
+        if ($result instanceof Exception) {
             Model::printLog(Model::getError($result));
             return false;
         } else {
@@ -170,7 +170,7 @@ class BlogController
         // On tente de récupérer les infos du blog en base de données
         $result = Blog::selectBlog();
         // Si une erreur survient, on renvoie faux et on logge l'erreur
-        if ($result instanceof PDOException) {
+        if ($result instanceof Exception) {
             Model::printLog(Model::getError($result));
             return false;
         } else {
@@ -184,7 +184,7 @@ class BlogController
         // On tente de récupérer les infos du blog en base de données
         $result = Blog::selectBlog();
         // Si une erreur survient, on renvoie faux et on logge l'erreur
-        if ($result instanceof PDOException) {
+        if ($result instanceof Exception) {
             Model::printLog(Model::getError($result));
             return false;
         } else {

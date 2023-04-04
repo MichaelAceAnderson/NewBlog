@@ -83,8 +83,6 @@ General changes
 
  ![2.1](https://img.shields.io/badge/2.1-yellow)
 
-General changes
-
 - [ ] Switch to Nginx & PHP-FPM (WinNMP ?) (back)
 - [ ] HTTPS certificate (back)
 - [ ] Make server compatible with Linux (back)
@@ -95,9 +93,6 @@ General changes
 - [ ] Cookie storage for session variables (back)
 - [ ] Apply DICP principles to the code (back)
 - [ ] Make theme colors & fonts user-customizable (front/back)
-
-Specific changes
-
 - [ ] Use Namespaces for PHP classes (back)
 - [ ] Turn all static methods into custom object methods (back)
 - [ ] Add inheritance for controllers and models (back)
@@ -106,6 +101,7 @@ Specific changes
 - [ ] Add a "remember me" option for login (front/back)
 - [ ] Try to find a way to make functions out of the code in each model method (back)
 - [ ] Upload progress bar (front/back)
+- [ ] Cache blog info to prevent useless DB requests (back)
 
 ### Version 2.0 - Rewriting from scratch
 
@@ -119,12 +115,10 @@ Specific changes
 - [X] Add page redirection (protection against direct access to files)
 - [X] Add conception/UML diagrams
 
-To-do (by chronological order):
+To-do:
 
 - [ ] Improve error handling to handle all cases and display them properly (front/back)
 - [ ] Make separate & improved logs for view/controller/model (back)
-- [ ] Remove useless DB connection if blog is not installed (back)
-- [ ] Use a single PDO Connection for all operations ? (back)
 
 ## Changelog (global changes)
 

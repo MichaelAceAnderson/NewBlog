@@ -10,7 +10,7 @@ class UserController
         // On tente d'ajouter l'utilisateur en base de données
         $result = User::addUser($nickname, $password, $is_mod);
         // Si une erreur est survenue, on l'affiche et on la logge
-        if ($result instanceof PDOException) {
+        if ($result instanceof Exception) {
             Model::printLog(Model::getError($result));
             return false;
         } else {
@@ -26,7 +26,7 @@ class UserController
         // On tente de modifier le pseudo en base de données
         $result = User::updateUsername($id, $newNickname);
         // Si une erreur est survenue, on l'affiche et on la logge
-        if ($result instanceof PDOException) {
+        if ($result instanceof Exception) {
             Model::printLog(Model::getError($result));
             return false;
         } else {
@@ -40,7 +40,7 @@ class UserController
         // On tente de modifier le mot de passe en base de données
         $result = User::updateUserPassword($id, $newPassword);
         // Si une erreur est survenue, on l'affiche et on la logge
-        if ($result instanceof PDOException) {
+        if ($result instanceof Exception) {
             Model::printLog(Model::getError($result));
             return false;
         } else {
@@ -56,7 +56,7 @@ class UserController
         // On tente de récupérer les utilisateurs en base de données
         $result = User::selectUsers();
         // Si une erreur est survenue, on l'affiche et on la logge
-        if ($result instanceof PDOException) {
+        if ($result instanceof Exception) {
             Model::printLog(Model::getError($result));
             return false;
         } else {
@@ -70,12 +70,12 @@ class UserController
         }
     }
     // Récupérer le pseudo d'un utilisateur
-    public static function getUserNameById(int $userId): string | false
+    public static function getUserNameById(int $userId): string|false
     {
         // On tente de récupérer l'utilisateur en base de données
         $result = User::selectUserById($userId);
         // Si une erreur est survenue, on l'affiche et on la logge
-        if ($result instanceof PDOException) {
+        if ($result instanceof Exception) {
             Model::printLog(Model::getError($result));
             return false;
         } else {
@@ -90,12 +90,12 @@ class UserController
     }
 
     // Récupérer l'ID d'un utilisateur à partir de son pseudo et de son mot de passe
-    public static function getUserInfoByCredentials(string $username, string $password): Object | false
+    public static function getUserInfoByCredentials(string $username, string $password): object|false
     {
         // Récupérer l'utilisateur en base de données à partir de son pseudo
         $result = User::selectUserByName($username);
         // Si une erreur est survenue, on l'affiche et on la logge
-        if ($result instanceof PDOException) {
+        if ($result instanceof Exception) {
             Model::printLog(Model::getError($result));
             return false;
         } elseif ($result) {
@@ -120,7 +120,7 @@ class UserController
     public static function deleteUser(int $userId): bool
     {
         $result = User::deleteUser($userId);
-        if ($result instanceof PDOException) {
+        if ($result instanceof Exception) {
             Model::printLog(Model::getError($result));
             return false;
         } else {

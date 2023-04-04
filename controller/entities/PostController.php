@@ -12,7 +12,7 @@ class PostController
         // On tente d'ajouter le post en base de données
         $result = Post::addPost($authorId, $content, $mediaUrl);
         // Si une erreur est survenue, on l'affiche et on la logge
-        if ($result instanceof PDOException) {
+        if ($result instanceof Exception) {
             Model::printLog(Model::getError($result));
             return false;
         } else {
@@ -28,7 +28,7 @@ class PostController
         // On tente de récupérer le post en base de données
         $result = Post::selectPost($postId);
         // Si une erreur est survenue, on l'affiche et on la logge
-        if ($result instanceof PDOException) {
+        if ($result instanceof Exception) {
             Model::printLog(Model::getError($result));
             return false;
         } else {
@@ -42,7 +42,7 @@ class PostController
         // On tente de récupérer les posts en base de données
         $result = Post::selectPosts();
         // Si une erreur est survenue, on l'affiche et on la logge
-        if ($result instanceof PDOException) {
+        if ($result instanceof Exception) {
             Model::printLog(Model::getError($result));
             return false;
         } else {
@@ -57,7 +57,7 @@ class PostController
         // On tente de modifier le pseudo en base de données
         $result = User::updateUsername($id, $newNickname);
         // Si une erreur est survenue, on l'affiche et on la logge
-        if ($result instanceof PDOException) {
+        if ($result instanceof Exception) {
             Model::printLog(Model::getError($result));
             return false;
         } else {
@@ -71,7 +71,7 @@ class PostController
         // On tente de modifier le mot de passe en base de données
         $result = User::updateUserPassword($id, $newPassword);
         // Si une erreur est survenue, on l'affiche et on la logge
-        if ($result instanceof PDOException) {
+        if ($result instanceof Exception) {
             Model::printLog(Model::getError($result));
             return false;
         } else {
@@ -87,7 +87,7 @@ class PostController
         // On tente de supprimer tous les posts en base de données et les fichiers associés
         $result = Post::clearPosts();
         // Si une erreur est survenue, on l'affiche et on la logge
-        if ($result instanceof PDOException) {
+        if ($result instanceof Exception) {
             Model::printLog(Model::getError($result));
             return -1; // Retourner -1 pour indiquer que la requête a échouée
         } else {
@@ -101,7 +101,7 @@ class PostController
         // On tente de supprimer le post en base de données
         $result = Post::deletePost($postId);
         // Si une erreur est survenue, on l'affiche et on la logge
-        if ($result instanceof PDOException) {
+        if ($result instanceof Exception) {
             Model::printLog(Model::getError($result));
             return false;
         } else {
@@ -120,10 +120,7 @@ if (isset($_POST['fPost'])) {
     } else {
         // Sinon, on tente d'ajouter le post en base de données
         $postId = PostController::createPost($_SESSION['id_user'], $_POST['fPostContent']);
-        if ($postId) {
-            // Si l'ajout du post s'est bien déroulé, on stocke le message de succès à afficher
-            $formSuccess = 'Le post a bien été ajouté !';
-        } else {
+        if (!$postId) {
             // Sinon, on stocke le message d'erreur à afficher
             $formError = 'Une erreur est survenue lors de l\'ajout du post';
         }
@@ -175,6 +172,11 @@ if (isset($_POST['fPost'])) {
                     }
                 }
             }
+        }
+        // S'il n'y a eu aucune erreur quelle qu'elle soit
+        if (!isset($formError)) {
+            // Si l'ajout du post s'est bien déroulé, on stocke le message de succès à afficher
+            $formSuccess = 'Le post a bien été ajouté !';
         }
     }
 }

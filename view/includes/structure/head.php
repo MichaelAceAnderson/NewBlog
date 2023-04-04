@@ -4,20 +4,26 @@
 <head>
     <!-- On définit le titre de la page -->
     <?php
-    // On stocke l'état de l'installation du blog dans une variable
-    $blogInstalled = BlogController::isInstalled();
     // Par défaut, le nom du blog n'est pas défini
     $blogName = false;
-    // Si le blog est installé, tenter de récupérer le nom du blog à partir de la méthode du contrôleur
-    if ($blogInstalled) {
-        $blogName = BlogController::getBlogName();
-    } else {
-        // Si le blog n'est pas installé, on détruit la session et ses variables
-        unset($_SESSION);
-        session_destroy();
+
+    // Si la connexion à la base de données a pu être établie
+    if (Model::getPdo() != null) {
+        // On stocke l'état de l'installation du blog dans une variable
+        $blogInstalled = BlogController::isInstalled();
+
+        // Si le blog est installé, tenter de récupérer le nom du blog à partir de la méthode du contrôleur
+        if ($blogInstalled) {
+            $blogName = BlogController::getBlogName();
+        } else {
+            // Si le blog n'est pas installé, on détruit la session et ses variables
+            unset($_SESSION);
+            session_destroy();
+        }
     }
     // Si le nom du blog est défini, le mettre en titre, sinon mettre "NewBlog"
     echo $blogName ? '<title>' . $blogName . '</title>' : '<title>NewBlog</title>';
+
     ?>
     <!-- On précise comment est encodée la page -->
     <meta charset="UTF-8">
