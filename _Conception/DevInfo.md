@@ -102,6 +102,7 @@ General changes
 - [ ] Try to find a way to make functions out of the code in each model method (back)
 - [ ] Upload progress bar (front/back)
 - [ ] Cache blog info to prevent useless DB requests (back)
+- [ ] Add constants & global variables for re-used values \[ex: paths, links, ...\] (back)
 
 ### Version 2.0 - Rewriting from scratch
 
@@ -119,6 +120,8 @@ To-do:
 
 - [ ] Improve error handling to handle all cases and display them properly (front/back)
 - [ ] Make separate & improved logs for view/controller/model (back)
+- [ ] Add Background image upload (front/back)
+- [ ] Fix logo upload file extensions (back)
 
 ## Changelog (global changes)
 

@@ -118,6 +118,39 @@ class Post
         // Renvoyer le résultat
         return $result;
     }
+    // Récupérer l'id du prochain post à créer
+    public static function selectNextPostId(): int|Exception
+    {
+        // Résultat initial = échec
+        $result = -1;
+        try {
+            if (is_null(Model::getPdo())) {
+                // Si la connexion n'a pas pu être créée
+                throw new Exception("La connexion avec la base de données n'a pas pu être établie !");
+            } else {
+                // Si la connexion à réussi
+                // Préparer la requête
+                Model::setStmt(
+                    Model::getPdo()->prepare(
+                        "SELECT pg_sequence_last_value('newblog.post_seq');"
+                    )
+                );
+                // Exécuter la requête
+                if (!Model::getStmt()->execute()) {
+                    // Si la requête n'a pas pu être exécutée
+                    throw new Exception("La requête de récupération des données du blog a échoué !");
+                } else {
+                    // Si la requête a réussi, récupérer les résultats
+                    $result = Model::getStmt()->fetch()->pg_sequence_last_value + 1;
+                }
+            }
+        } catch (Exception $e) {
+            // Si une erreur est survenue, la stocker dans le résultat
+            $result = $e;
+        }
+        // Renvoyer le résultat
+        return $result;
+    }
     // Création d'un post en BDD
     public static function clearPosts(): int|Exception
     {
@@ -125,8 +158,8 @@ class Post
         $result = -1;
 
         // Supprimer de façon récursive le contenu des fichiers liés aux posts
-        Model::rmdir_r($_SERVER['DOCUMENT_ROOT'] . '/common/files/video/');
-        Model::rmdir_r($_SERVER['DOCUMENT_ROOT'] . '/common/files/img/');
+        Model::rmdir_r($_SERVER['DOCUMENT_ROOT'] . '/blog_data/posts/video/');
+        Model::rmdir_r($_SERVER['DOCUMENT_ROOT'] . '/blog_data/posts/img/');
 
         try {
             if (is_null(Model::getPdo())) {
@@ -168,7 +201,7 @@ class Post
             if ($post) {
 
                 // Supprimer toutes les vidéos de ce post
-                foreach (glob($_SERVER['DOCUMENT_ROOT'] . '/common/files/video/' . $id . '/*') as $videoFile) {
+                foreach (glob($_SERVER['DOCUMENT_ROOT'] . '/blog_data/posts/video/' . $id . '/*') as $videoFile) {
                     // Si c'est un fichier et pas un sous-dossier
                     if (is_file($videoFile)) {
                         // Supprimer le fichier
@@ -176,9 +209,9 @@ class Post
                     }
                 }
                 // Supprimer le dossier parent
-                rmdir($_SERVER['DOCUMENT_ROOT'] . '/common/files/video/' . $id);
+                rmdir($_SERVER['DOCUMENT_ROOT'] . '/blog_data/posts/video/' . $id);
                 // Supprimer toutes les images de ce post
-                foreach (glob($_SERVER['DOCUMENT_ROOT'] . 'common/files/image/' . $id . '/*') as $imageFile) {
+                foreach (glob($_SERVER['DOCUMENT_ROOT'] . 'blog_data/posts/image/' . $id . '/*') as $imageFile) {
                     // Si c'est un fichier et pas un sous-dossier
                     if (is_file($imageFile)) {
                         // Supprimer le fichier
@@ -186,7 +219,7 @@ class Post
                     }
                 }
                 // Supprimer le dossier parent
-                rmdir('common/files/image/' . $id);
+                rmdir('blog_data/posts/image/' . $id);
 
             } else {
                 return new Exception("Le post que vous souhaitez supprimer n'existe pas !");
