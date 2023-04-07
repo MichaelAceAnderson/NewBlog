@@ -23,6 +23,7 @@ CREATE TABLE IF NOT EXISTS nb_user(
 CREATE TABLE IF NOT EXISTS nb_blog(
    blog_name VARCHAR(32) DEFAULT 'NewBlog',
    description TEXT NOT NULL DEFAULT 'Mon nouveau blog !',
+   logo_url TEXT NOT NULL DEFAULT '/common/img/logo.jpg',
    background_url TEXT NOT NULL DEFAULT '/common/img/background.jpg',
    creation_date TIMESTAMP(0) NOT NULL DEFAULT now(),
    id_user_owner INT NOT NULL,

@@ -1,18 +1,16 @@
 <?php
-// Par défaut, on ne cherche pas le fond d'écran dans la base de données
-$bgURL = false;
 // Par défaut, la description du blog n'est pas définie
 $blogDescription = false;
 // Si la connexion à la base de données a pu être établie
 if (Model::getPdo() != null) {
     // Si le blog est installé, on récupère l'URL de l'image de fond
     if ($blogInstalled) {
-        $bgURL = BlogController::getBackgroundURL();
         // Récupérer la description du blog
         $blogDescription = BlogController::getBlogDescription();
     }
 }
-echo $bgURL ? '<body style="background: var(--themecolor) url(' . $bgURL . ') repeat fixed">' : '<body>';
+$bgURL = BlogController::getBackgroundURL();
+echo '<body style="background-image: url(' . $bgURL . ')">';
 ?>
 <!-- En-tête  -->
 <header>

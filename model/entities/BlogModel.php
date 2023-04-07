@@ -243,6 +243,45 @@ final class Blog
         return $result;
     }
     // Changer l'image image de fond 
+    public static function updateLogoURL(string $newLogoURL): bool|Exception
+    {
+        // Résultat initial = false
+        $result = false;
+        try {
+            if (is_null(Model::getPdo())) {
+                // Si la connexion n'a pas pu être créée
+                throw new Exception("La connexion avec la base de données n'a pas pu être établie !");
+            } else {
+                // Si la connexion à réussi
+                // Préparer la requête
+                Model::setStmt(
+                    Model::getPdo()->prepare(
+                        "UPDATE newblog.nb_blog 
+                SET logo_url = :newLogo"
+                    )
+                );
+                Model::getStmt()->bindParam('newLogo', $newLogoURL, PDO::PARAM_STR);
+
+                // Exécuter la requête
+                if (!Model::getStmt()->execute()) {
+                    // Si la requête n'a pas pu être exécutée
+                    throw new Exception("La requête de mise à jour du logo du blog a échoué !");
+                } else {
+                    if (Model::getStmt()->rowCount() > 0) {
+                        // Si mise à jour effectuée
+                        $result = true;
+                    } else {
+                        // Si mise à jour pas effectuée
+                        $result = false;
+                    }
+                }
+            }
+        } catch (Exception $e) {
+            $result = $e;
+        }
+        return $result;
+    }
+    // Changer l'image image de fond 
     public static function updateBackgroundURL(string $newBackground): bool|Exception
     {
         // Résultat initial = false
