@@ -78,6 +78,7 @@ General changes
 
 - [ ] Add API for external applications
 - [ ] Add JS live updates
+- [ ] Add JS/PHP input validation (emails regex, URLs etc...)
 
 ### Version 2.1 - Developers update
 
@@ -103,6 +104,7 @@ General changes
 - [ ] Upload progress bar (front/back)
 - [ ] Cache blog info to prevent useless DB requests (back)
 - [ ] Add constants & global variables for re-used values \[ex: paths, links, ...\] (back)
+- [ ] Make app portable by replacing absolute paths (DOCUMENT_ROOT) with relative paths (\_\_DIR\_\_) (back)
 
 ### Version 2.0 - Rewriting from scratch
 
@@ -118,10 +120,8 @@ General changes
 
 To-do:
 
-- [ ] Improve error handling to handle all cases and display them properly (front/back)
 - [ ] Make separate & improved logs for view/controller/model (back)
-- [ ] Add Background image upload (front/back)
-- [ ] Fix logo upload file extensions (back)
+- [ ] Improve error handling to handle all cases and display them properly (front/back)
 
 ## Changelog (global changes)
 

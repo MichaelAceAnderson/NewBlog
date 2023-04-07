@@ -2,6 +2,13 @@
 <html xml:lang="fr" xmlns="http://www.w3.org/1999/xhtml" lang="fr">
 
 <head>
+    <!-- On précise comment est encodée la page -->
+    <meta charset="UTF-8">
+    <!-- On paramètre la largeur de l'appareil -->
+    <meta name="viewport" content="width=device-width, initial-scale=1">
+    <!-- On précise la description du site pour les moteurs de recherche -->
+    <meta name="description" content="NewBlog est un CMS permettant à un utilisateur de créer son propre blog">
+    <script src="/common/js/styleDebug.js"></script>
     <!-- On définit le titre de la page -->
     <?php
     // Par défaut, le nom du blog n'est pas défini
@@ -23,17 +30,9 @@
     }
     // Si le nom du blog est défini, le mettre en titre, sinon mettre "NewBlog"
     echo $blogName ? '<title>' . $blogName . '</title>' : '<title>NewBlog</title>';
-
+    // Mettre une icône de site
+    echo '<link rel="icon" href="' . BlogController::getLogoUrl() . '" />';
     ?>
-    <!-- On précise comment est encodée la page -->
-    <meta charset="UTF-8">
-    <!-- On paramètre la largeur de l'appareil -->
-    <meta name="viewport" content="width=device-width, initial-scale=1">
-    <!-- On précise la description du site pour les moteurs de recherche -->
-    <meta name="description" content="NewBlog est un CMS permettant à un utilisateur de créer son propre blog">
-    <script src="/common/js/styleDebug.js"></script>
-    <!-- Si une icône existe, on l'affiche -->
-    <link rel="icon" type="image/png" href="/common/img/logo.png" />
     <!-- On précharge les polices d'écriture -->
     <link rel="preload" href="/common/style/fonts/agencyfb.ttf" as="font" type="font/ttf" crossorigin="anonymous">
     <link rel="preload" href="/common/style/fonts/LCD.ttf" as="font" type="font/ttf" crossorigin="anonymous">

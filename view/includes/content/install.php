@@ -42,7 +42,7 @@
             <h1>Définir l'URL de l'image de fond du blog</h1>
             <div class="panel-content">
                 <p>Saisissez l'url de l'image de fond du blog (laissez vide pour laisser celle par défaut)</p>
-                <input type="text" name="fBgURL" placeholder="/common/img/background.jpg" />
+                <input type="text" name="fBgURL" placeholder="/common/img/circuits.jpg" />
             </div>
         </div>
         <!-- Terminer l'installation -->

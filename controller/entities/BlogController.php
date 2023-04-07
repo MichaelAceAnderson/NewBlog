@@ -106,7 +106,7 @@ class BlogController
             return $result;
         }
     }
-    // Changer l'image image de fond 
+    // Changer l'image de fond 
     public static function setBackgroundURL($newBackgroundURL): bool
     {
         // On tente de mettre à jour l'URL de l'image de fond
@@ -117,6 +117,20 @@ class BlogController
             return false;
         } else {
             // Si la mise à jour de l'URL de l'image de fond a réussi, on renvoie vrai
+            return $result;
+        }
+    }
+    // Changer l'image de fond 
+    public static function setLogoURL($newLogoURL): bool
+    {
+        // On tente de mettre à jour l'URL du logo
+        $result = Blog::updateLogoURL($newLogoURL);
+        // Si une erreur survient, on renvoie faux et on logge l'erreur
+        if ($result instanceof Exception) {
+            Model::printLog(Model::getError($result));
+            return false;
+        } else {
+            // Si la mise à jour de l'URL du logo, on renvoie vrai
             return $result;
         }
     }
@@ -150,20 +164,6 @@ class BlogController
             return $result[0]->blog_name ?? false;
         }
     }
-    // Récupérer l'URL de l'image de fond du blog
-    public static function getBackgroundURL(): string|false
-    {
-        // On tente de récupérer les infos du blog en base de données
-        $result = Blog::selectBlog();
-        // Si une erreur survient, on renvoie faux et on logge l'erreur
-        if ($result instanceof Exception) {
-            Model::printLog(Model::getError($result));
-            return false;
-        } else {
-            // Si la récupération des infos du blog a réussi, on renvoie l'URL de l'image de fond s'il y en a une
-            return $result[0]->background_url ?? false;
-        }
-    }
     // Récupérer la description du blog
     public static function getBlogDescription(): string|false
     {
@@ -176,6 +176,54 @@ class BlogController
         } else {
             // Si la récupération des infos du blog a réussi, on renvoie la description du blog s'il y en a une
             return $result[0]->description ?? false;
+        }
+    }
+    // Récupérer l'URL de l'image de fond du blog
+    public static function getBackgroundURL(): string
+    {
+        // Si un fichier d'image de fond existe, on renvoie son URL
+        foreach (glob($_SERVER['DOCUMENT_ROOT'] . '/blog_data/img/background.*') as $bgFile) {
+            // Si c'est un fichier et pas un sous-dossier
+            if (is_file($bgFile)) {
+                // On renvoie l'URL de l'image de fond
+                return str_replace($_SERVER['DOCUMENT_ROOT'], "", $bgFile);
+            }
+        }
+        // Si aucune image de fond n'a été trouvée, on continue
+        // On tente de récupérer les infos du blog en base de données
+        $result = Blog::selectBlog();
+        // Si une erreur survient, on renvoie faux et on logge l'erreur
+        if ($result instanceof Exception) {
+            Model::printLog(Model::getError($result));
+            return false;
+        } else {
+            // Si la récupération des infos du blog a réussi, on renvoie l'URL de l'image de fond s'il y en a une
+            // Sinon, on renvoie l'URL de l'image de fond par défaut
+            return $result[0]->background_url ?? "/common/img/circuits.jpg";
+        }
+    }
+    // Récupérer l'URL du logo du blog
+    public static function getLogoUrl(): string
+    {
+        // On vérifie le contenu du dossier de données du blog
+        foreach (glob($_SERVER['DOCUMENT_ROOT'] . '/blog_data/img/logo.*') as $imgFile) {
+            // Si c'est un fichier et pas un sous-dossier
+            if (is_file($imgFile)) {
+                // On renvoie l'URL du logo
+                return str_replace($_SERVER['DOCUMENT_ROOT'], "", $imgFile);
+            }
+        }
+        // Si aucune logo n'a été trouvé, on continue
+        // On tente de récupérer les infos du blog en base de données
+        $result = Blog::selectBlog();
+        // Si une erreur survient, on renvoie faux et on logge l'erreur
+        if ($result instanceof Exception) {
+            Model::printLog(Model::getError($result));
+            return false;
+        } else {
+            // Si la récupération des infos du blog a réussi, on renvoie l'URL du logo s'il y en a une
+            // Sinon, on renvoie l'URL du logo par défaut
+            return $result[0]->logo_url ?? "/common/img/logo.jpg";
         }
     }
     // Récupérer la date de création du blog
@@ -265,24 +313,9 @@ if (isset($_POST['fChangeBlogDesc'])) {
     }
 }
 
-// Si le formulaire de modification de l'image de fond a été soumis
-if (isset($_POST['fChangeBgURL'])) {
-    // Vérification des champs
-    if (!isset($_POST['fBgURL']) || $_POST['fBgURL'] == "") {
-        $_POST['fBgURL'] = "/common/img/background.jpg";
-    }
-    $bgURLUpdateStatus = BlogController::setBackgroundURL($_POST['fBgURL']);
-    if ($bgURLUpdateStatus) {
-        // Si la modification a réussi, on stocke un message de succès
-        $formSuccess = 'L\'URL de l\'image de fond a bien été modifiée !';
-    } else {
-        // Si la modification a échoué, on affiche un message d'erreur
-        $formError = 'Une erreur est survenue lors de la modification de l\'image de fond !';
-    }
-}
 // Si le formulaire de modification du logo a été soumis
 if (isset($_POST['fChangeLogo'])) {
-    // Si le logo n'a pas été uploadé, on stocke le message d'erreur à afficher
+    // Si le logo a été uploadé
     if (!empty($_FILES) && $_FILES['fLogoFile']['error'] != UPLOAD_ERR_NO_FILE) {
         // Erreur éventuelle de l'upload
         $error = $_FILES['fLogoFile']['error'];
@@ -293,15 +326,155 @@ if (isset($_POST['fChangeLogo'])) {
         } elseif (!preg_match("/image\//", $_FILES['fLogoFile']['type'])) {
             // Si le fichier n'est pas une image, on stocke le message d'erreur à afficher
             $formError = 'Votre fichier doit être une image ou une vidéo !';
-        } elseif ($_FILES['fLogoFile']['size'] > 1000000000) {
+        } elseif ($_FILES['fLogoFile']['size'] > 10485760) {
             // Si la taille du fichier est supérieure à 10Mo, on stocke le message d'erreur à afficher
             $formError = 'Le fichier est trop volumineux !';
         } else {
-            if (!move_uploaded_file($_FILES['fLogoFile']['tmp_name'], $_SERVER['DOCUMENT_ROOT'] . '/common/img/logo.png')) {
+            // On supprime l'ancien logo
+            foreach (glob($_SERVER['DOCUMENT_ROOT'] . '/blog_data/img/logo.*') as $imgFile) {
+                // Si c'est un fichier et pas un sous-dossier
+                if (is_file($imgFile)) {
+                    // Supprimer le fichier
+                    unlink($imgFile);
+                }
+            }
+            // Chemin des logos
+            $logoPath = '/blog_data/img/' .
+                // Nom du fichier . extension
+                'logo.' . pathinfo($_FILES['fLogoFile']['name'], PATHINFO_EXTENSION);
+            // Si on a réussi à déplacer le fichier uploadé
+            if (
+                !move_uploaded_file(
+                    // Chemin temporaire du fichier uploadé
+                    $_FILES['fLogoFile']['tmp_name'],
+                    // Destination
+                    $_SERVER['DOCUMENT_ROOT'] . $logoPath
+                )
+            ) {
+                // Si une erreur survient, on stocke le message d'erreur à afficher
                 $formError = 'Impossible d\'uploader le fichier en raison d\'une erreur côté serveur';
             } else {
+                // Si l'upload a réussi, on stocke un message de succès
                 $formSuccess = 'Le logo a bien été modifié !';
             }
+        }
+        // Si on ne rencontre aucune erreur pendant l'upload
+        if (!isset($formError)) {
+            // On met à jour l'URL du logo
+            $logoURLUpdateStatus = BlogController::setLogoURL($logoPath);
+            if ($logoURLUpdateStatus) {
+                // Si la modification a réussi, on stocke un message de succès
+                $formSuccess = 'Le logo a bien été modifié !';
+            } else {
+                // Si la modification a échoué, on affiche un message d'erreur
+                $formError = 'Une erreur est survenue lors de la modification du logo !';
+            }
+        }
+    } else {
+        // Si aucun logo n'a été uploadé
+
+        // On supprime l'ancien logo
+        foreach (glob($_SERVER['DOCUMENT_ROOT'] . '/blog_data/img/logo.*') as $imgFile) {
+            // Si c'est un fichier et pas un sous-dossier
+            if (is_file($imgFile)) {
+                // Supprimer le fichier
+                unlink($imgFile);
+            }
+        }
+        // Si le champ d'URL est vide, on remet l'URL par défaut
+        if (!isset($_POST['fLogoURL']) || $_POST['fLogoURL'] == "") {
+            $_POST['fLogoURL'] = "/common/img/logo.jpg";
+        }
+        $logoURLUpdateStatus = BlogController::setLogoURL($_POST['fLogoURL']);
+        if ($logoURLUpdateStatus) {
+            // Si la modification a réussi, on stocke un message de succès
+            $formSuccess = 'L\'URL du logo a bien été modifié !';
+        } else {
+            // Si la modification a échoué, on affiche un message d'erreur
+            $formError = 'Une erreur est survenue lors de la modification du logo !';
+        }
+    }
+}
+
+// Si le formulaire de modification de l'image de fond a été soumis
+if (isset($_POST['fChangeBgURL'])) {
+    // Si l'image de fond a été uploadée
+    if (!empty($_FILES) && $_FILES['fBgFile']['error'] != UPLOAD_ERR_NO_FILE) {
+        // Erreur éventuelle de l'upload
+        $error = $_FILES['fBgFile']['error'];
+
+        if ($_FILES['fBgFile']['error'] != UPLOAD_ERR_OK || !$_FILES['fBgFile']['tmp_name']) {
+            // Si une erreur est survenue lors de l'upload, on stocke le message d'erreur à afficher
+            $formError = 'Erreur: Le fichier n\'a pas pu être uploadé';
+        } elseif (!preg_match("/image\//", $_FILES['fBgFile']['type'])) {
+            // Si le fichier n'est pas une image, on stocke le message d'erreur à afficher
+            $formError = 'Votre fichier doit être une image ou une vidéo !';
+        } elseif ($_FILES['fBgFile']['size'] > 10485760) {
+            // Si la taille du fichier est supérieure à 10Mo, on stocke le message d'erreur à afficher
+            $formError = 'Le fichier est trop volumineux !';
+        } else {
+            // On supprime l'ancienne image de fond
+            foreach (glob($_SERVER['DOCUMENT_ROOT'] . '/blog_data/img/background.*') as $imgFile) {
+                // Si c'est un fichier et pas un sous-dossier
+                if (is_file($imgFile)) {
+                    // Supprimer le fichier
+                    unlink($imgFile);
+                }
+            }
+            // Chemin des images de fond
+            $bgPath = '/blog_data/img/' .
+                // Nom du fichier . extension
+                'background.' . pathinfo($_FILES['fBgFile']['name'], PATHINFO_EXTENSION);
+            // Si on a réussi à déplacer le fichier uploadé
+            if (
+                !move_uploaded_file(
+                    // Chemin temporaire du fichier uploadé
+                    $_FILES['fBgFile']['tmp_name'],
+                    // Destination
+                    $_SERVER['DOCUMENT_ROOT'] . $bgPath
+                )
+            ) {
+                // Si une erreur survient, on stocke le message d'erreur à afficher
+                $formError = 'Impossible d\'uploader le fichier en raison d\'une erreur côté serveur';
+            } else {
+                // Si l'upload a réussi, on stocke un message de succès
+                $formSuccess = 'L\'image de fond a bien été modifiée !';
+            }
+        }
+        // Si on ne rencontre aucune erreur pendant l'upload
+        if (!isset($formError)) {
+            // On met à jour l'URL de l'image de fond
+            $bgURLUpdateStatus = BlogController::setBackgroundURL($bgPath);
+            if ($bgURLUpdateStatus) {
+                // Si la modification a réussi, on stocke un message de succès
+                $formSuccess = 'L\'image de fond a bien été modifiée !';
+            } else {
+                // Si la modification a échoué, on affiche un message d'erreur
+                $formError = 'Une erreur est survenue lors de la modification de l\'image de fond !';
+            }
+        }
+    } else {
+        // Si aucune image de fond n'a été uploadée
+
+        // On supprime l'ancienne image de fond
+        foreach (glob($_SERVER['DOCUMENT_ROOT'] . '/blog_data/img/background.*') as $imgFile) {
+            // Si c'est un fichier et pas un sous-dossier
+            if (is_file($imgFile)) {
+                // Supprimer le fichier
+                unlink($imgFile);
+            }
+        }
+        // Si le champ d'URL est vide, on remet l'URL par défaut
+        if (!isset($_POST['fBgURL']) || $_POST['fBgURL'] == "") {
+            $_POST['fBgURL'] = "/common/img/circuits.jpg";
+        }
+        $bgURLUpdateStatus = BlogController::setBackgroundURL($_POST['fBgURL']);
+        if ($bgURLUpdateStatus) {
+            // Si la modification a réussi, on stocke un message de succès
+            $formSuccess = 'L\'URL de l\'image de fond a bien été modifiée !';
+        } else {
+            // Si la modification a échoué, on affiche un message d'erreur
+            $formError = 'Une erreur est survenue lors de la modification de l\'image de fond !';
         }
     }
 }
