@@ -184,14 +184,17 @@ if (isset($_POST['fChangeUserName'])) {
                     // Si les deux champs de nouveau pseudo ne correspondent pas, stocker l'erreur à afficher dans la vue
                     $formError = 'Les deux noms d\'utilisateur ne correspondent pas.';
                 }
-                // Tenter de changer le nom de l'utilisateur
-                $result = UserController::changeUsername($_SESSION['id_user'], $_POST['fNewUserName']);
-                if ($result) {
-                    $_SESSION['nickname'] = $_POST['fNewUserName'];
-                    // Si le nom d'utilisateur a bien été changé, afficher le message de succès
-                    $formSuccess = 'Votre nom d\'utilisateur a bien été changé !';
-                } else {
-                    $formError = 'Une erreur est survenue, veuillez réessayer.';
+                // S'il n'y a pas d'erreur, tenter de changer le nom d'utilisateur
+                if (!isset($formError)) {
+                    // Tenter de changer le nom de l'utilisateur
+                    $result = UserController::changeUsername($_SESSION['id_user'], $_POST['fNewUserName']);
+                    if ($result) {
+                        $_SESSION['nickname'] = $_POST['fNewUserName'];
+                        // Si le nom d'utilisateur a bien été changé, afficher le message de succès
+                        $formSuccess = 'Votre nom d\'utilisateur a bien été changé !';
+                    } else {
+                        $formError = 'Une erreur est survenue, veuillez réessayer.';
+                    }
                 }
             }
         }
@@ -221,14 +224,17 @@ if (isset($_POST['fChangePassword'])) {
                     // Si les deux champs de nouveau mot de passe ne correspondent pas, stocker l'erreur à afficher dans la vue
                     $formError = 'La confirmation de mot de passe ne correspond pas avec votre nouveau mot de passe.';
                 }
-                // Tenter de changer le mot de passe de l'utilisateur
-                $passChanged = UserController::changeUserPassword($_SESSION['id_user'], $_POST['fNewPass']);
-                if (!$passChanged) {
-                    // Si le mot de passe n'a pas pu être changé, stocker l'erreur à afficher dans la vue
-                    $formError = 'Une erreur est survenue lors du changement de votre mot de passe, veuillez réessayer.';
-                } else {
-                    // Si le mot de passe a bien été changé, afficher le message de succès
-                    $formSuccess = 'Votre mot de passe a bien été changé !';
+                // S'il n'y a pas d'erreur, tenter de changer le mot de passe
+                if (!isset($formError)) {
+                    // Tenter de changer le mot de passe de l'utilisateur
+                    $passChanged = UserController::changeUserPassword($_SESSION['id_user'], $_POST['fNewPass']);
+                    if (!$passChanged) {
+                        // Si le mot de passe n'a pas pu être changé, stocker l'erreur à afficher dans la vue
+                        $formError = 'Une erreur est survenue lors du changement de votre mot de passe, veuillez réessayer.';
+                    } else {
+                        // Si le mot de passe a bien été changé, afficher le message de succès
+                        $formSuccess = 'Votre mot de passe a bien été changé !';
+                    }
                 }
             }
         }
