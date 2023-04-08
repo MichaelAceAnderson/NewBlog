@@ -27,7 +27,7 @@ define("DB_PASS", "PG770rwx");
 // 1: Erreurs destinées à l'utilisateur, 
 // 2: Provenance directe des erreurs (développeurs), 
 // 3: Retraçace complet de la provenance (développeurs)
-define("LOGLEVEL", 3);
+define("LOGLEVEL", 2);
 // Constante pour le type d'affichage des erreurs
 define("RAW", 1);
 define("HTML", 2);
@@ -66,18 +66,19 @@ class Model
     }
 
     /* AUTRES MÉTHODES */
+    // Formater l'erreur d'une exception
     public static function getError(Exception $error, int $mode = RAW)
     {
         $errorMsg = "";
         if (LOGLEVEL >= 1) {
-            $errorMsg = "Erreur: " . $error->getMessage() . "<br>";
+            $errorMsg = "Erreur: " . $error->getMessage();
         }
         if (LOGLEVEL >= 2) {
-            $errorMsg .= "Provenance de l'erreur: " . $error->getFile() . " (<b>Ligne " . $error->getLine() . "</b>)<br>";
+            $errorMsg .= "<br>Provenance de l'erreur: " . $error->getFile() . ":" . $error->getLine();
         }
         if (LOGLEVEL >= 3) {
-            $errorMsg .= "Trace d'erreur (string): " . $error->getTraceAsString() . "<br>";
-            $errorMsg .= "Code d'erreur: " . $error->getCode();
+            $errorMsg .= "<br>Trace d'erreur (string): " . $error->getTraceAsString();
+            $errorMsg .= "<br>Code d'erreur: " . $error->getCode();
         }
         if ($mode == RAW) {
             // Définition des regex pour le formatage
@@ -88,6 +89,7 @@ class Model
 
         return $errorMsg;
     }
+    // Écrire dans un fichier log
     public static function printLog(string $msg): bool
     {
         $date = new DateTime();
@@ -101,7 +103,7 @@ class Model
             // S'il est impossible d'ouvrir le fichier de log
             return false;
         }
-        if (!fwrite($logFile, "\n[" . $date . "]: " . $msg)) {
+        if (!fwrite($logFile, "\n[" . $date . "] Modèle: " . $msg)) {
             // S'il est impossible d'écrire dans le fichier de log
             return false;
         }
@@ -113,10 +115,14 @@ class Model
     }
     public static function rmdir_r(string $path): bool
     {
-        // S'il s'agit d'un dossier
         if (!is_dir($path)) {
+            // Si ce n'est pas un dossier
+            // On logge l'erreur
+            Model::printLog('Impossible de supprimer l\'élément ' . $path . ' car ce n\'est pas un dossier');
+            // On renvoie un échec
             return false;
         } else {
+            // S'il s'agit d'un dossier
             // On scanne le contenu du dossier
             $objects = scandir($path);
             // Pour chaque élément du dossier
@@ -124,16 +130,26 @@ class Model
                 // S'il ne s'agit ni du dossier courant, ni du dossier parent
                 if ($object != "." && $object != "..") {
                     // Si l'élément est un dossier
-                    if (is_dir($path . DIRECTORY_SEPARATOR . $object) && !is_link($path . "/" . $object))
+                    if (is_dir($path . DIRECTORY_SEPARATOR . $object) && !is_link($path . "/" . $object)) {
                         // On relance la fonction sur ce sous-dossier
                         self::rmdir_r($path . DIRECTORY_SEPARATOR . $object);
-                    else
+                    } else {
                         // S'il s'agit d'un fichier, on supprime l'élément
-                        unlink($path . DIRECTORY_SEPARATOR . $object);
+                        if (!unlink($path . DIRECTORY_SEPARATOR . $object)) {
+                            // S'il est impossible de supprimer l'élément
+                            // On logge l'erreur
+                            Model::printLog('Impossible de supprimer l\'élément ' . $path . DIRECTORY_SEPARATOR . $object);
+                        }
+                    }
                 }
             }
-            rmdir($path);
+            if (!rmdir($path)) {
+                // S'il est impossible de supprimer le dossier
+                // On logge l'erreur
+                Model::printLog('Impossible de supprimer le dossier ' . $path);
+            }
         }
+        // On renvoie un succès
         return true;
     }
 }

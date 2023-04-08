@@ -10,7 +10,7 @@ class BlogController
         $result = Blog::selectBlog();
         // Si une erreur survient, on renvoie faux et on logge l'erreur
         if ($result instanceof Exception) {
-            Model::printLog(Model::getError($result));
+            Controller::printLog(Controller::getError($result));
             return false;
         } else {
             // Si la BDD est installée et que les infos du blog existent, on renvoie vrai
@@ -99,7 +99,7 @@ class BlogController
         $result = Blog::updateBlogName($newBlogName);
         // Si une erreur survient, on renvoie faux et on logge l'erreur
         if ($result instanceof Exception) {
-            Model::printLog(Model::getError($result));
+            Controller::printLog(Controller::getError($result));
             return false;
         } else {
             // Si la mise à jour du nom du blog a réussi, on renvoie vrai
@@ -113,7 +113,7 @@ class BlogController
         $result = Blog::updateBackgroundURL($newBackgroundURL);
         // Si une erreur survient, on renvoie faux et on logge l'erreur
         if ($result instanceof Exception) {
-            Model::printLog(Model::getError($result));
+            Controller::printLog(Controller::getError($result));
             return false;
         } else {
             // Si la mise à jour de l'URL de l'image de fond a réussi, on renvoie vrai
@@ -127,7 +127,7 @@ class BlogController
         $result = Blog::updateLogoURL($newLogoURL);
         // Si une erreur survient, on renvoie faux et on logge l'erreur
         if ($result instanceof Exception) {
-            Model::printLog(Model::getError($result));
+            Controller::printLog(Controller::getError($result));
             return false;
         } else {
             // Si la mise à jour de l'URL du logo, on renvoie vrai
@@ -141,7 +141,7 @@ class BlogController
         $result = Blog::updateDescription($newDescription);
         // Si une erreur survient, on renvoie faux et on logge l'erreur
         if ($result instanceof Exception) {
-            Model::printLog(Model::getError($result));
+            Controller::printLog(Controller::getError($result));
             return false;
         } else {
             // Si la mise à jour de la description du blog a réussi, on renvoie vrai
@@ -157,7 +157,7 @@ class BlogController
         $result = Blog::selectBlog();
         if ($result instanceof Exception) {
             // Si une erreur survient, on renvoie faux et on logge l'erreur
-            Model::printLog(Model::getError($result));
+            Controller::printLog(Controller::getError($result));
             return false;
         } else {
             // Si la récupération des infos du blog a réussi, on renvoie le nom du blog s'il y en a un
@@ -171,7 +171,7 @@ class BlogController
         $result = Blog::selectBlog();
         // Si une erreur survient, on renvoie faux et on logge l'erreur
         if ($result instanceof Exception) {
-            Model::printLog(Model::getError($result));
+            Controller::printLog(Controller::getError($result));
             return false;
         } else {
             // Si la récupération des infos du blog a réussi, on renvoie la description du blog s'il y en a une
@@ -192,10 +192,12 @@ class BlogController
         // Si aucune image de fond n'a été trouvée, on continue
         // On tente de récupérer les infos du blog en base de données
         $result = Blog::selectBlog();
-        // Si une erreur survient, on renvoie faux et on logge l'erreur
+        // Si le résultat est une erreur
         if ($result instanceof Exception) {
-            Model::printLog(Model::getError($result));
-            return false;
+            // On logge l'erreur
+            Controller::printLog(Controller::getError($result));
+            // On retourne l'URL par défaut
+            return "/common/img/circuits.jpg";
         } else {
             // Si la récupération des infos du blog a réussi, on renvoie l'URL de l'image de fond s'il y en a une
             // Sinon, on renvoie l'URL de l'image de fond par défaut
@@ -218,7 +220,7 @@ class BlogController
         $result = Blog::selectBlog();
         // Si une erreur survient, on renvoie faux et on logge l'erreur
         if ($result instanceof Exception) {
-            Model::printLog(Model::getError($result));
+            Controller::printLog(Controller::getError($result));
             return false;
         } else {
             // Si la récupération des infos du blog a réussi, on renvoie l'URL du logo s'il y en a une
@@ -233,7 +235,7 @@ class BlogController
         $result = Blog::selectBlog();
         // Si une erreur survient, on renvoie faux et on logge l'erreur
         if ($result instanceof Exception) {
-            Model::printLog(Model::getError($result));
+            Controller::printLog(Controller::getError($result));
             return false;
         } else {
             // Si la récupération des infos du blog a réussi, on renvoie la date de création du blog s'il y en a une
@@ -256,7 +258,7 @@ if (isset($_POST['fInstall'])) {
         $installStatus = BlogController::installBlog($_POST['fUserName'], $_POST['fPass'], $_POST['fBlogName'], $_POST['fBlogDesc'], $_POST['fBgURL']);
         if ($installStatus instanceof Exception) {
             // Si une erreur est survenue, on journalise le message d'erreur et on l'affiche à l'utilisateur
-            // Model::printLog(Model::getError($installStatus));
+            // Controller::printLog(Controller::getError($installStatus));
             $formError = Model::getError($installStatus, HTML);
         } else {
             if ($installStatus) {

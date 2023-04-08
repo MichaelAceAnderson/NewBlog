@@ -1,6 +1,4 @@
 <?php
-//To-do:
-// Gestion des erreurs par blocs try/catch
 
 class Post
 {
@@ -8,103 +6,173 @@ class Post
     // Création d'un post en BDD
     public static function addPost(int $authorId, string $content, ?string $mediaUrl): int|Exception
     {
-        // Résultat initial = échec
-        $result = false;
+        // Tenter d'ajouter le post en BDD
         try {
+            // Si la connexion n'a pas pu être créée
             if (is_null(Model::getPdo())) {
-                // Si la connexion n'a pas pu être créée
+                // On lance une erreur qui sera attrapée plus bas
                 throw new Exception("La connexion avec la base de données n'a pas pu être établie !");
             } else {
                 // Si la connexion à réussi
 
                 // Préparer la requête
-                Model::setStmt(
-                    Model::getPdo()->prepare(
-                        "INSERT INTO newblog.nb_post (content, id_user_author) VALUES (:content, :id_user_author);"
-                    )
+                $stmt = Model::getPdo()->prepare(
+                    "INSERT INTO newblog.nb_post (content, id_user_author) VALUES (:content, :id_user_author);"
                 );
-                Model::getStmt()->bindParam('content', $content, PDO::PARAM_STR);
-                Model::getStmt()->bindParam('id_user_author', $authorId, PDO::PARAM_INT);
+                // Si la requête n'a pas pu être préparée
+                if (!$stmt) {
+                    // On lance une erreur qui sera attrapée plus bas
+                    throw new Exception("La requête d'insertion du post n'a pas pu être préparée !");
+                }
+                // Définir la requête à traiter
+                Model::setStmt($stmt);
+                // Attacher le contenu du post en paramètre à la requête préparée
+                if (!Model::getStmt()->bindParam('content', $content, PDO::PARAM_STR)) {
+                    // Si le paramètre n'a pas pu être attaché
+                    // On lance une erreur qui sera attrapée plus bas
+                    throw new Exception("Impossible d'attacher le contenu du post en paramètre à la requête d'insertion du post !");
+                }
+                // Attacher l'id de l'auteur en paramètre à la requête préparée
+                if (!Model::getStmt()->bindParam('id_user_author', $authorId, PDO::PARAM_INT)) {
+                    // Si le paramètre n'a pas pu être attaché
+                    // On lance une erreur qui sera attrapée plus bas
+                    throw new Exception("Impossible d'attacher l'id de l'auteur en paramètre à la requête d'insertion du post !");
+                }
+
                 // Exécuter la requête
-                if (!Model::getStmt()->execute()) {
-                    throw new Exception("Une erreur est survenue");
+                if (Model::getStmt()->execute() === false) {
+                    // Si la requête n'a pas pu être exécutée
+                    // On lance une erreur qui sera attrapée plus bas
+                    throw new Exception("Une erreur est survenue lors de l'exécution de la requête d'insertion du post !");
                 } else {
+                    // Si insertion effectuée
                     if (Model::getStmt()->rowCount() > 0) {
-                        // Si insertion effectuée, renvoyer l'id du post
-                        $result = Model::getPdo()->lastInsertId();
+                        // Tenter de récupérer l'id du post
+                        $result = self::selectLastPostId();
+                        // Si l'id du post n'a pas pu être récupéré
+                        if ($result instanceof Exception) {
+                            // On lance une erreur qui sera attrapée plus bas
+                            throw new Exception("L'id du post inséré n'a pas pu être récupéré !");
+                        } else {
+                            // Si l'id du post a pu être récupéré
+                            // On renvoie l'id du post
+                            return $result;
+                        }
                     } else {
                         // Si insertion pas effectuée
-                        $result = false;
+                        // On lance une erreur qui sera attrapée plus bas
+                        throw new Exception("L'insertion du post en base de données a échoué !");
                     }
                 }
             }
         } catch (Exception $e) {
-            $result = $e;
+            // Si une erreur est survenue
+            // On logge l'erreur
+            Model::printLog(Model::getError($e));
+            // On renvoie l'erreur
+            return $e;
         }
-        return $result;
     }
     // Récupérer le tableau des posts
     public static function selectPosts(): array|Exception
     {
-        // Résultat initial = tableau vide
-        $result = [];
+        // Tenter de récupérer les posts
         try {
+            // Si la connexion n'a pas pu être créée
             if (is_null(Model::getPdo())) {
-                // Si la connexion n'a pas pu être créée
+                // On lance une erreur qui sera attrapée plus bas
                 throw new Exception("La connexion avec la base de données n'a pas pu être établie !");
             } else {
                 // Si la connexion à réussi
+
                 // Préparer la requête
-                Model::setStmt(
-                    Model::getPdo()->prepare(
-                        "SELECT * FROM newblog.nb_post ORDER BY time_stamp DESC;"
-                    )
+                $stmt = Model::getPdo()->prepare(
+                    "SELECT * FROM newblog.nb_post ORDER BY time_stamp DESC;"
                 );
+                // Si la requête n'a pas pu être préparée
+                if (!$stmt) {
+                    // On lance une erreur qui sera attrapée plus bas
+                    throw new Exception("La requête de récupération des posts n'a pas pu être préparée !");
+                }
+                // Définir la requête à traiter
+                Model::setStmt($stmt);
+
                 // Exécuter la requête
-                if (!Model::getStmt()->execute()) {
+                if (Model::getStmt()->execute() === false) {
                     // Si la requête n'a pas pu être exécutée
-                    throw new Exception("La requête de récupération des données du blog a échoué !");
+                    throw new Exception("La requête de récupération des posts a échoué !");
                 } else {
                     // Si la requête a réussi, récupérer les résultats
                     $result = Model::getStmt()->fetchAll();
+                    // Si les résultats n'ont pas pu être récupérés
+                    if ($result === false) {
+                        // On lance une erreur qui sera attrapée plus bas
+                        throw new Exception("La liste des posts n'a pas pu être récupérée !");
+                    } else {
+                        // Si les résultats ont pu être récupérés
+                        // On renvoie les résultats
+                        return $result;
+                    }
                 }
             }
         } catch (Exception $e) {
-            // Si une erreur est survenue, la stocker dans le résultat
-            $result = $e;
+            // Si une erreur est survenue
+            // On logge l'erreur
+            Model::printLog(Model::getError($e));
+            // On renvoie l'erreur
+            return $e;
         }
-        // Renvoyer le résultat
-        return $result;
     }
     // Récupérer la ligne d'un seul post
     public static function selectPost(int $postId): array|Exception
     {
-        // Résultat initial = tableau vide
-        $result = [];
+        // Tenter de récupérer le post spécifié
         try {
+            // Si la connexion n'a pas pu être créée
             if (is_null(Model::getPdo())) {
-                // Si la connexion n'a pas pu être créée
+                // On lance une erreur qui sera attrapée plus bas
                 throw new Exception("La connexion avec la base de données n'a pas pu être établie !");
             } else {
                 // Si la connexion à réussi
                 // Préparer la requête
-                Model::setStmt(
-                    Model::getPdo()->prepare(
-                        "SELECT newblog.nb_post.id_user_author, newblog.nb_user.nickname, newblog.nb_post.content, newblog.nb_post.time_stamp
+                $stmt = Model::getPdo()->prepare(
+                    "SELECT newblog.nb_post.id_user_author, newblog.nb_user.nickname, newblog.nb_post.content, newblog.nb_post.time_stamp
                     FROM newblog.nb_post JOIN newblog.nb_user
                     ON newblog.nb_post.id_user_author=nb_user.id_user
                     WHERE newblog.nb_post.id_post=:id_post"
-                    )
                 );
-                Model::getStmt()->bindParam('id_post', $postId, PDO::PARAM_INT);
+                // Si la requête n'a pas pu être préparée
+                if (!$stmt) {
+                    // On lance une erreur qui sera attrapée plus bas
+                    throw new Exception("La requête de récupération du post n'a pas pu être préparée !");
+                }
+                // Définir la requête à traiter
+                Model::setStmt($stmt);
+                // Attacher l'id du post à la requête de récupération
+                if (!Model::getStmt()->bindParam('id_post', $postId, PDO::PARAM_INT)) {
+                    // Si l'id du post n'a pas pu être attaché à la requête
+                    // On lance une erreur qui sera attrapée plus bas
+                    throw new Exception("Impossible d'attacher l'id du post en paramètre à la requête de récupération du post !");
+                }
+
                 // Exécuter la requête
-                if (!Model::getStmt()->execute()) {
+                if (Model::getStmt()->execute() === false) {
                     // Si la requête n'a pas pu être exécutée
-                    throw new Exception("La requête de récupération des données du blog a échoué !");
+                    throw new Exception("La requête de récupération du post a échoué !");
                 } else {
+                    // Si la requête a réussi
                     if (Model::getStmt()->rowCount() > 0) {
-                        // Si la requête a réussi, récupérer les résultats
+                        // Récupérer les résultats
                         $result = Model::getStmt()->fetchAll();
+                        // Si les résultats n'ont pas pu être récupérés
+                        if ($result === false) {
+                            // On lance une erreur qui sera attrapée plus bas
+                            throw new Exception("Le post spécifié n'a pas pu être récupéré !");
+                        } else {
+                            // Si les résultats ont pu être récupérés
+                            // On renvoie les résultats
+                            return $result;
+                        }
                     } else {
                         // Si la requête a réussi mais qu'il n'y a pas de résultat
                         throw new Exception("Le post spécifié n'existe pas !");
@@ -112,149 +180,192 @@ class Post
                 }
             }
         } catch (Exception $e) {
-            // Si une erreur est survenue, la stocker dans le résultat
-            $result = $e;
+            // Si une erreur est survenue
+            // On logge l'erreur
+            Model::printLog(Model::getError($e));
+            // On renvoie l'erreur
+            return $e;
         }
-        // Renvoyer le résultat
-        return $result;
     }
-    // Récupérer l'id du prochain post à créer
-    public static function selectNextPostId(): int|Exception
+    // Récupérer l'id du dernier post créé
+    public static function selectLastPostId(): int|Exception
     {
-        // Résultat initial = échec
-        $result = -1;
+        // Tenter de récupérer l'id du dernier post
         try {
+            // Si la connexion n'a pas pu être créée
             if (is_null(Model::getPdo())) {
-                // Si la connexion n'a pas pu être créée
+                // On lance une erreur qui sera attrapée plus bas
                 throw new Exception("La connexion avec la base de données n'a pas pu être établie !");
             } else {
                 // Si la connexion à réussi
+
                 // Préparer la requête
-                Model::setStmt(
-                    Model::getPdo()->prepare(
-                        "SELECT pg_sequence_last_value('newblog.post_seq');"
-                    )
+                $stmt = Model::getPdo()->prepare(
+                    "SELECT pg_sequence_last_value('newblog.post_seq');"
                 );
+                // Si la requête n'a pas pu être préparée
+                if (!$stmt) {
+                    // On lance une erreur qui sera attrapée plus bas
+                    throw new Exception("La requête de récupération de l'id du dernier post inséré n'a pas pu être préparée !");
+                }
+                // Définir la requête à traiter
+                Model::setStmt($stmt);
+
                 // Exécuter la requête
-                if (!Model::getStmt()->execute()) {
+                if (Model::getStmt()->execute() === false) {
                     // Si la requête n'a pas pu être exécutée
-                    throw new Exception("La requête de récupération des données du blog a échoué !");
+                    throw new Exception("La requête de récupération de l'id du dernier post inséré a échoué !");
                 } else {
                     // Si la requête a réussi, récupérer les résultats
-                    $result = Model::getStmt()->fetch()->pg_sequence_last_value + 1;
+                    $result = Model::getStmt()->fetch()->pg_sequence_last_value;
+                    // Si les résultats n'ont pas pu être récupérés
+                    if (is_null($result)) {
+                        // On ne sait pas si c'est une erreur ou si la séquence n'est pas initialisée
+                        // On retourne 0
+                        return 0;
+                    } else {
+                        // Si les résultats ont pu être récupérés
+                        // On renvoie les résultats
+                        return $result;
+                    }
                 }
             }
         } catch (Exception $e) {
-            // Si une erreur est survenue, la stocker dans le résultat
-            $result = $e;
+            // Si une erreur est survenue
+            // On logge l'erreur
+            Model::printLog(Model::getError($e));
+            // On renvoie l'erreur
+            return $e;
         }
-        // Renvoyer le résultat
-        return $result;
     }
     // Création d'un post en BDD
     public static function clearPosts(): int|Exception
     {
-        // Résultat initial = échec
-        $result = -1;
+        // Supprimer de façon récursive les fichiers liés aux posts s'ils existent
+        if (file_exists($_SERVER['DOCUMENT_ROOT'] . '/blog_data/posts/video/') && is_dir($_SERVER['DOCUMENT_ROOT'] . '/blog_data/posts/video/')) {
+            Model::rmdir_r($_SERVER['DOCUMENT_ROOT'] . '/blog_data/posts/video/');
+        }
+        if (file_exists($_SERVER['DOCUMENT_ROOT'] . '/blog_data/posts/img/') && is_dir($_SERVER['DOCUMENT_ROOT'] . '/blog_data/posts/img/')) {
+            Model::rmdir_r($_SERVER['DOCUMENT_ROOT'] . '/blog_data/posts/img/');
+        }
 
-        // Supprimer de façon récursive le contenu des fichiers liés aux posts
-        Model::rmdir_r($_SERVER['DOCUMENT_ROOT'] . '/blog_data/posts/video/');
-        Model::rmdir_r($_SERVER['DOCUMENT_ROOT'] . '/blog_data/posts/img/');
-
+        // Tenter de supprimer les posts
         try {
+            // Si la connexion n'a pas pu être créée
             if (is_null(Model::getPdo())) {
-                // Si la connexion n'a pas pu être créée
+                // On lance une erreur qui sera attrapée plus bas
                 throw new Exception("La connexion avec la base de données n'a pas pu être établie !");
             } else {
                 // Si la connexion à réussi
+
                 // Préparer la requête
-                Model::setStmt(
-                    Model::getPdo()->prepare(
-                        "DELETE FROM newblog.nb_post"
-                    )
+                $stmt = Model::getPdo()->prepare(
+                    "DELETE FROM newblog.nb_post"
                 );
+                // Si la requête n'a pas pu être préparée
+                if (!$stmt) {
+                    // On lance une erreur qui sera attrapée plus bas
+                    throw new Exception("La requête de suppression des posts n'a pas pu être préparée !");
+                }
+                // Définir la requête à traiter
+                Model::setStmt($stmt);
+
                 // Exécuter la requête
-                if (!Model::getStmt()->execute()) {
-                    throw new Exception("Une erreur est survenue");
+                if (Model::getStmt()->execute() === false) {
+                    throw new Exception("Une erreur est survenue lors de l'exécution de la requête de suppression des posts !");
                 } else {
                     // Si suppression effectuée, renvoyer le nombre d'éléments supprimés
-                    $result = Model::getStmt()->rowCount();
+                    return Model::getStmt()->rowCount();
                 }
             }
         } catch (Exception $e) {
-            $result = $e;
+            // Si une erreur est survenue
+            // On logge l'erreur
+            Model::printLog(Model::getError($e));
+            // On renvoie l'erreur
+            return $e;
         }
-        return $result;
     }
 
     // Supprimer un post
     public static function deletePost(int $id): bool|Exception
     {
-        // Résultat initial = échec
-        $result = false;
-
         // On vérifie si le post existe
         $post = self::selectPost($id);
+        // Si une erreur est survenue lors de la récupération du post
         if ($post instanceof Exception) {
-            $result = new Exception("Une erreur est survenue lors de la suppression du post !");
+            // On renvoie l'erreur
+            return new Exception("Une erreur est survenue lors de la récupération du post à supprimer !");
         } else {
+            // Si le post existe
             if ($post) {
 
-                // Supprimer toutes les vidéos de ce post
-                foreach (glob($_SERVER['DOCUMENT_ROOT'] . '/blog_data/posts/video/' . $id . '/*') as $videoFile) {
-                    // Si c'est un fichier et pas un sous-dossier
-                    if (is_file($videoFile)) {
-                        // Supprimer le fichier
-                        unlink($videoFile);
-                    }
+                // Supprimer de façon récursive les fichiers liés aux posts s'ils existent et sont des dossiers
+                if (file_exists($_SERVER['DOCUMENT_ROOT'] . '/blog_data/posts/video/' . $id) && is_dir($_SERVER['DOCUMENT_ROOT'] . '/blog_data/posts/video/' . $id)) {
+                    Model::rmdir_r($_SERVER['DOCUMENT_ROOT'] . '/blog_data/posts/video/' . $id);
                 }
-                // Supprimer le dossier parent
-                rmdir($_SERVER['DOCUMENT_ROOT'] . '/blog_data/posts/video/' . $id);
-                // Supprimer toutes les images de ce post
-                foreach (glob($_SERVER['DOCUMENT_ROOT'] . 'blog_data/posts/image/' . $id . '/*') as $imageFile) {
-                    // Si c'est un fichier et pas un sous-dossier
-                    if (is_file($imageFile)) {
-                        // Supprimer le fichier
-                        unlink($imageFile);
-                    }
+                if (file_exists($_SERVER['DOCUMENT_ROOT'] . '/blog_data/posts/image/' . $id) && is_dir($_SERVER['DOCUMENT_ROOT'] . '/blog_data/posts/image/' . $id)) {
+                    Model::rmdir_r($_SERVER['DOCUMENT_ROOT'] . '/blog_data/posts/image/' . $id);
                 }
-                // Supprimer le dossier parent
-                rmdir('blog_data/posts/image/' . $id);
 
             } else {
+                // Si le post n'existe pas
+                // On logge l'erreur
+                Model::printLog("Le post que vous souhaitez supprimer n'existe pas !");
+                // On renvoie une erreur
                 return new Exception("Le post que vous souhaitez supprimer n'existe pas !");
             }
 
+            // Tenter de supprimer le post spécifié
             try {
+                // Si la connexion n'a pas pu être créée
                 if (is_null(Model::getPdo())) {
-                    // Si la connexion n'a pas pu être créée
+                    // On lance une erreur qui sera rattrapée plus bas
                     throw new Exception("La connexion avec la base de données n'a pas pu être établie !");
                 } else {
                     // Si la connexion à réussi
                     // Préparer la requête
-                    Model::setStmt(
-                        Model::getPdo()->prepare(
-                            "DELETE FROM newblog.nb_post WHERE newblog.nb_post.id_post = :id;"
-                        )
+                    $stmt = Model::getPdo()->prepare(
+                        "DELETE FROM newblog.nb_post WHERE newblog.nb_post.id_post = :id;"
                     );
-                    Model::getStmt()->bindParam('id', $id, PDO::PARAM_INT);
+                    // Si la requête n'a pas pu être préparée
+                    if (!$stmt) {
+                        // On lance une erreur qui sera rattrapée plus bas
+                        throw new Exception("La requête de suppression du post n'a pas pu être préparée !");
+                    }
+                    // Définir la requête à traiter
+                    Model::setStmt($stmt);
+                    // Attacher l'id du post à supprimer à la requête préparée
+                    if (!Model::getStmt()->bindParam('id', $id, PDO::PARAM_INT)) {
+                        // Si l'attache du paramètre a échoué
+                        // On lance une erreur qui sera rattrapée plus bas
+                        throw new Exception("Une erreur est survenue lors de l'attache du paramètre id à la requête de suppression du post !");
+                    }
+
                     // Exécuter la requête
-                    if (!Model::getStmt()->execute()) {
-                        throw new Exception("Une erreur est survenue");
+                    if (Model::getStmt()->execute() === false) {
+                        // Si la requête n'a pas pu être exécutée
+                        // On lance une erreur qui sera rattrapée plus bas
+                        throw new Exception("Une erreur est survenue lors de l'exécution de la requête de suppression du post !");
                     } else {
+                        // Si suppression effectuée
                         if (Model::getStmt()->rowCount() > 0) {
-                            // Si suppression effectuée
-                            $result = true;
+                            // On renvoie un succès
+                            return true;
                         } else {
                             // Si suppression pas effectuée
-                            $result = false;
+                            // On lance une erreur qui sera rattrapée plus bas
+                            throw new Exception("La suppression du post n'a pas pu être effectuée !");
                         }
                     }
                 }
             } catch (Exception $e) {
-                $result = $e;
+                // Si une erreur est survenue
+                // On logge l'erreur
+                Model::printLog(Model::getError($e));
+                // On renvoie l'erreur
+                return $e;
             }
         }
-        return $result;
     }
 }

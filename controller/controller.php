@@ -51,6 +51,55 @@ class Controller
     {
         return json_decode(file_get_contents("php://input"), true);
     }
+
+    /* AUTRES MÉTHODES */
+    // Formater l'erreur d'une Exception
+    public static function getError(Exception $error, int $mode = RAW)
+    {
+        $errorMsg = "";
+        if (LOGLEVEL >= 1) {
+            $errorMsg = "Erreur: " . $error->getMessage();
+        }
+        if (LOGLEVEL >= 2) {
+            $errorMsg .= "<br>Provenance de l'erreur: " . $error->getFile() . ":" . $error->getLine();
+        }
+        if (LOGLEVEL >= 3) {
+            $errorMsg .= "<br>Trace d'erreur (string): " . $error->getTraceAsString();
+            $errorMsg .= "<br>Code d'erreur: " . $error->getCode();
+        }
+        if ($mode == RAW) {
+            // Définition des regex pour le formatage
+            $formatting = array(array("/\<br\>|\<br\/\>/", "/\<b\>|\<\/b\>/"), array("\n", ""));
+            // Formater le message d'erreur pour remplacer les sauts de ligne bruts par des sauts de ligne HTML
+            $errorMsg = preg_replace($formatting[0], $formatting[1], $errorMsg);
+        }
+
+        return $errorMsg;
+    }
+    // Écrire dans un fichier log
+    public static function printLog(string $msg): bool
+    {
+        $date = new DateTime();
+        $date = $date->format("y-m-d h:i:s");
+        if (LOGLEVEL < 1) {
+            // Si le niveau de log est inférieur à 1, on ne logge pas
+            return false;
+        }
+        $logFile = fopen(__DIR__ . '\..\blog_data\logs\log.log', 'a+');
+        if (!$logFile) {
+            // S'il est impossible d'ouvrir le fichier de log
+            return false;
+        }
+        if (!fwrite($logFile, "\n[" . $date . "] Contrôleur: " . $msg)) {
+            // S'il est impossible d'écrire dans le fichier de log
+            return false;
+        }
+        if (!fclose($logFile)) {
+            // S'il est impossible de fermer le fichier de log
+            return false;
+        }
+        return true;
+    }
 }
 
 include_once __DIR__ . '\entities\UserController.php';
