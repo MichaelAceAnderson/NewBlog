@@ -23,6 +23,7 @@ into a single project. It is not yet finished but it aimes to use:
   - [Table of contents](#table-of-contents)
   - [Getting started](#getting-started)
   - [To do (upcoming versions)](#to-do-upcoming-versions)
+    - [Version 3.0 - International update](#version-30---international-update)
     - [Version 3.0 - API update](#version-30---api-update)
     - [Version 2.1 - Developers update](#version-21---developers-update)
     - [Version 2.0 - Rewriting from scratch](#version-20---rewriting-from-scratch)
@@ -38,6 +39,7 @@ into a single project. It is not yet finished but it aimes to use:
       - [Model](#model)
       - [Controller](#controller)
       - [View](#view)
+    - [Code commenting \& variable naming standards](#code-commenting--variable-naming-standards)
 
 ## Getting started
 
@@ -70,15 +72,20 @@ Step 8: Use the admin page to manage the blog settings
 
 ## To do (upcoming versions)
 
+### Version 3.0 - International update
+
+ ![3.1](https://img.shields.io/badge/3.1-yellow)
+
+- [ ] Add language detection/selection system with constants & language files
+- [ ] Convert code comments to English
+
 ### Version 3.0 - API update
 
  ![3.0](https://img.shields.io/badge/3.0-yellow)
 
-General changes
-
 - [ ] Add API for external applications
 - [ ] Add JS live updates
-- [ ] Add JS/PHP input validation (emails regex, URLs etc...)
+- [ ] Add JS/PHP input validation (uploaded files types, e-mails RegEx, URLs etc...)
 
 ### Version 2.1 - Developers update
 
@@ -100,11 +107,9 @@ General changes
 - [ ] Separate SESSION variables into array (back)
 - [ ] Create the database automatically (back)
 - [ ] Add a "remember me" option for login (front/back)
-- [ ] Try to find a way to make functions out of the code in each model method (back)
+- [ ] Try to make a model method for uploading files (back)
 - [ ] Upload progress bar (front/back)
-- [ ] Cache blog info to prevent useless DB requests (back)
-- [ ] Add constants & global variables for re-used values \[ex: paths, links, ...\] (back)
-- [ ] Make app portable by replacing absolute paths (DOCUMENT_ROOT) with relative paths (\_\_DIR\_\_) (back)
+- [ ] Tro to cache blog info to prevent useless DB requests (back)
 
 ### Version 2.0 - Rewriting from scratch
 
@@ -120,8 +125,16 @@ General changes
 
 To-do:
 
+- [ ] Add constants & global variables for re-used values \[ex: paths, links, ...\] (back)
+- [ ] Make app portable by replacing absolute paths (DOCUMENT_ROOT) with relative paths (\_\_DIR\_\_) (back)
+- [ ] Move file management to Model (back)
+- [ ] Make code comments fit the projects standards (back)
 - [ ] Make separate & improved logs for view/controller/model (back)
+- [ ] Make error handling manage both warnings and Exceptions (back)
 - [ ] Improve error handling to handle all cases and display them properly (front/back)
+- [ ] Find out why PDO tries to connect twice when the DB is not installed (back)
+- [ ] Handle errors when the DB & blog couldn't be installed (back)
+- [ ] Add parameters to error logging (back)
 
 ## Changelog (global changes)
 
@@ -224,4 +237,29 @@ It includes the common structure and the content specific to the page requested 
 // Redirect user to the install page if the blog is not installed (or corrupted)
 // Include content
 // Include footer
+```
+
+### Code commenting & variable naming standards
+
+```php
+/* SECTION */ //(with caps)
+
+/* Sub-section */ //(regular case)
+// Fonction description // (regular case)
+functionName(type: arg1, objectType|null: arg2) : returnType1 | returnType2 // (with camelCase)
+{
+    // if condition is true, meaning that [...]
+    if(condition){
+        // Do this action
+        doThisAction();
+    }
+    else{
+        // If condition is false, meaning that [...]
+        // Do this other action
+        doThisOtherAction();
+    }
+
+    // execute this Function
+    executeFunction();
+}
 ```

@@ -8,58 +8,81 @@ class User
     // Création d'un utilisateur en BDD
     public static function addUser(string $nickname, string $password, bool $is_mod): bool|Exception
     {
-        // Résultat initial = échec
-        $result = false;
+        // Tenter d'ajouter un utilisateur
         try {
-            // Initialiser la connexion
+            // Si la connexion n'a pas pu être créée
             if (is_null(Model::getPdo())) {
-                // Si la connexion n'a pas pu être créée
+                // On lance une erreur qui sera rattrapée plus bas
                 throw new Exception("La connexion avec la base de données n'a pas pu être établie !");
             } else {
                 // Si la connexion à réussi
+
                 // Préparer la requête
-                Model::setStmt(
-                    Model::getPdo()->prepare(
-                        "INSERT INTO newblog.nb_user(nickname, password, is_mod) VALUES(:nickname, :password, :is_mod);"
-                    )
+                $stmt = Model::getPdo()->prepare(
+                    "INSERT INTO newblog.nb_user (nickname, password, is_mod) VALUES (:nickname, :password, :is_mod)"
                 );
-                // Paramétrer le pseudo
-                Model::getStmt()->bindParam('nickname', $nickname, PDO::PARAM_STR);
+                // Si la requête n'a pas pu être préparée
+                if (!$stmt) {
+                    // On lance une erreur qui sera rattrapée plus bas
+                    throw new Exception("La requête d'ajout d'un utilisateur n'a pas pu être préparée !");
+                }
+                // Définir la requête à traiter
+                Model::setStmt($stmt);
+                // Attacher le pseudo en paramètre à la requête préparée
+                if (!Model::getStmt()->bindParam('nickname', $nickname, PDO::PARAM_STR)) {
+                    // Si le paramètre n'a pas pu être attaché
+                    // On lance une erreur qui sera rattrapée plus bas
+                    throw new Exception("Le pseudo n'a pas pu être attaché à la requête de changement de pseudo !");
+                }
                 // Hasher le mot de passe
                 $password = password_hash($password, PASSWORD_ARGON2ID);
                 if (!$password) {
                     // Si le hash n'a pas pu être créé
                     throw new Exception("Impossible de créer un hash pour le mot de passe !");
                 }
-                // Paramétrer le mot de passe
-                Model::getStmt()->bindParam('password', $password, PDO::PARAM_STR);
-                Model::getStmt()->bindParam('is_mod', $is_mod, PDO::PARAM_BOOL);
+                // Attacher le mot de passe en paramètre à la requête préparée
+                if (!Model::getStmt()->bindParam('password', $password, PDO::PARAM_STR)) {
+                    // Si le paramètre n'a pas pu être attaché
+                    // On lance une erreur qui sera rattrapée plus bas
+                    throw new Exception("Le mot de passe n'a pas pu être attaché à la requête de changement de pseudo !");
+                }
+                // Attacher le booléen administrateur en paramètre à la requête préparée
+                if (!Model::getStmt()->bindParam('is_mod', $is_mod, PDO::PARAM_BOOL)) {
+                    // Si le paramètre n'a pas pu être attaché
+                    // On lance une erreur qui sera rattrapée plus bas
+                    throw new Exception("Le booléen administrateur n'a pas pu être attaché à la requête de changement de pseudo !");
+                }
+
                 // Exécuter la requête
-                if (!Model::getStmt()->execute()) {
+                if (Model::getStmt()->execute() === false) {
                     // Si une erreur survient lors de l'exécution de la requête
-                    throw new Exception("Une erreur est survenue");
+                    throw new Exception("Une erreur est survenue lors de l'exécution de la requête de changement de pseudo");
                 } else {
+                    // Si insertion effectuée
                     if (Model::getStmt()->rowCount() > 0) {
-                        // Si insertion effectuée
-                        $result = true;
+                        // On renvoie un succès
+                        return true;
                     } else {
                         // Si insertion pas effectuée
-                        $result = false;
+                        // On lance une erreur qui sera rattrapée plus bas
+                        throw new Exception("L'insertion de l'utilisateur n'a pas pu être effectuée !");
                     }
                 }
             }
         } catch (Exception $e) {
-            $result = $e;
+            // Si une erreur est survenue
+            // On logge l'erreur
+            Model::printLog(Model::getError($e));
+            // On renvoie l'erreur
+            return $e;
         }
-        return $result;
     }
 
     /* Récupérations */
     // Récupérer le tableau des utilisateurs
     public static function selectUsers(): array|Exception
     {
-        // Résultat initial = échec
-        $result = [];
+        // Tenter de récupérer les utilisateurs
         try {
             if (is_null(Model::getPdo())) {
                 // Si la connexion n'a pas pu être créée
@@ -67,225 +90,340 @@ class User
             } else {
                 // Si la connexion à réussi
                 // Préparer la requête
-                Model::setStmt(
-                    Model::getPdo()->prepare(
-                        "SELECT * FROM newblog.nb_user"
-                    )
+                $stmt = Model::getPdo()->prepare(
+                    "SELECT * FROM newblog.nb_user"
                 );
+                // Si la requête n'a pas pu être préparée
+                if (!$stmt) {
+                    // On lance une erreur qui sera rattrapée plus bas
+                    throw new Exception("La requête de récupération des utilisateurs n'a pas pu être préparée !");
+                }
+                // Définir la requête à traiter
+                Model::setStmt($stmt);
+
                 // Exécuter la requête
-                if (!Model::getStmt()->execute()) {
+                if (Model::getStmt()->execute() === false) {
                     // Si la requête n'a pas pu être exécutée
-                    throw new Exception("La requête de récupération des données du blog a échoué !");
+                    throw new Exception("Une erreur est survenue lors de l'exécution de la requête de récupération des utilisateurs !");
                 } else {
-                    // Si la requête a réussi, récupérer les résultats
+                    // Récupérer les résultats
                     $result = Model::getStmt()->fetchAll();
+                    // Si la récupération des résultats a échoué
+                    if ($result === false) {
+                        // On lance une erreur qui sera rattrapée plus bas
+                        throw new Exception("La récupération des utilisateurs a échoué !");
+                    } else {
+                        // Si la récupération des résultats a réussi
+                        // On renvoie les résultats
+                        return $result;
+                    }
                 }
             }
         } catch (Exception $e) {
-            // Si une erreur est survenue, la stocker dans le résultat
-            $result = $e;
+            // Si une erreur est survenue
+            // On logge l'erreur
+            Model::printLog(Model::getError($e));
+            // On renvoie l'erreur
+            return $e;
         }
-        // Renvoyer le résultat
-        return $result;
     }
     // Récupérer la ligne d'un utilisateur à partir de son id
     public static function selectUserById(int $id): array|Exception
     {
-        // Résultat initial = échec
-        $result = [];
+        // Tenter de récupérer l'utilisateur à partir de son id
         try {
+            // Si la connexion n'a pas pu être créée
             if (is_null(Model::getPdo())) {
-                // Si la connexion n'a pas pu être créée
+                // On lance une erreur qui sera rattrapée plus bas
                 throw new Exception("La connexion avec la base de données n'a pas pu être établie !");
             } else {
                 // Si la connexion à réussi
                 // Préparer la requête
-                Model::setStmt(
-                    Model::getPdo()->prepare(
-                        "SELECT *
-                    FROM newblog.nb_user 
-                    WHERE newblog.nb_user.id_user = :id"
-                    )
+                $stmt = Model::getPdo()->prepare(
+                    "SELECT * FROM newblog.nb_user WHERE newblog.nb_user.id_user = :id"
                 );
-                Model::getStmt()->bindParam('id', $id, PDO::PARAM_STR);
+                // Si la requête n'a pas pu être préparée
+                if (!$stmt) {
+                    // On lance une erreur qui sera rattrapée plus bas
+                    throw new Exception("La requête de récupération des données de l'utilisateur n'a pas pu être préparée !");
+                }
+                // Définir la requête à traiter
+                Model::setStmt($stmt);
+
+                // Attacher l'id utilisateur en paramètre à la requête préparée
+                if (!Model::getStmt()->bindParam('id', $id, PDO::PARAM_STR)) {
+                    // Si le paramètre n'a pas pu être attaché
+                    // On lance une erreur qui sera rattrapée plus bas
+                    throw new Exception("L'id utilisateur n'a pas pu être attaché à la requête de récupération des données de l'utilisateur !");
+                }
+
                 // Exécuter la requête
-                if (!Model::getStmt()->execute()) {
+                if (Model::getStmt()->execute() === false) {
                     // Si la requête n'a pas pu être exécutée
                     throw new Exception("La requête de récupération des données du blog a échoué !");
                 } else {
-                    // Si la requête a réussi, récupérer les résultats
+                    // Si la requête a réussi
+                    // Récupérer les résultats
                     $result = Model::getStmt()->fetchAll();
+                    // Si la récupération des résultats a échoué
+                    if ($result === false) {
+                        // On lance une erreur qui sera rattrapée plus bas
+                        throw new Exception("La récupération des données de l'utilisateur a échoué !");
+                    } else {
+                        // Si la récupération des résultats a réussi
+                        // On renvoie les résultats
+                        return $result;
+                    }
                 }
             }
         } catch (Exception $e) {
-            // Si une erreur est survenue, la stocker dans le résultat
-            $result = $e;
+            // Si une erreur est survenue
+            // On logge l'erreur
+            Model::printLog(Model::getError($e));
+            // On renvoie l'erreur
+            return $e;
         }
-        // Renvoyer le résultat
-        return $result;
     }
     // Récupérer la ligne d'un utilisateur à partir de son pseudo
     public static function selectUserByName(string $nickname): array|Exception
     {
-        // Résultat initial = échec
-        $result = [];
+        // Tenter de récupérer l'utilisateur à partir de son pseudo
         try {
+            // Si la connexion n'a pas pu être créée
             if (is_null(Model::getPdo())) {
-                // Si la connexion n'a pas pu être créée
+                // On lance une erreur qui sera rattrapée plus bas
                 throw new Exception("La connexion avec la base de données n'a pas pu être établie !");
             } else {
                 // Si la connexion à réussi
                 // Préparer la requête
-                Model::setStmt(
-                    Model::getPdo()->prepare(
-                        "SELECT *
+                $stmt = Model::getPdo()->prepare(
+                    "SELECT *
                     FROM newblog.nb_user 
                     WHERE newblog.nb_user.nickname = :nickname"
-                    )
                 );
-                Model::getStmt()->bindParam('nickname', $nickname, PDO::PARAM_STR);
+                // Si la requête n'a pas pu être préparée
+                if (!$stmt) {
+                    // On lance une erreur qui sera rattrapée plus bas
+                    throw new Exception("La requête de récupération des données de l'utilisateur n'a pas pu être préparée !");
+                }
+                // Définir la requête à traiter
+                Model::setStmt($stmt);
+                // Attacher le pseudo utilisateur en paramètre à la requête préparée
+                if (!Model::getStmt()->bindParam('nickname', $nickname, PDO::PARAM_STR)) {
+                    // Si le paramètre n'a pas pu être attaché
+                    // On lance une erreur qui sera rattrapée plus bas
+                    throw new Exception("Le pseudo utilisateur n'a pas pu être attaché à la requête de récupération des données de l'utilisateur !");
+                }
                 // Exécuter la requête
-                if (!Model::getStmt()->execute()) {
+                if (Model::getStmt()->execute() === false) {
                     // Si la requête n'a pas pu être exécutée
+                    // On lance une erreur qui sera rattrapée plus bas
                     throw new Exception("La requête de récupération des données du blog a échoué !");
                 } else {
-                    // Si la requête a réussi, récupérer les résultats
+                    // Si la requête a réussi
+                    // Récupérer les résultats
                     $result = Model::getStmt()->fetchAll();
+                    // Si la récupération des résultats a échoué
+                    if ($result === false) {
+                        // On lance une erreur qui sera rattrapée plus bas
+                        throw new Exception("La récupération des données de l'utilisateur a échoué !");
+                    } else {
+                        // Si la récupération des résultats a réussi
+                        // On renvoie les résultats
+                        return $result;
+                    }
                 }
             }
         } catch (Exception $e) {
-            // Si une erreur est survenue, la stocker dans le résultat
-            $result = $e;
+            // Si une erreur est survenue
+            // On logge l'erreur
+            Model::printLog(Model::getError($e));
+            // On renvoie l'erreur
+            return $e;
         }
-        // Renvoyer le résultat
-        return $result;
     }
 
     /* Modifications */
     // Changer le pseudo d'un utilisateur
     public static function updateUserName(int $id, string $newNickname): bool|Exception
     {
-        // Résultat initial = échec
-        $result = [];
+        // Tenter de modifier le pseudo d'un utilisateur
         try {
+            // Si la connexion n'a pas pu être créée
             if (is_null(Model::getPdo())) {
-                // Si la connexion n'a pas pu être créée
+                // On lance une erreur qui sera rattrapée plus bas
                 throw new Exception("La connexion avec la base de données n'a pas pu être établie !");
             } else {
                 // Si la connexion à réussi
+
                 // Préparer la requête
-                Model::setStmt(
-                    Model::getPdo()->prepare(
-                        "UPDATE newblog.nb_user SET nickname = :newNickname WHERE newblog.nb_user.id_user = :id;"
-                    )
+                $stmt = Model::getPdo()->prepare(
+                    "UPDATE newblog.nb_user SET nickname = :newNickname WHERE newblog.nb_user.id_user = :id;"
                 );
-                Model::getStmt()->bindParam('id', $id, PDO::PARAM_INT);
-                Model::getStmt()->bindParam('newNickname', $newNickname, PDO::PARAM_STR);
+                // Si la requête n'a pas pu être préparée
+                if (!$stmt) {
+                    // On lance une erreur qui sera rattrapée plus bas
+                    throw new Exception("La requête de modification du pseudo de l'utilisateur n'a pas pu être préparée !");
+                }
+                // Définir la requête à traiter
+                Model::setStmt($stmt);
+                // Attacher l'id utilisateur en paramètre à la requête préparée
+                if (!Model::getStmt()->bindParam('id', $id, PDO::PARAM_INT)) {
+                    // Si le paramètre n'a pas pu être attaché
+                    // On lance une erreur qui sera rattrapée plus bas
+                    throw new Exception("L'id utilisateur n'a pas pu être attaché à la requête de modification du pseudo de l'utilisateur !");
+                }
+                // Attacher le nouveau pseudo en paramètre à la requête préparée
+                if (!Model::getStmt()->bindParam('newNickname', $newNickname, PDO::PARAM_STR)) {
+                    // Si le paramètre n'a pas pu être attaché
+                    // On lance une erreur qui sera rattrapée plus bas
+                    throw new Exception("Le nouveau pseudo n'a pas pu être attaché à la requête de modification du pseudo de l'utilisateur !");
+                }
                 // Exécuter la requête
-                if (!Model::getStmt()->execute()) {
-                    throw new Exception("Une erreur est survenue");
+                if (Model::getStmt()->execute() === false) {
+                    // Si la requête n'a pas pu être exécutée
+                    // On lance une erreur qui sera rattrapée plus bas
+                    throw new Exception("Une erreur est survenue lors de l'exécution de la requête de modification du pseudo de l'utilisateur !");
                 } else {
+                    // Si mise à jour effectuée
                     if (Model::getStmt()->rowCount() > 0) {
-                        // Si mise à jour effectuée
-                        $result = true;
+                        // On renvoie un succès
+                        return true;
                     } else {
                         // Si mise à jour pas effectuée
-                        $result = false;
+                        // On lance une erreur qui sera rattrapée plus bas
+                        throw new Exception("La mise à jour du pseudo de l'utilisateur n'a pas pu être effectuée !");
                     }
                 }
             }
         } catch (Exception $e) {
-            $result = $e;
+            // Si une erreur est survenue
+            // On logge l'erreur
+            Model::printLog(Model::getError($e));
+            // On renvoie l'erreur
+            return $e;
         }
-        return $result;
     }
     // Changer le mot de passe d'un utilisateur
     public static function updateUserPassword(int $id, string $newPassword): bool|Exception
     {
-        // Résultat initial = échec
-        $result = false;
+        // Tenter de modifier le mot de passe d'un utilisateur
         try {
+            // Si la connexion n'a pas pu être créée
             if (is_null(Model::getPdo())) {
-                // Si la connexion n'a pas pu être créée
+                // On lance une erreur qui sera rattrapée plus bas
                 throw new Exception("La connexion avec la base de données n'a pas pu être établie !");
             } else {
                 // Si la connexion à réussi
+
                 // Préparer la requête
-                Model::setStmt(
-                    Model::getPdo()->prepare(
-                        "UPDATE newblog.nb_user SET password = :newPassword WHERE newblog.nb_user.id_user = :id;"
-                    )
+                $stmt = Model::getPdo()->prepare(
+                    "UPDATE newblog.nb_user SET password = :newPassword WHERE newblog.nb_user.id_user = :id;"
                 );
-                Model::getStmt()->bindParam(
-                    'id',
-                    $id,
-                    PDO::PARAM_INT
-                );
+                // Si la requête n'a pas pu être préparée
+                if (!$stmt) {
+                    // On lance une erreur qui sera rattrapée plus bas
+                    throw new Exception("La requête de modification du mot de passe de l'utilisateur n'a pas pu être préparée !");
+                }
+                // Définir la requête à traiter
+                Model::setStmt($stmt);
+                // Attacher l'id utilisateur en paramètre à la requête préparée
+                if (!Model::getStmt()->bindParam('id', $id, PDO::PARAM_INT)) {
+                    // Si le paramètre n'a pas pu être attaché
+                    // On lance une erreur qui sera rattrapée plus bas
+                    throw new Exception("L'id utilisateur n'a pas pu être attaché à la requête de modification du mot de passe de l'utilisateur !");
+                }
                 // Hasher le mot de passe
                 $newPassword = password_hash($newPassword, PASSWORD_BCRYPT);
                 if (!$newPassword) {
                     // Si le hash n'a pas pu être créé
                     throw new Exception("Impossible de créer un hash pour le mot de passe !");
                 }
-                Model::getStmt()->bindParam('newPassword', $newPassword, PDO::PARAM_STR);
+                // Attacher le nouveau mot de passe en paramètre à la requête préparée
+                if (!Model::getStmt()->bindParam('newPassword', $newPassword, PDO::PARAM_STR)) {
+                    // Si le paramètre n'a pas pu être attaché
+                    // On lance une erreur qui sera rattrapée plus bas
+                    throw new Exception("Le nouveau mot de passe n'a pas pu être attaché à la requête de modification du mot de passe de l'utilisateur !");
+                }
                 // Exécuter la requête
-                if (!Model::getStmt()->execute()) {
-                    throw new Exception("Une erreur est survenue");
+                if (Model::getStmt()->execute() === false) {
+                    // Si la requête n'a pas pu être exécutée
+                    // On lance une erreur qui sera rattrapée plus bas
+                    throw new Exception("Une erreur est survenue lors de l'exécution de la requête de modification du mot de passe de l'utilisateur !");
                 } else {
+                    // Si mise à jour effectuée
                     if (Model::getStmt()->rowCount() > 0) {
-                        // Si mise à jour effectuée
-                        $result = true;
+                        // On renvoie un succès
+                        return true;
                     } else {
                         // Si mise à jour pas effectuée
-                        $result = false;
+                        // On lance une erreur qui sera rattrapée plus bas
+                        throw new Exception("La mise à jour du mot de passe de l'utilisateur n'a pas pu être effectuée !");
                     }
                 }
             }
         } catch (Exception $e) {
-            $result = $e;
+            // Si une erreur est survenue
+            // On logge l'erreur
+            Model::printLog(Model::getError($e));
+            // On renvoie l'erreur
+            return $e;
         }
-        return $result;
     }
 
     /* Supressions */
     // Supprimer un utilisateur
     public static function deleteUser(int $id): bool|Exception
     {
-        // Résultat initial = échec
-        $result = false;
+        // Tenter de supprimer un utilisateur
         try {
+            // Si la connexion n'a pas pu être créée
             if (is_null(Model::getPdo())) {
-                // Si la connexion n'a pas pu être créée
+                // On lance une erreur qui sera rattrapée plus bas
                 throw new Exception("La connexion avec la base de données n'a pas pu être établie !");
             } else {
                 // Si la connexion à réussi
+
                 // Préparer la requête
-                Model::setStmt(
-                    Model::getPdo()->prepare(
-                        "DELETE FROM newblog.nb_user WHERE newblog.nb_user.id_user = :id;"
-                    )
+                $stmt = Model::getPdo()->prepare(
+                    "DELETE FROM newblog.nb_user WHERE newblog.nb_user.id_user = :id;"
                 );
-                Model::getStmt()->bindParam(
-                    'id',
-                    $id,
-                    PDO::PARAM_INT
-                );
+                // Si la requête n'a pas pu être préparée
+                if (!$stmt) {
+                    // On lance une erreur qui sera rattrapée plus bas
+                    throw new Exception("La requête de suppression de l'utilisateur n'a pas pu être préparée !");
+                }
+                // Définir la requête à traiter
+                Model::setStmt($stmt);
+                // Attacher l'id utilisateur en paramètre à la requête préparée
+                if (!Model::getStmt()->bindParam('id', $id, PDO::PARAM_INT)) {
+                    // Si le paramètre n'a pas pu être attaché
+                    // On lance une erreur qui sera rattrapée plus bas
+                    throw new Exception("L'id utilisateur n'a pas pu être attaché à la requête de suppression de l'utilisateur !");
+                }
                 // Exécuter la requête
-                if (!Model::getStmt()->execute()) {
+                if (Model::getStmt()->execute() === false) {
+                    // Si la requête n'a pas pu être exécutée
+                    // On lance une erreur qui sera rattrapée plus bas
                     throw new Exception("Une erreur est survenue");
                 } else {
+                    // Si suppression effectuée
                     if (Model::getStmt()->rowCount() > 0) {
-                        // Si suppression effectuée
-                        $result = true;
+                        // On renvoie un succès
+                        return true;
                     } else {
                         // Si suppression pas effectuée
-                        $result = false;
+                        // On lance une erreur qui sera rattrapée plus bas
+                        throw new Exception("La suppression de l'utilisateur n'a pas pu être effectuée !");
                     }
                 }
             }
         } catch (Exception $e) {
-            $result = $e;
+            // Si une erreur est survenue
+            // On logge l'erreur
+            Model::printLog(Model::getError($e));
+            // On renvoie l'erreur
+            return $e;
         }
-        return $result;
     }
 }

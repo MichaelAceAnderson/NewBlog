@@ -11,7 +11,7 @@ class UserController
         $result = User::addUser($nickname, $password, $is_mod);
         // Si une erreur est survenue, on l'affiche et on la logge
         if ($result instanceof Exception) {
-            Model::printLog(Model::getError($result));
+            Controller::printLog(Controller::getError($result));
             return false;
         } else {
             // Sinon, on retourne le résultat de la requête (vrai/faux)
@@ -27,7 +27,7 @@ class UserController
         $result = User::updateUsername($id, $newNickname);
         // Si une erreur est survenue, on l'affiche et on la logge
         if ($result instanceof Exception) {
-            Model::printLog(Model::getError($result));
+            Controller::printLog(Controller::getError($result));
             return false;
         } else {
             // Sinon, on retourne le résultat de la requête (vrai/faux)
@@ -41,7 +41,7 @@ class UserController
         $result = User::updateUserPassword($id, $newPassword);
         // Si une erreur est survenue, on l'affiche et on la logge
         if ($result instanceof Exception) {
-            Model::printLog(Model::getError($result));
+            Controller::printLog(Controller::getError($result));
             return false;
         } else {
             // Sinon, on retourne le résultat de la requête (vrai/faux)
@@ -57,7 +57,7 @@ class UserController
         $result = User::selectUsers();
         // Si une erreur est survenue, on l'affiche et on la logge
         if ($result instanceof Exception) {
-            Model::printLog(Model::getError($result));
+            Controller::printLog(Controller::getError($result));
             return false;
         } else {
             // S'il n'y a au moins un utilisateur, on renvoie le tableau d'objets
@@ -76,7 +76,7 @@ class UserController
         $result = User::selectUserById($userId);
         // Si une erreur est survenue, on l'affiche et on la logge
         if ($result instanceof Exception) {
-            Model::printLog(Model::getError($result));
+            Controller::printLog(Controller::getError($result));
             return false;
         } else {
             // S'il n'y a au moins un utilisateur, on renvoie le tableau d'objets
@@ -96,7 +96,7 @@ class UserController
         $result = User::selectUserByName($username);
         // Si une erreur est survenue, on l'affiche et on la logge
         if ($result instanceof Exception) {
-            Model::printLog(Model::getError($result));
+            Controller::printLog(Controller::getError($result));
             return false;
         } elseif ($result) {
             // Si l'utilisateur existe
@@ -121,7 +121,7 @@ class UserController
     {
         $result = User::deleteUser($userId);
         if ($result instanceof Exception) {
-            Model::printLog(Model::getError($result));
+            Controller::printLog(Controller::getError($result));
             return false;
         } else {
             return true;

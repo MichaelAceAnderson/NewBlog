@@ -13,7 +13,7 @@ class PostController
         $result = Post::addPost($authorId, $content, $mediaUrl);
         // Si une erreur est survenue, on l'affiche et on la logge
         if ($result instanceof Exception) {
-            Model::printLog(Model::getError($result));
+            Controller::printLog(Controller::getError($result));
             return false;
         } else {
             // Sinon, on retourne le résultat de la requête (id du post créé)
@@ -29,7 +29,7 @@ class PostController
         $result = Post::selectPost($postId);
         // Si une erreur est survenue, on l'affiche et on la logge
         if ($result instanceof Exception) {
-            Model::printLog(Model::getError($result));
+            Controller::printLog(Controller::getError($result));
             return false;
         } else {
             // Sinon, on retourne le résultat de la requête (tableau)
@@ -43,7 +43,7 @@ class PostController
         $result = Post::selectPosts();
         // Si une erreur est survenue, on l'affiche et on la logge
         if ($result instanceof Exception) {
-            Model::printLog(Model::getError($result));
+            Controller::printLog(Controller::getError($result));
             return false;
         } else {
             // Sinon, on retourne le résultat de la requête (tableau)
@@ -54,14 +54,14 @@ class PostController
     public static function getNextPostId(): int|false
     {
         // On tente de récupérer l'id du prochain post à créer en base de données
-        $result = Post::selectNextPostId();
+        $result = Post::selectLastPostId();
         // Si une erreur est survenue, on l'affiche et on la logge
         if ($result instanceof Exception) {
-            Model::printLog(Model::getError($result));
+            Controller::printLog(Controller::getError($result));
             return false;
         } else {
             // Sinon, on retourne le résultat de la requête (id du prochain post)
-            return $result;
+            return $result + 1;
         }
     }
     /* Modifications */
@@ -72,7 +72,7 @@ class PostController
         $result = User::updateUsername($id, $newNickname);
         // Si une erreur est survenue, on l'affiche et on la logge
         if ($result instanceof Exception) {
-            Model::printLog(Model::getError($result));
+            Controller::printLog(Controller::getError($result));
             return false;
         } else {
             // Sinon, on retourne le résultat de la requête (vrai/faux)
@@ -86,7 +86,7 @@ class PostController
         $result = User::updateUserPassword($id, $newPassword);
         // Si une erreur est survenue, on l'affiche et on la logge
         if ($result instanceof Exception) {
-            Model::printLog(Model::getError($result));
+            Controller::printLog(Controller::getError($result));
             return false;
         } else {
             // Sinon, on retourne le résultat de la requête (vrai/faux)
@@ -102,7 +102,7 @@ class PostController
         $result = Post::clearPosts();
         // Si une erreur est survenue, on l'affiche et on la logge
         if ($result instanceof Exception) {
-            Model::printLog(Model::getError($result));
+            Controller::printLog(Controller::getError($result));
             return -1; // Retourner -1 pour indiquer que la requête a échouée
         } else {
             // Sinon, on retourne le nombre de lignes supprimées (0 ou plus)
@@ -116,7 +116,7 @@ class PostController
         $result = Post::deletePost($postId);
         // Si une erreur est survenue, on l'affiche et on la logge
         if ($result instanceof Exception) {
-            Model::printLog(Model::getError($result));
+            Controller::printLog(Controller::getError($result));
             return false;
         } else {
             // Sinon, on retourne le résultat de la requête (vrai/faux)
