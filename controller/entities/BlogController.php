@@ -8,12 +8,17 @@ class BlogController
     {
         // Tenter de récupérer les infos du blog en base de données
         $result = Blog::selectBlog();
-        // Si une erreur survient, on renvoie faux et on logge l'erreur
+        // Si une erreur survient lors de l'appel du modèle
         if ($result instanceof Exception) {
+            // On définit l'erreur du contrôleur
+            $result = new Exception("Une erreur est survenue lors de la vérification de l'installation du blog !");
+            // On logge l'erreur
             Controller::printLog(Controller::getError($result));
+            // On renvoie un échec
             return false;
         } else {
-            // Si la BDD est installée et que les infos du blog existent, on renvoie vrai
+            // Si la BDD est installée et que les infos du blog existent
+            // On renvoie un succès/échec selon si le résultat est vide ou non
             return !empty($result);
         }
     }
@@ -42,27 +47,43 @@ class BlogController
 
         // Création du blog en base de données
         $dbInstallStatus = Blog::installDB();
+        // Si l'installation en base de données a échoué
         if ($dbInstallStatus instanceof Exception) {
-            // Si l'installation en base de données a échoué, on renvoie l'erreur
+            // On renvoie l'erreur
             return $dbInstallStatus;
         } else {
             // Si l'installation en base de données a renvoyé une erreur
             if (!$dbInstallStatus) {
                 // Si l'installation de la BDD a réussi mais qu'une erreur inconnue survient
-                return new Exception('Une erreur inattendue est survenue lors de l\'installation de la base de données !');
+                // On définit l'erreur à renvoyer
+                $error = new Exception('Une erreur inattendue est survenue lors de l\'installation de la base de données (Nom: ' . $blogName . ', Description: ' . $blogDescription . ', Image de fond: ' . $bgURL . ', Administrateur: ' . $adminPass . ', Mot de passe admin: ' . $adminPass . ') !');
+                // On logge l'erreur
+                Controller::printLog(Controller::getError($error));
+                // On renvoie l'erreur
+                return $error;
             } else {
                 // Si l'installation de la base de données a réussi
 
                 // Créer l'utilisateur principal, admin et propriétaire
                 if (!UserController::createUser($adminName, $adminPass, true)) {
                     // Si l'utilisateur n'a pas pu être créé, on arrête l'installation
-                    return new Exception("L'utilisateur administrateur n'a pas pu être créé en base de données !");
+                    // On définit l'erreur à renvoyer
+                    $error = new Exception("L'utilisateur administrateur $adminName avec le mot de passe $adminPass n'a pas pu être créé en base de données !");
+                    // On logge l'erreur
+                    Controller::printLog(Controller::getError($error));
+                    // On renvoie l'erreur
+                    return $error;
                 } else {
                     // Récupération de l'utilisateur admin, propriétaire du blog
                     $adminAccount = UserController::getUserInfoByCredentials($adminName, $adminPass);
                     if (!$adminAccount) {
                         // Si l'utilisateur admin n'a pas pu être récupéré en base de données
-                        return new Exception("Impossible d'utiliser l'utilisateur administrateur pour continuer l'installation !");
+                        // On définit l'erreur à renvoyer
+                        $error = new Exception("L'utilisateur administrateur $adminName avec le mot de passe $adminPass n'a pas pu être récupéré en base de données !");
+                        // On logge l'erreur
+                        Controller::printLog(Controller::getError($error));
+                        // On renvoie l'erreur
+                        return $error;
                     }
                     // Si l'utilisateur admin a bien été créé et récupéré
 
@@ -74,7 +95,12 @@ class BlogController
                     } else {
                         if (!$blogInsertStatus) {
                             // Si les données du blog n'ont pas pu être insérées dans la base de données
-                            return new Exception('Les données du blog n\'ont pas pu être insérées en base de données !');
+                            // On définit l'erreur à renvoyer
+                            $error = new Exception("Les données du blog n'ont pas pu être insérées en base de données  (Nom: ' . $blogName . ', Description: ' . $blogDescription . ', Image de fond: ' . $bgURL . ', Administrateur: ' . $adminPass . ', Mot de passe admin: ' . $adminPass . ') !");
+                            // On logge l'erreur
+                            Controller::printLog(Controller::getError($error));
+                            // On renvoie l'erreur
+                            return $error;
                         } else {
                             // Si l'installation du blog a réussi, notifier le serveur de NewBlog via la page d'API
 
@@ -97,12 +123,17 @@ class BlogController
     {
         // On tente de mettre à jour le nom du blog en base de données
         $result = Blog::updateBlogName($newBlogName);
-        // Si une erreur survient, on renvoie faux et on logge l'erreur
+        // Si une erreur survient lors de l'appel du modèle
         if ($result instanceof Exception) {
+            // On définit l'erreur du contrôleur
+            $result = new Exception("Une erreur est survenue lors de la définition du nom du blog en $newBlogName !");
+            // On logge l'erreur
             Controller::printLog(Controller::getError($result));
+            // On renvoie un échec
             return false;
         } else {
-            // Si la mise à jour du nom du blog a réussi, on renvoie vrai
+            // Si la mise à jour du nom du blog a réussi
+            // On renvoie un succès
             return $result;
         }
     }
@@ -111,12 +142,17 @@ class BlogController
     {
         // On tente de mettre à jour l'URL de l'image de fond
         $result = Blog::updateBackgroundURL($newBackgroundURL);
-        // Si une erreur survient, on renvoie faux et on logge l'erreur
+        // Si une erreur est survenue lors de l'appel du modèle
         if ($result instanceof Exception) {
+            // On définit l'erreur du contrôleur
+            $result = new Exception("Une erreur est survenue lors de la définition de l'URL de l'image de fond en $newBackgroundURL !");
+            // On logge l'erreur
             Controller::printLog(Controller::getError($result));
+            // On renvoie un échec
             return false;
         } else {
-            // Si la mise à jour de l'URL de l'image de fond a réussi, on renvoie vrai
+            // Si la mise à jour de l'URL de l'image de fond a réussi
+            // On renvoie un succès
             return $result;
         }
     }
@@ -125,12 +161,17 @@ class BlogController
     {
         // On tente de mettre à jour l'URL du logo
         $result = Blog::updateLogoURL($newLogoURL);
-        // Si une erreur survient, on renvoie faux et on logge l'erreur
+        // Si une erreur est survenue lors de l'appel du modèle
         if ($result instanceof Exception) {
+            // On définit l'erreur du contrôleur
+            $result = new Exception("Une erreur est survenue lors de la définition de l'URL du logo en $newLogoURL !");
+            // On logge l'erreur
             Controller::printLog(Controller::getError($result));
+            // On renvoie un échec
             return false;
         } else {
-            // Si la mise à jour de l'URL du logo, on renvoie vrai
+            // Si la mise à jour de l'URL du logo
+            // On renvoie un succès
             return $result;
         }
     }
@@ -139,12 +180,17 @@ class BlogController
     {
         // On tente de mettre à jour la description du blog en base de données
         $result = Blog::updateDescription($newDescription);
-        // Si une erreur survient, on renvoie faux et on logge l'erreur
+        // Si une erreur est survenue lors de l'appel du modèle
         if ($result instanceof Exception) {
+            // On définit l'erreur du contrôleur
+            $result = new Exception("Une erreur est survenue lors de la définition de la description du blog en $newDescription !");
+            // On logge l'erreur
             Controller::printLog(Controller::getError($result));
+            // On renvoie un échec
             return false;
         } else {
-            // Si la mise à jour de la description du blog a réussi, on renvoie vrai
+            // Si la mise à jour de la description du blog a réussi
+            // On renvoie vrai
             return $result;
         }
     }
@@ -155,12 +201,17 @@ class BlogController
     {
         // On tente de récupérer les infos du blog en base de données
         $result = Blog::selectBlog();
+        // Si une erreur est survenue lors de l'appel du modèle
         if ($result instanceof Exception) {
-            // Si une erreur survient, on renvoie faux et on logge l'erreur
+            // On définit l'erreur du contrôleur
+            $result = new Exception("Une erreur est survenue lors de la récupération du nom du blog !");
+            // On logge l'erreur
             Controller::printLog(Controller::getError($result));
+            // On renvoie faux
             return false;
         } else {
-            // Si la récupération des infos du blog a réussi, on renvoie le nom du blog s'il y en a un
+            // Si la récupération des infos du blog a réussi
+            // On renvoie le nom du blog s'il y en a un
             return $result[0]->blog_name ?? false;
         }
     }
@@ -169,12 +220,17 @@ class BlogController
     {
         // On tente de récupérer les infos du blog en base de données
         $result = Blog::selectBlog();
-        // Si une erreur survient, on renvoie faux et on logge l'erreur
+        // Si une erreur est survenue lors de l'appel du modèle
         if ($result instanceof Exception) {
+            // On définit l'erreur du contrôleur
+            $result = new Exception("Une erreur est survenue lors de la récupération de la description du blog !");
+            // On logge l'erreur
             Controller::printLog(Controller::getError($result));
+            // On renvoie faux
             return false;
         } else {
-            // Si la récupération des infos du blog a réussi, on renvoie la description du blog s'il y en a une
+            // Si la récupération des infos du blog a réussi
+            // On renvoie la description du blog s'il y en a une
             return $result[0]->description ?? false;
         }
     }
@@ -192,8 +248,10 @@ class BlogController
         // Si aucune image de fond n'a été trouvée, on continue
         // On tente de récupérer les infos du blog en base de données
         $result = Blog::selectBlog();
-        // Si le résultat est une erreur
+        // Si une erreur est survenue lors de l'appel du modèle
         if ($result instanceof Exception) {
+            // On définit l'erreur du contrôleur
+            $result = new Exception("Une erreur est survenue lors de la récupération de l'URL de l'image de fond du blog !");
             // On logge l'erreur
             Controller::printLog(Controller::getError($result));
             // On retourne l'URL par défaut
@@ -218,13 +276,17 @@ class BlogController
         // Si aucune logo n'a été trouvé, on continue
         // On tente de récupérer les infos du blog en base de données
         $result = Blog::selectBlog();
-        // Si une erreur survient, on renvoie faux et on logge l'erreur
+        // Si une erreur est survenue lors de l'appel du modèle
         if ($result instanceof Exception) {
+            // On définit l'erreur du contrôleur
+            $result = new Exception("Une erreur est survenue lors de la récupération de l'URL du logo du blog !");
+            // On logge l'erreur
             Controller::printLog(Controller::getError($result));
-            return false;
+            // On renvoie l'URL du logo par défaut
+            return "/common/img/logo.jpg";
         } else {
-            // Si la récupération des infos du blog a réussi, on renvoie l'URL du logo s'il y en a une
-            // Sinon, on renvoie l'URL du logo par défaut
+            // Si la récupération des infos du blog a réussi
+            // On renvoie l'URL du logo récupérée ou celle par défaut en cas d'absence de logo
             return $result[0]->logo_url ?? "/common/img/logo.jpg";
         }
     }
@@ -233,12 +295,17 @@ class BlogController
     {
         // On tente de récupérer les infos du blog en base de données
         $result = Blog::selectBlog();
-        // Si une erreur survient, on renvoie faux et on logge l'erreur
+        // Si une erreur est survenue lors de l'appel du modèle
         if ($result instanceof Exception) {
+            // On définit l'erreur du contrôleur
+            $result = new Exception("Une erreur est survenue lors de la récupération de la date de création du blog !");
+            // On logge l'erreur
             Controller::printLog(Controller::getError($result));
+            // On renvoie un échec
             return false;
         } else {
-            // Si la récupération des infos du blog a réussi, on renvoie la date de création du blog s'il y en a une
+            // Si la récupération des infos du blog a réussi
+            // On renvoie la date de création du blog s'il y en a une
             return $result[0]->creation_date ?? false;
         }
     }

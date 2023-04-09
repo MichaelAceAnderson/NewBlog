@@ -9,12 +9,17 @@ class UserController
     {
         // On tente d'ajouter l'utilisateur en base de données
         $result = User::addUser($nickname, $password, $is_mod);
-        // Si une erreur est survenue, on l'affiche et on la logge
+        // Si une erreur est survenue lors de l'appel du modèle
         if ($result instanceof Exception) {
+            // On définit l'erreur du contrôleur
+            $result = new Exception("Une erreur est survenue lors de création de l'utilisateur $nickname avec le mot de passe $password (admin: $is_mod) !");
+            // On logge l'erreur
             Controller::printLog(Controller::getError($result));
+            // On renvoie un échec
             return false;
         } else {
-            // Sinon, on retourne le résultat de la requête (vrai/faux)
+            // Si l'opération a été effectuée en BDD
+            // On renvoie le succès/l'échec de l'opération
             return $result;
         }
     }
@@ -25,12 +30,17 @@ class UserController
     {
         // On tente de modifier le pseudo en base de données
         $result = User::updateUsername($id, $newNickname);
-        // Si une erreur est survenue, on l'affiche et on la logge
+        // Si une erreur est survenue lors de l'appel du modèle
         if ($result instanceof Exception) {
+            // On définit l'erreur du contrôleur
+            $result = new Exception("Une erreur est survenue lors du changement de pseudo de l'utilisateur $id en $newNickname !");
+            // On logge l'erreur
             Controller::printLog(Controller::getError($result));
+            // On renvoie un échec
             return false;
         } else {
-            // Sinon, on retourne le résultat de la requête (vrai/faux)
+            // Si l'opération a été effectuée en BDD
+            // On renvoie le succès/l'échec de l'opération
             return $result;
         }
     }
@@ -39,12 +49,17 @@ class UserController
     {
         // On tente de modifier le mot de passe en base de données
         $result = User::updateUserPassword($id, $newPassword);
-        // Si une erreur est survenue, on l'affiche et on la logge
+        // Si une erreur est survenue lors de l'appel du modèle
         if ($result instanceof Exception) {
+            // On définit l'erreur du contrôleur
+            $result = new Exception("Une erreur est survenue lors du changement de mot de passe de l'utilisateur $id en $newPassword !");
+            // On logge l'erreur
             Controller::printLog(Controller::getError($result));
+            // On renvoie un échec
             return false;
         } else {
-            // Sinon, on retourne le résultat de la requête (vrai/faux)
+            // Si l'opération a été effectuée en BDD
+            // On renvoie le succès/l'échec de l'opération
             return $result;
         }
     }
@@ -55,16 +70,22 @@ class UserController
     {
         // On tente de récupérer les utilisateurs en base de données
         $result = User::selectUsers();
-        // Si une erreur est survenue, on l'affiche et on la logge
+        // Si une erreur est survenue lors de l'appel du modèle
         if ($result instanceof Exception) {
+            // On définit l'erreur du contrôleur
+            $result = new Exception("Une erreur est survenue lors de la récupération des utilisateurs !");
+            // On logge l'erreur
             Controller::printLog(Controller::getError($result));
+            // On renvoie un échec
             return false;
         } else {
-            // S'il n'y a au moins un utilisateur, on renvoie le tableau d'objets
+            // S'il n'y a au moins un utilisateur
             if (count($result) > 0) {
+                // On renvoie le tableau d'utilisateurs
                 return $result;
             } else {
                 // Sinon, on renvoie faux
+                // On renvoie un échec
                 return false;
             }
         }
@@ -72,18 +93,24 @@ class UserController
     // Récupérer le pseudo d'un utilisateur
     public static function getUserNameById(int $userId): string|false
     {
-        // On tente de récupérer l'utilisateur en base de données
+        // On tente de récupérer l'utilisateur en base de données à partir de son id
         $result = User::selectUserById($userId);
-        // Si une erreur est survenue, on l'affiche et on la logge
+        // Si une erreur est survenue lors de l'appel du modèle
         if ($result instanceof Exception) {
+            // On définit l'erreur du contrôleur
+            $result = new Exception("Une erreur est survenue lors de la récupération du pseudo de l'utilisateur $userId !");
+            // On logge l'erreur
             Controller::printLog(Controller::getError($result));
+            // On renvoie un échec
             return false;
         } else {
-            // S'il n'y a au moins un utilisateur, on renvoie le tableau d'objets
+            // S'il n'y a au moins un utilisateur
             if (count($result) > 0) {
+                // On renvoie le pseudo de l'utilisateur
                 return $result[0]->nickname;
             } else {
-                // Sinon, on renvoie faux
+                // Si aucun utilisateur n'a été trouvé
+                // On renvoie un échec
                 return false;
             }
         }
@@ -92,25 +119,32 @@ class UserController
     // Récupérer l'ID d'un utilisateur à partir de son pseudo et de son mot de passe
     public static function getUserInfoByCredentials(string $username, string $password): object|false
     {
-        // Récupérer l'utilisateur en base de données à partir de son pseudo
+        // On tente de récupérer l'utilisateur en base de données à partir de son pseudo
         $result = User::selectUserByName($username);
-        // Si une erreur est survenue, on l'affiche et on la logge
+        // Si une erreur est survenue lors de l'appel du modèle
         if ($result instanceof Exception) {
+            // On définit l'erreur du contrôleur
+            $result = new Exception("Une erreur est survenue lors de la récupération des informations de l'utilisateur $username avec le mot de passe $password !");
+            // On logge l'erreur
             Controller::printLog(Controller::getError($result));
+            // On renvoie un échec
             return false;
         } elseif ($result) {
             // Si l'utilisateur existe
 
             // Check si $password correspond au mot de passe
             if (password_verify($password, $result[0]->password)) {
-                // Si oui, renvoyer l'objet utilisateur
+                // Si les mots de passes correspondent
+                // Renvoyer l'objet utilisateur
                 return $result[0];
             } else {
-                // Si non, renvoyer faux
+                // Si le mot de passe ne correspond pas
+                // On renvoie un échec
                 return false;
             }
         } else {
             // L'utilisateur n'existe pas
+            // On renvoie un échec
             return false;
         }
     }
@@ -119,15 +153,25 @@ class UserController
     // Supprimer un utilisateur 
     public static function deleteUser(int $userId): bool
     {
+        // On tente de supprimer l'utilisateur en base de données à partir de son id
         $result = User::deleteUser($userId);
+        // Si une erreur est survenue lors de l'appel du modèle
         if ($result instanceof Exception) {
+            // On définit l'erreur du contrôleur
+            $result = new Exception("Une erreur est survenue lors de la suppression de l'utilisateur $userId !");
+            // On logge l'erreur
             Controller::printLog(Controller::getError($result));
+            // On renvoie un échec
             return false;
         } else {
+            // Si l'utilisateur a bien été supprimé
+            // On renvoie un succès
             return true;
         }
     }
 }
+/* GESTION DES FORMULAIRES */
+
 // Si l'utilisateur soumet un formulaire de connexion
 if (isset($_POST['fLogin'])) {
     // Vérifier que les champs sont remplis

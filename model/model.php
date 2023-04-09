@@ -27,7 +27,7 @@ define("DB_PASS", "PG770rwx");
 // 1: Erreurs destinées à l'utilisateur, 
 // 2: Provenance directe des erreurs (développeurs), 
 // 3: Retraçace complet de la provenance (développeurs)
-define("LOGLEVEL", 2);
+define("LOGLEVEL", 3);
 // Constante pour le type d'affichage des erreurs
 define("RAW", 1);
 define("HTML", 2);
@@ -98,7 +98,7 @@ class Model
             // Si le niveau de log est inférieur à 1, on ne logge pas
             return false;
         }
-        $logFile = fopen(__DIR__ . '\..\blog_data\logs\log.log', 'a+');
+        $logFile = fopen(__DIR__ . '\..\blog_data\logs\model.log', 'a+');
         if (!$logFile) {
             // S'il est impossible d'ouvrir le fichier de log
             return false;

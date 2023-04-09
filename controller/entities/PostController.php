@@ -11,12 +11,17 @@ class PostController
     {
         // On tente d'ajouter le post en base de données
         $result = Post::addPost($authorId, $content, $mediaUrl);
-        // Si une erreur est survenue, on l'affiche et on la logge
+        // Si une erreur est survenue lors de l'appel du modèle
         if ($result instanceof Exception) {
+            // On définit l'erreur du contrôleur
+            $result = new Exception('Une erreur est survenue lors de la création du post ' . $content . ' par l\'utilisateur ' . $authorId . ' et l\'URL ' . $mediaUrl ?? '(nulle)' . ' !');
+            // On logge l'erreur
             Controller::printLog(Controller::getError($result));
+            // On renvoie un échec
             return false;
         } else {
-            // Sinon, on retourne le résultat de la requête (id du post créé)
+            // Si l'opération a été effectuée en BDD
+            // On renvoie le succès/l'échec
             return $result;
         }
     }
@@ -27,12 +32,17 @@ class PostController
     {
         // On tente de récupérer le post en base de données
         $result = Post::selectPost($postId);
-        // Si une erreur est survenue, on l'affiche et on la logge
+        // Si une erreur est survenue lors de l'appel du modèle
         if ($result instanceof Exception) {
+            // On définit l'erreur du contrôleur
+            $result = new Exception('Une erreur est survenue lors de la récupération du post ' . $postId . ' !');
+            // On logge l'erreur
             Controller::printLog(Controller::getError($result));
+            // On renvoie un échec
             return false;
         } else {
-            // Sinon, on retourne le résultat de la requête (tableau)
+            // Si l'opération a été effectuée en BDD
+            // On retourne le résultat de la requête (tableau)
             return $result;
         }
     }
@@ -41,12 +51,17 @@ class PostController
     {
         // On tente de récupérer les posts en base de données
         $result = Post::selectPosts();
-        // Si une erreur est survenue, on l'affiche et on la logge
+        // Si une erreur est survenue lors de l'appel du modèle
         if ($result instanceof Exception) {
+            // On définit l'erreur du contrôleur
+            $result = new Exception('Une erreur est survenue lors de la récupération des posts !');
+            // On logge l'erreur
             Controller::printLog(Controller::getError($result));
+            // On renvoie un échec
             return false;
         } else {
-            // Sinon, on retourne le résultat de la requête (tableau)
+            // Si l'opération a été effectuée en BDD
+            // On retourne le résultat de la requête (tableau)
             return $result;
         }
     }
@@ -55,12 +70,17 @@ class PostController
     {
         // On tente de récupérer l'id du prochain post à créer en base de données
         $result = Post::selectLastPostId();
-        // Si une erreur est survenue, on l'affiche et on la logge
+        // Si une erreur est survenue lors de l'appel du modèle
         if ($result instanceof Exception) {
+            // On définit l'erreur du contrôleur
+            $result = new Exception('Une erreur est survenue lors de la récupération de l\'id du prochain post !');
+            // On logge l'erreur
             Controller::printLog(Controller::getError($result));
+            // On renvoie un échec
             return false;
         } else {
-            // Sinon, on retourne le résultat de la requête (id du prochain post)
+            // Si l'opération a été effectuée en BDD
+            // On retourne le résultat de la requête (id du prochain post)
             return $result + 1;
         }
     }
@@ -70,12 +90,17 @@ class PostController
     {
         // On tente de modifier le pseudo en base de données
         $result = User::updateUsername($id, $newNickname);
-        // Si une erreur est survenue, on l'affiche et on la logge
+        // Si une erreur est survenue lors de l'appel du modèle
         if ($result instanceof Exception) {
+            // On définit l'erreur du contrôleur
+            $result = new Exception('Une erreur est survenue lors de la modification du pseudo de l\'utilisateur ' . $id . ' !');
+            // On logge l'erreur
             Controller::printLog(Controller::getError($result));
+            // On renvoie un échec
             return false;
         } else {
-            // Sinon, on retourne le résultat de la requête (vrai/faux)
+            // Si l'opération a été effectuée en BDD
+            // On retourne le succès/l'échec
             return $result;
         }
     }
@@ -84,12 +109,17 @@ class PostController
     {
         // On tente de modifier le mot de passe en base de données
         $result = User::updateUserPassword($id, $newPassword);
-        // Si une erreur est survenue, on l'affiche et on la logge
+        // Si une erreur est survenue lors de l'appel du modèle
         if ($result instanceof Exception) {
+            // On définit l'erreur du contrôleur
+            $result = new Exception('Une erreur est survenue lors de la modification du mot de passe de l\'utilisateur ' . $id . ' en ' . $newPassword . ' !');
+            // On logge l'erreur
             Controller::printLog(Controller::getError($result));
+            // On renvoie un échec
             return false;
         } else {
-            // Sinon, on retourne le résultat de la requête (vrai/faux)
+            // Si l'opération a été effectuée en BDD
+            // On retourne le succès/l'échec
             return $result;
         }
     }
@@ -102,10 +132,15 @@ class PostController
         $result = Post::clearPosts();
         // Si une erreur est survenue, on l'affiche et on la logge
         if ($result instanceof Exception) {
+            // On définit l'erreur du contrôleur
+            $result = new Exception('Une erreur est survenue lors de la suppression des posts !');
+            // On logge l'erreur
             Controller::printLog(Controller::getError($result));
-            return -1; // Retourner -1 pour indiquer que la requête a échouée
+            // On retourne -1 pour indiquer que la requête a échoué
+            return -1;
         } else {
-            // Sinon, on retourne le nombre de lignes supprimées (0 ou plus)
+            // Si l'opération a été effectuée en BDD
+            // On retourne le nombre de lignes supprimées (0 ou plus)
             return $result;
         }
     }
@@ -114,16 +149,22 @@ class PostController
     {
         // On tente de supprimer le post en base de données
         $result = Post::deletePost($postId);
-        // Si une erreur est survenue, on l'affiche et on la logge
+        // Si une erreur est survenue lors de l'appel du modèle
         if ($result instanceof Exception) {
+            // On définit l'erreur du contrôleur
+            $result = new Exception('Une erreur est survenue lors de la suppression du post ' . $postId . ' !');
+            // On logge l'erreur
             Controller::printLog(Controller::getError($result));
+            // On renvoie un échec
             return false;
         } else {
-            // Sinon, on retourne le résultat de la requête (vrai/faux)
+            // Si l'opération a été effectuée en BDD
+            // On retourne le succès/l'échec
             return $result;
         }
     }
 }
+/* GESTION DES FORMULAIRES */
 
 // Si un formulaire de création de post est soumis
 if (isset($_POST['fPost'])) {
@@ -132,23 +173,28 @@ if (isset($_POST['fPost'])) {
         // Si le contenu du post est vide, on affiche un message d'erreur
         $formError = 'Le contenu du post est vide';
     } else {
+        // On récupère l'id du prochain post à créer
         $postId = PostController::getNextPostId();
+        // Si une erreur est survenue lors de la récupération de l'id du prochain post
         if (!$postId) {
+            // On affiche un message d'erreur
             $formError = 'Une erreur est survenue lors de la communication avec la base de données';
         } else {
             // Si un fichier a été uploadé
             if (!empty($_FILES) && $_FILES['fPostMedia']['error'] != UPLOAD_ERR_NO_FILE) {
                 // Erreur éventuelle de l'upload
                 $error = $_FILES['fPostMedia']['error'];
-
+                // Si une erreur est survenue lors de l'upload
                 if ($_FILES['fPostMedia']['error'] != UPLOAD_ERR_OK || !$_FILES['fPostMedia']['tmp_name']) {
-                    // Si une erreur est survenue lors de l'upload, on stocke le message d'erreur à afficher
+                    // On stocke le message d'erreur à afficher
                     $formError = 'Erreur: Le fichier n\'a pas pu être uploadé';
                 } elseif ((!preg_match("/video\//", $_FILES['fPostMedia']['type'])) && !preg_match("/image\//", $_FILES['fPostMedia']['type'])) {
-                    // Si le fichier n'est pas une image ou une vidéo, on stocke le message d'erreur à afficher
+                    // Si le fichier n'est pas une image ou une vidéo
+                    // On stocke le message d'erreur à afficher
                     $formError = 'Votre fichier doit être une image ou une vidéo !';
                 } elseif ($_FILES['fPostMedia']['size'] > 1000000000) {
-                    // Si la taille du fichier est supérieure à 10Mo, on stocke le message d'erreur à afficher
+                    // Si la taille du fichier est supérieure à 10Mo
+                    // On stocke le message d'erreur à afficher
                     $formError = 'Le fichier est trop volumineux !';
                 } else {
                     if (preg_match("/image\//", $_FILES['fPostMedia']['type'])) {
@@ -156,7 +202,7 @@ if (isset($_POST['fPost'])) {
 
                         // Si le dossier de stockage des images de post n'existe pas
                         if (!file_exists($_SERVER['DOCUMENT_ROOT'] . '/blog_data/posts/img/')) {
-                            // Le créer
+                            // Créer le dossier de stockage des images de post
                             mkdir($_SERVER['DOCUMENT_ROOT'] . '/blog_data/posts/img/');
                         }
                         // On crée le dossier du post partie image
