@@ -128,13 +128,8 @@ To-do:
 - [ ] Add constants & global variables for re-used values \[ex: paths, links, ...\] (back)
 - [ ] Make app portable by replacing absolute paths (DOCUMENT_ROOT) with relative paths (\_\_DIR\_\_) (back)
 - [ ] Move file management to Model (back)
-- [ ] Make code comments fit the projects standards (back)
-- [ ] Make separate & improved logs for view/controller/model (back)
-- [ ] Make error handling manage both warnings and Exceptions (back)
-- [ ] Improve error handling to handle all cases and display them properly (front/back)
-- [ ] Find out why PDO tries to connect twice when the DB is not installed (back)
-- [ ] Handle errors when the DB & blog couldn't be installed (back)
-- [ ] Add parameters to error logging (back)
+- [ ] Make a controller getState function to get current formError/formSuccess message (front/back)
+- [ ] Remove background/logo detection and use database values instead (back)
 
 ## Changelog (global changes)
 
