@@ -18,7 +18,7 @@ final class Blog
                 // Tenter d'nstaller la base de données via le fichier SQL
                 try {
                     // Récupérer le contenu du fichier SQL d'installation de la BDD
-                    $sqlFile = file_get_contents(__DIR__ . "\..\NewBlogDB_install.sql");
+                    $sqlFile = file_get_contents(__DIR__ . DIRECTORY_SEPARATOR . '..' . DIRECTORY_SEPARATOR . 'NewBlogDB_install.sql');
                     // Si le fichier n'a pas pu être lu
                     if (!$sqlFile) {
                         // On lance une erreur qui sera attrapée plus bas

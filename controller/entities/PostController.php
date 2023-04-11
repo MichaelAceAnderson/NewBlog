@@ -201,26 +201,26 @@ if (isset($_POST['fPost'])) {
                         // Si le fichier est une vidéo
 
                         // Si le dossier de stockage des images de post n'existe pas
-                        if (!file_exists($_SERVER['DOCUMENT_ROOT'] . '/blog_data/posts/img/')) {
+                        if (!file_exists($_SERVER['DOCUMENT_ROOT'] . DIRECTORY_SEPARATOR . 'blog_data' . DIRECTORY_SEPARATOR . 'posts' . DIRECTORY_SEPARATOR . 'img' . DIRECTORY_SEPARATOR)) {
                             // Créer le dossier de stockage des images de post
-                            mkdir($_SERVER['DOCUMENT_ROOT'] . '/blog_data/posts/img/');
+                            mkdir($_SERVER['DOCUMENT_ROOT'] . DIRECTORY_SEPARATOR . 'blog_data' . DIRECTORY_SEPARATOR . 'posts' . DIRECTORY_SEPARATOR . 'img' . DIRECTORY_SEPARATOR);
                         }
                         // On crée le dossier du post partie image
-                        mkdir($_SERVER['DOCUMENT_ROOT'] . '/blog_data/posts/img/' . $postId);
+                        mkdir($_SERVER['DOCUMENT_ROOT'] . DIRECTORY_SEPARATOR . 'blog_data' . DIRECTORY_SEPARATOR . 'posts' . DIRECTORY_SEPARATOR . 'img' . DIRECTORY_SEPARATOR . $postId);
                         // On le place dans le dossier du post partie image
-                        $mediaUrl = '/blog_data/posts/img/' . $postId . '/' . $_FILES['fPostMedia']['name'];
+                        $mediaUrl = DIRECTORY_SEPARATOR . 'blog_data' . DIRECTORY_SEPARATOR . 'posts' . DIRECTORY_SEPARATOR . 'img' . DIRECTORY_SEPARATOR . $postId . DIRECTORY_SEPARATOR . $_FILES['fPostMedia']['name'];
                     } elseif (preg_match("/video\//", $_FILES['fPostMedia']['type'])) {
                         // Si le fichier est une vidéo
 
                         // Si le dossier de stockage des images de post n'existe pas
-                        if (!file_exists($_SERVER['DOCUMENT_ROOT'] . '/blog_data/posts/video/')) {
+                        if (!file_exists($_SERVER['DOCUMENT_ROOT'] . DIRECTORY_SEPARATOR . 'blog_data' . DIRECTORY_SEPARATOR . 'posts' . DIRECTORY_SEPARATOR . 'video' . DIRECTORY_SEPARATOR)) {
                             // Le créer
-                            mkdir($_SERVER['DOCUMENT_ROOT'] . '/blog_data/posts/video/');
+                            mkdir($_SERVER['DOCUMENT_ROOT'] . DIRECTORY_SEPARATOR . 'blog_data' . DIRECTORY_SEPARATOR . 'posts' . DIRECTORY_SEPARATOR . 'video' . DIRECTORY_SEPARATOR);
                         }
                         // On crée le dossier du post partie vidéo
-                        mkdir($_SERVER['DOCUMENT_ROOT'] . '/blog_data/posts/video/' . $postId);
+                        mkdir($_SERVER['DOCUMENT_ROOT'] . DIRECTORY_SEPARATOR . 'blog_data' . DIRECTORY_SEPARATOR . 'posts' . DIRECTORY_SEPARATOR . 'video' . DIRECTORY_SEPARATOR . $postId);
                         // On le place dans le dossier du post partie vidéo
-                        $mediaUrl = '/blog_data/posts/video/' . $postId . '/' . $_FILES['fPostMedia']['name'];
+                        $mediaUrl = DIRECTORY_SEPARATOR . 'blog_data' . DIRECTORY_SEPARATOR . 'posts' . DIRECTORY_SEPARATOR . 'video' . DIRECTORY_SEPARATOR . ' . $postId . ' . DIRECTORY_SEPARATOR . $_FILES['fPostMedia']['name'];
                     }
                     if (!move_uploaded_file($_FILES['fPostMedia']['tmp_name'], $_SERVER['DOCUMENT_ROOT'] . $mediaUrl)) {
                         $formError = 'Impossible d\'uploader le fichier en raison d\'une erreur côté serveur';

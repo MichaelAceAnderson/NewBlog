@@ -134,7 +134,6 @@ To-do:
 
 - [ ] Add constants & global variables for re-used values \[ex: paths, links, ...\] (back)
 - [ ] Make app portable by replacing absolute paths (DOCUMENT_ROOT) with relative paths (\_\_DIR\_\_) (back)
-- [ ] Replace / by DIRECTORY_SEPARATOR (back)
 - [ ] Move file management to Model (back)
 - [ ] Make a Controller::getState function to get current formError/formSuccess message (front/back)
 - [ ] Handle missing extensions errors (back/front)

@@ -98,7 +98,7 @@ class Model
             // Si le niveau de log est inférieur à 1, on ne logge pas
             return false;
         }
-        $logFile = fopen(__DIR__ . '\..\blog_data\logs\model.log', 'a+');
+        $logFile = fopen(__DIR__ . DIRECTORY_SEPARATOR . '..' . DIRECTORY_SEPARATOR . 'blog_data' . DIRECTORY_SEPARATOR . 'logs' . DIRECTORY_SEPARATOR . 'model.log', 'a+');
         if (!$logFile) {
             // S'il est impossible d'ouvrir le fichier de log
             return false;

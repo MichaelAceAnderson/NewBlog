@@ -242,11 +242,11 @@ class Post
     public static function clearPosts(): int|Exception
     {
         // Supprimer de façon récursive les fichiers liés aux posts s'ils existent
-        if (file_exists($_SERVER['DOCUMENT_ROOT'] . '/blog_data/posts/video/') && is_dir($_SERVER['DOCUMENT_ROOT'] . '/blog_data/posts/video/')) {
-            Model::rmdir_r($_SERVER['DOCUMENT_ROOT'] . '/blog_data/posts/video/');
+        if (file_exists($_SERVER['DOCUMENT_ROOT'] . DIRECTORY_SEPARATOR . 'blog_data' . DIRECTORY_SEPARATOR . 'posts' . DIRECTORY_SEPARATOR . 'video/') && is_dir($_SERVER['DOCUMENT_ROOT'] . DIRECTORY_SEPARATOR . 'blog_data' . DIRECTORY_SEPARATOR . 'posts' . DIRECTORY_SEPARATOR . 'video' . DIRECTORY_SEPARATOR)) {
+            Model::rmdir_r($_SERVER['DOCUMENT_ROOT'] . DIRECTORY_SEPARATOR . 'blog_data' . DIRECTORY_SEPARATOR . 'posts' . DIRECTORY_SEPARATOR . 'video/');
         }
-        if (file_exists($_SERVER['DOCUMENT_ROOT'] . '/blog_data/posts/img/') && is_dir($_SERVER['DOCUMENT_ROOT'] . '/blog_data/posts/img/')) {
-            Model::rmdir_r($_SERVER['DOCUMENT_ROOT'] . '/blog_data/posts/img/');
+        if (file_exists($_SERVER['DOCUMENT_ROOT'] . DIRECTORY_SEPARATOR . 'blog_data' . DIRECTORY_SEPARATOR . 'posts' . DIRECTORY_SEPARATOR . 'img/') && is_dir($_SERVER['DOCUMENT_ROOT'] . DIRECTORY_SEPARATOR . 'blog_data' . DIRECTORY_SEPARATOR . 'posts' . DIRECTORY_SEPARATOR . 'img' . DIRECTORY_SEPARATOR)) {
+            Model::rmdir_r($_SERVER['DOCUMENT_ROOT'] . DIRECTORY_SEPARATOR . 'blog_data' . DIRECTORY_SEPARATOR . 'posts' . DIRECTORY_SEPARATOR . 'img' . DIRECTORY_SEPARATOR);
         }
 
         // Tenter de supprimer les posts
@@ -301,11 +301,11 @@ class Post
             if ($post) {
 
                 // Supprimer de façon récursive les fichiers liés aux posts s'ils existent et sont des dossiers
-                if (file_exists($_SERVER['DOCUMENT_ROOT'] . '/blog_data/posts/video/' . $id) && is_dir($_SERVER['DOCUMENT_ROOT'] . '/blog_data/posts/video/' . $id)) {
-                    Model::rmdir_r($_SERVER['DOCUMENT_ROOT'] . '/blog_data/posts/video/' . $id);
+                if (file_exists($_SERVER['DOCUMENT_ROOT'] . DIRECTORY_SEPARATOR . 'blog_data' . DIRECTORY_SEPARATOR . 'posts' . DIRECTORY_SEPARATOR . 'video' . DIRECTORY_SEPARATOR . $id) && is_dir($_SERVER['DOCUMENT_ROOT'] . DIRECTORY_SEPARATOR . 'blog_data' . DIRECTORY_SEPARATOR . 'posts' . DIRECTORY_SEPARATOR . 'video' . DIRECTORY_SEPARATOR . $id)) {
+                    Model::rmdir_r($_SERVER['DOCUMENT_ROOT'] . DIRECTORY_SEPARATOR . 'blog_data' . DIRECTORY_SEPARATOR . 'posts' . DIRECTORY_SEPARATOR . 'video' . DIRECTORY_SEPARATOR . $id);
                 }
-                if (file_exists($_SERVER['DOCUMENT_ROOT'] . '/blog_data/posts/image/' . $id) && is_dir($_SERVER['DOCUMENT_ROOT'] . '/blog_data/posts/image/' . $id)) {
-                    Model::rmdir_r($_SERVER['DOCUMENT_ROOT'] . '/blog_data/posts/image/' . $id);
+                if (file_exists($_SERVER['DOCUMENT_ROOT'] . DIRECTORY_SEPARATOR . 'blog_data' . DIRECTORY_SEPARATOR . 'posts' . DIRECTORY_SEPARATOR . 'image' . DIRECTORY_SEPARATOR . $id) && is_dir($_SERVER['DOCUMENT_ROOT'] . DIRECTORY_SEPARATOR . 'blog_data' . DIRECTORY_SEPARATOR . 'posts' . DIRECTORY_SEPARATOR . 'image' . DIRECTORY_SEPARATOR . $id)) {
+                    Model::rmdir_r($_SERVER['DOCUMENT_ROOT'] . DIRECTORY_SEPARATOR . 'blog_data' . DIRECTORY_SEPARATOR . 'posts' . DIRECTORY_SEPARATOR . 'image' . $id);
                 }
 
             } else {
