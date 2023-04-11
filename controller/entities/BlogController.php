@@ -255,11 +255,11 @@ class BlogController
             // On logge l'erreur
             Controller::printLog(Controller::getError($result));
             // On retourne l'URL par défaut
-            return "/common/img/circuits.jpg";
+            return "/view/img/circuits.jpg";
         } else {
             // Si la récupération des infos du blog a réussi, on renvoie l'URL de l'image de fond s'il y en a une
             // Sinon, on renvoie l'URL de l'image de fond par défaut
-            return $result[0]->background_url ?? "/common/img/circuits.jpg";
+            return $result[0]->background_url ?? "/view/img/circuits.jpg";
         }
     }
     // Récupérer l'URL du logo du blog
@@ -283,11 +283,11 @@ class BlogController
             // On logge l'erreur
             Controller::printLog(Controller::getError($result));
             // On renvoie l'URL du logo par défaut
-            return "/common/img/logo.jpg";
+            return "/view/img/logo.jpg";
         } else {
             // Si la récupération des infos du blog a réussi
             // On renvoie l'URL du logo récupérée ou celle par défaut en cas d'absence de logo
-            return $result[0]->logo_url ?? "/common/img/logo.jpg";
+            return $result[0]->logo_url ?? "/view/img/logo.jpg";
         }
     }
     // Récupérer la date de création du blog
@@ -452,7 +452,7 @@ if (isset($_POST['fChangeLogo'])) {
         }
         // Si le champ d'URL est vide, on remet l'URL par défaut
         if (!isset($_POST['fLogoURL']) || $_POST['fLogoURL'] == "") {
-            $_POST['fLogoURL'] = "/common/img/logo.jpg";
+            $_POST['fLogoURL'] = "/view/img/logo.jpg";
         }
         $logoURLUpdateStatus = BlogController::setLogoURL($_POST['fLogoURL']);
         if ($logoURLUpdateStatus) {
@@ -535,7 +535,7 @@ if (isset($_POST['fChangeBgURL'])) {
         }
         // Si le champ d'URL est vide, on remet l'URL par défaut
         if (!isset($_POST['fBgURL']) || $_POST['fBgURL'] == "") {
-            $_POST['fBgURL'] = "/common/img/circuits.jpg";
+            $_POST['fBgURL'] = "/view/img/circuits.jpg";
         }
         $bgURLUpdateStatus = BlogController::setBackgroundURL($_POST['fBgURL']);
         if ($bgURLUpdateStatus) {

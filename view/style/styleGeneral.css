@@ -27,7 +27,7 @@ Chrome CSS prefix: -webkit
     font-style: normal;
     font-weight: 400;
     src: local("Agency FB"), local("AgencyFB-Regular"),
-        url(/common/style/fonts/agencyfb.ttf) format("truetype");
+        url(/view/style/fonts/agencyfb.ttf) format("truetype");
     font-display: swap;
 }
 
@@ -35,7 +35,7 @@ Chrome CSS prefix: -webkit
     font-family: "LCD";
     font-style: normal;
     font-weight: 400;
-    src: local("LCD"), url(/common/style/fonts/LCD.ttf) format("truetype");
+    src: local("LCD"), url(/view/style/fonts/LCD.ttf) format("truetype");
     font-display: swap;
 }
 
@@ -73,7 +73,7 @@ body {
     background-repeat: no-repeat;
     background-attachment: fixed;
     background-size: cover;
-    background-image: url(/common/img/circuits.jpg);
+    background-image: url(/view/img/circuits.jpg);
     color: var(--textcolor);
     min-height: 100%;
     position: relative;
@@ -213,7 +213,7 @@ header .account form input[type="submit"] {
     background-repeat: no-repeat;
     background-attachment: fixed;
     background-size: cover;
-    background-image: url(/common/img/bg.jpg);
+    background-image: url(/view/img/bg.jpg);
     transition: 0.3s;
 }
 

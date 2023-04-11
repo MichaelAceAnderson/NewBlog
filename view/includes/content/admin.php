@@ -41,7 +41,7 @@
             </p>
             <form method="POST" action="" enctype="multipart/form-data">
                 <label for="fLogoURL">URL du logo:</label>
-                <input type="text" name="fLogoURL" placeholder="/common/img/logo.jpg" />
+                <input type="text" name="fLogoURL" placeholder="/view/img/logo.jpg" />
                 <label for="fLogoFile">Fichier du logo:</label>
                 <input type="file" name="fLogoFile" />
                 <input type="submit" value="✔️ Valider" name="fChangeLogo" />
@@ -57,7 +57,7 @@
             </p>
             <form method="POST" action="" enctype="multipart/form-data">
                 <label for="fBgURL">URL de l'image de fond:</label>
-                <input type="text" name="fBgURL" placeholder="/common/img/circuits.jpg" />
+                <input type="text" name="fBgURL" placeholder="/view/img/circuits.jpg" />
                 <label for="fBgFile">Fichier de l'image de fond:</label>
                 <input type="file" name="fBgFile" />
                 <input type="submit" value="✔️ Valider" name="fChangeBgURL" />
