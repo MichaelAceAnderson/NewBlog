@@ -63,13 +63,17 @@ final class Blog
                 // Si l'image de fond n'a pas été spécifiée
                 if (empty($bgURL)) {
                     // On définit la requête à traiter
-                    Model::setStmt(
-                        // On prépare une requête avec toutes les infos sauf l'image de fond
-                        Model::getPdo()->prepare(
-                            "INSERT INTO newblog.nb_blog (blog_name, description, id_user_owner)
+                    $stmt = Model::getPdo()->prepare(
+                        "INSERT INTO newblog.nb_blog (blog_name, description, id_user_owner)
                             VALUES (:blog_name, :description, :id_user_owner);"
-                        )
                     );
+                    // Si la requête n'a pas pu être préparée
+                    if (!$stmt) {
+                        // On lance une erreur qui sera attrapée plus bas
+                        throw new Exception("Impossible de préparer la requête d'insertion des données du blog !");
+                    }
+                    // On prépare une requête avec toutes les infos sauf l'image de fond
+                    Model::setStmt($stmt);
                 } else {
                     // Si l'image de fond est définie
 
