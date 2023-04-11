@@ -67,7 +67,7 @@ class Model
 
     /* AUTRES MÉTHODES */
     // Formater l'erreur d'une exception
-    public static function getError(Exception $error, int $mode = RAW)
+    public static function getError(Exception $error, int $mode = RAW): string
     {
         $errorMsg = "";
         if (LOGLEVEL >= 1) {
@@ -93,7 +93,7 @@ class Model
     public static function printLog(string $msg): bool
     {
         $date = new DateTime();
-        $date = $date->format("y-m-d h:i:s");
+        $date = $date->format("d-m-y h:i:s");
         if (LOGLEVEL < 1) {
             // Si le niveau de log est inférieur à 1, on ne logge pas
             return false;

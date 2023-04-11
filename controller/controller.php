@@ -80,7 +80,7 @@ class Controller
     public static function printLog(string $msg): bool
     {
         $date = new DateTime();
-        $date = $date->format("y-m-d h:i:s");
+        $date = $date->format("d-m-y h:i:s");
         if (LOGLEVEL < 1) {
             // Si le niveau de log est inférieur à 1, on ne logge pas
             return false;
