@@ -1,5 +1,5 @@
 <?php
-require_once __DIR__ . '\..\model\model.php';
+require_once __DIR__ . DIRECTORY_SEPARATOR . '..' . DIRECTORY_SEPARATOR . 'model' . DIRECTORY_SEPARATOR . 'model.php';
 
 // Code s'appuyant sur le modèle et appelé par les formulaires des vues
 
@@ -85,7 +85,7 @@ class Controller
             // Si le niveau de log est inférieur à 1, on ne logge pas
             return false;
         }
-        $logFile = fopen(__DIR__ . '\..\blog_data\logs\controller.log', 'a+');
+        $logFile = fopen(__DIR__ . DIRECTORY_SEPARATOR . '..' . DIRECTORY_SEPARATOR . 'blog_data' . DIRECTORY_SEPARATOR . 'logs' . DIRECTORY_SEPARATOR . 'controller.log', 'a+');
         if (!$logFile) {
             // S'il est impossible d'ouvrir le fichier de log
             return false;
@@ -103,7 +103,7 @@ class Controller
 }
 
 // Inclusion de tous les contrôleurs dans le dossier entities
-foreach (glob(__DIR__ . '\entities\*.php') as $filename) {
+foreach (glob(__DIR__ . DIRECTORY_SEPARATOR . 'entities' . DIRECTORY_SEPARATOR . '*.php') as $filename) {
     if (!include_once $filename) {
         Controller::printLog("Impossible d'inclure le fichier " . $filename);
     }

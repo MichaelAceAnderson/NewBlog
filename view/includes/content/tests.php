@@ -41,7 +41,8 @@ if (!isset($_SESSION['is_mod']) || $_SESSION['is_mod'] == false) {
         <hr>
     </div>
     <div class="content">
-        <form action="/?page=..\tests\debug" method="POST">
+        <form action="<?php echo '/?page=..' . DIRECTORY_SEPARATOR . 'tests' . DIRECTORY_SEPARATOR . 'debug'; ?>"
+            method="POST">
             <input type="text" name="champTexte">
             <textarea type="text" name="zoneTexte"></textarea>
             <input type="submit" class="button" value="Bouton test"></submit>
@@ -52,11 +53,11 @@ if (!isset($_SESSION['is_mod']) || $_SESSION['is_mod'] == false) {
         </div>
         <?php
         echo "<p>";
-        $files = scandir(__DIR__ . '\..\tests');
+        $files = scandir(__DIR__ . DIRECTORY_SEPARATOR . '..' . DIRECTORY_SEPARATOR . 'tests');
         foreach ($files as $file) {
             if ($file != "." && $file != ".." && $file != "index.php") {
                 $file = str_replace(".php", "", $file);
-                echo "<a href=\"/?page=..\\tests\\$file\">$file</a><br>";
+                echo '<a href="/?page=..' . DIRECTORY_SEPARATOR . 'tests' . DIRECTORY_SEPARATOR . $file . '">' . $file . '</a><br>';
             }
         }
         echo "</p>";

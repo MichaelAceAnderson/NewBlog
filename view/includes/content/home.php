@@ -2,8 +2,8 @@
 <section class="main" id="main">
     <?php
     // Code pour la future mise à jour dynamique de la page
-    // if (file_exists($_SERVER['DOCUMENT_ROOT'] . "/controller/liveUpdate.js")) {
-    //     if (file_exists($_SERVER['DOCUMENT_ROOT'] . "/controller/js/lib/axios.js")) {
+    // if (file_exists($_SERVER['DOCUMENT_ROOT'] . DIRECTORY_SEPARATOR . 'controller' . DIRECTORY_SEPARATOR . 'liveUpdate.js')) {
+    //     if (file_exists($_SERVER['DOCUMENT_ROOT'] . DIRECTORY_SEPARATOR . 'controller' . DIRECTORY_SEPARATOR . 'js' . DIRECTORY_SEPARATOR . 'lib' . DIRECTORY_SEPARATOR . 'axios.js')) {
     //         echo '<script src="/controller/js/lib/axios.js"></script>';
     //     } else {
     //         echo '<script src="https://unpkg.com/axios/dist/axios.min.js"></script>';
@@ -49,7 +49,7 @@
                 echo '<div class="post-content">';
 
                 // S'il existe un dossier contenant les vidéos du post
-                $videoPath = $_SERVER['DOCUMENT_ROOT'] . '/blog_data/posts/video/' . $post->id_post;
+                $videoPath = $_SERVER['DOCUMENT_ROOT'] . DIRECTORY_SEPARATOR . 'blog_data' . DIRECTORY_SEPARATOR . 'posts' . DIRECTORY_SEPARATOR . 'video' . DIRECTORY_SEPARATOR . $post->id_post;
                 if (file_exists($videoPath) && is_dir($videoPath)) {
                     // Si le dossier existe
                     foreach (glob($videoPath . '/*') as $videoFile) {
@@ -60,7 +60,7 @@
                     }
                 }
                 // S'il existe un dossier contenant les images du post
-                $imagePath = $_SERVER['DOCUMENT_ROOT'] . '/blog_data/posts/img/' . $post->id_post;
+                $imagePath = $_SERVER['DOCUMENT_ROOT'] . DIRECTORY_SEPARATOR . 'blog_data' . DIRECTORY_SEPARATOR . 'posts' . DIRECTORY_SEPARATOR . 'img' . DIRECTORY_SEPARATOR . $post->id_post;
                 if (file_exists($imagePath) && is_dir($imagePath)) {
                     // Si le dossier existe
                     foreach (glob($imagePath . '/*') as $imageFile) {

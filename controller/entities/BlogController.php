@@ -28,7 +28,7 @@ class BlogController
     public static function installBlog(string $adminName, string $adminPass, string $blogName, string $blogDescription, string $bgURL): bool|Exception
     {
         // Supprimer toutes les images de post dans le cas d'une réinstallation
-        foreach (glob('blog_data/posts/img/*') as $img) {
+        foreach (glob('blog_data' . DIRECTORY_SEPARATOR . 'posts' . DIRECTORY_SEPARATOR . 'img' . DIRECTORY_SEPARATOR . '*') as $img) {
             // Si c'est un fichier et pas un sous-dossier
             if (is_file($img)) {
                 // Supprimer le fichier
@@ -36,7 +36,7 @@ class BlogController
             }
         }
         // Supprimer toutes les vidéos de post dans le cas d'une réinstallation
-        foreach (glob('blog_data/posts/video/*') as $video) {
+        foreach (glob('blog_data' . DIRECTORY_SEPARATOR . 'posts' . DIRECTORY_SEPARATOR . 'video' . DIRECTORY_SEPARATOR . '*') as $video) {
             // Si c'est un fichier et pas un sous-dossier
             if (is_file($video)) {
                 // Supprimer le fichier
@@ -382,7 +382,7 @@ if (isset($_POST['fChangeLogo'])) {
             $formError = 'Le fichier est trop volumineux !';
         } else {
             // On supprime l'ancien logo
-            foreach (glob($_SERVER['DOCUMENT_ROOT'] . '/blog_data/img/logo.*') as $imgFile) {
+            foreach (glob($_SERVER['DOCUMENT_ROOT'] . '/blog_data' . DIRECTORY_SEPARATOR . 'img' . DIRECTORY_SEPARATOR . 'logo.*') as $imgFile) {
                 // Si c'est un fichier et pas un sous-dossier
                 if (is_file($imgFile)) {
                     // Supprimer le fichier
@@ -390,7 +390,8 @@ if (isset($_POST['fChangeLogo'])) {
                 }
             }
             // Chemin des logos
-            $logoPath = '/blog_data/img/' .
+            $logoPath = DIRECTORY_SEPARATOR . 'blog_data' . DIRECTORY_SEPARATOR . 'img' .
+                DIRECTORY_SEPARATOR .
                 // Nom du fichier . extension
                 'logo.' . pathinfo($_FILES['fLogoFile']['name'], PATHINFO_EXTENSION);
             // Si on a réussi à déplacer le fichier uploadé
@@ -425,7 +426,7 @@ if (isset($_POST['fChangeLogo'])) {
         // Si aucun logo n'a été uploadé
 
         // On supprime l'ancien logo
-        foreach (glob($_SERVER['DOCUMENT_ROOT'] . '/blog_data/img/logo.*') as $imgFile) {
+        foreach (glob($_SERVER['DOCUMENT_ROOT'] . DIRECTORY_SEPARATOR . 'blog_data' . DIRECTORY_SEPARATOR . 'img' . DIRECTORY_SEPARATOR . 'logo.*') as $imgFile) {
             // Si c'est un fichier et pas un sous-dossier
             if (is_file($imgFile)) {
                 // Supprimer le fichier
@@ -465,7 +466,7 @@ if (isset($_POST['fChangeBgURL'])) {
             $formError = 'Le fichier est trop volumineux !';
         } else {
             // On supprime l'ancienne image de fond
-            foreach (glob($_SERVER['DOCUMENT_ROOT'] . '/blog_data/img/background.*') as $imgFile) {
+            foreach (glob($_SERVER['DOCUMENT_ROOT'] . DIRECTORY_SEPARATOR . 'blog_data' . DIRECTORY_SEPARATOR . 'img' . DIRECTORY_SEPARATOR . 'background.*') as $imgFile) {
                 // Si c'est un fichier et pas un sous-dossier
                 if (is_file($imgFile)) {
                     // Supprimer le fichier
@@ -473,7 +474,7 @@ if (isset($_POST['fChangeBgURL'])) {
                 }
             }
             // Chemin des images de fond
-            $bgPath = '/blog_data/img/' .
+            $bgPath = '' . DIRECTORY_SEPARATOR . 'blog_data' . DIRECTORY_SEPARATOR . 'img' . DIRECTORY_SEPARATOR .
                 // Nom du fichier . extension
                 'background.' . pathinfo($_FILES['fBgFile']['name'], PATHINFO_EXTENSION);
             // Si on a réussi à déplacer le fichier uploadé
@@ -508,7 +509,7 @@ if (isset($_POST['fChangeBgURL'])) {
         // Si aucune image de fond n'a été uploadée
 
         // On supprime l'ancienne image de fond
-        foreach (glob($_SERVER['DOCUMENT_ROOT'] . '/blog_data/img/background.*') as $imgFile) {
+        foreach (glob($_SERVER['DOCUMENT_ROOT'] . DIRECTORY_SEPARATOR . 'blog_data' . DIRECTORY_SEPARATOR . 'img' . DIRECTORY_SEPARATOR . 'background.*') as $imgFile) {
             // Si c'est un fichier et pas un sous-dossier
             if (is_file($imgFile)) {
                 // Supprimer le fichier
