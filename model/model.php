@@ -184,6 +184,9 @@ if (Model::getPdo() != null) {
     Model::printLog("Connexion à la base de données réussie");
 }
 
-require_once __DIR__ . '\entities\BlogModel.php';
-require_once __DIR__ . '\entities\UserModel.php';
-require_once __DIR__ . '\entities\PostModel.php';
+// Inclusion de tous les contrôleurs dans le dossier entities
+foreach (glob(__DIR__ . '\entities\*.php') as $filename) {
+    if (!include_once $filename) {
+        Model::printLog("Impossible d'inclure le fichier " . $filename);
+    }
+}

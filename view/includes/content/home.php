@@ -3,8 +3,8 @@
     <?php
     // Code pour la future mise à jour dynamique de la page
     // if (file_exists($_SERVER['DOCUMENT_ROOT'] . "/controller/liveUpdate.js")) {
-    //     if (file_exists($_SERVER['DOCUMENT_ROOT'] . "/common/js/lib/axios.js")) {
-    //         echo '<script src="/common/js/lib/axios.js"></script>';
+    //     if (file_exists($_SERVER['DOCUMENT_ROOT'] . "/controller/js/lib/axios.js")) {
+    //         echo '<script src="/controller/js/lib/axios.js"></script>';
     //     } else {
     //         echo '<script src="https://unpkg.com/axios/dist/axios.min.js"></script>';
     //     }

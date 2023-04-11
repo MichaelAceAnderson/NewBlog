@@ -102,8 +102,9 @@ class Controller
     }
 }
 
-include_once __DIR__ . '\entities\UserController.php';
-
-include_once __DIR__ . '\entities\BlogController.php';
-
-include_once __DIR__ . '\entities\PostController.php';
+// Inclusion de tous les contrôleurs dans le dossier entities
+foreach (glob(__DIR__ . '\entities\*.php') as $filename) {
+    if (!include_once $filename) {
+        Controller::printLog("Impossible d'inclure le fichier " . $filename);
+    }
+}

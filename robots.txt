@@ -1,4 +1,4 @@
 user-agent: *
-disallow: /common/*
+disallow: /blog_data/*
 disallow: /controller/*
 disallow: /model/*
