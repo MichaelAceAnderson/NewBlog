@@ -237,15 +237,6 @@ class BlogController
     // Récupérer l'URL de l'image de fond du blog
     public static function getBackgroundURL(): string
     {
-        // Si un fichier d'image de fond existe, on renvoie son URL
-        foreach (glob($_SERVER['DOCUMENT_ROOT'] . '/blog_data/img/background.*') as $bgFile) {
-            // Si c'est un fichier et pas un sous-dossier
-            if (is_file($bgFile)) {
-                // On renvoie l'URL de l'image de fond
-                return str_replace($_SERVER['DOCUMENT_ROOT'], "", $bgFile);
-            }
-        }
-        // Si aucune image de fond n'a été trouvée, on continue
         // On tente de récupérer les infos du blog en base de données
         $result = Blog::selectBlog();
         // Si une erreur est survenue lors de l'appel du modèle
@@ -265,15 +256,6 @@ class BlogController
     // Récupérer l'URL du logo du blog
     public static function getLogoUrl(): string
     {
-        // On vérifie le contenu du dossier de données du blog
-        foreach (glob($_SERVER['DOCUMENT_ROOT'] . '/blog_data/img/logo.*') as $imgFile) {
-            // Si c'est un fichier et pas un sous-dossier
-            if (is_file($imgFile)) {
-                // On renvoie l'URL du logo
-                return str_replace($_SERVER['DOCUMENT_ROOT'], "", $imgFile);
-            }
-        }
-        // Si aucune logo n'a été trouvé, on continue
         // On tente de récupérer les infos du blog en base de données
         $result = Blog::selectBlog();
         // Si une erreur est survenue lors de l'appel du modèle

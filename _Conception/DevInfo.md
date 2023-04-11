@@ -137,7 +137,6 @@ To-do:
 - [ ] Replace / by DIRECTORY_SEPARATOR (back)
 - [ ] Move file management to Model (back)
 - [ ] Make a Controller::getState function to get current formError/formSuccess message (front/back)
-- [ ] Remove background/logo detection and use database values instead (back)
 - [ ] Handle missing extensions errors (back/front)
 - [ ] Handle missing file authorizations errors (back/front)
 
