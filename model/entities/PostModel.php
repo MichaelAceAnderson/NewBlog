@@ -4,7 +4,7 @@ class Post
 {
     /* MÉTHODES */
     // Création d'un post en BDD
-    public static function addPost(int $authorId, string $content, ?string $mediaUrl): int|Exception
+    public static function addPost(int $authorId, string $content): int|Exception
     {
         // Tenter d'ajouter le post en BDD
         try {
