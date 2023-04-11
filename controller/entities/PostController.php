@@ -7,14 +7,14 @@ class PostController
 
     /* Insertions */
     // Ajouter un post 
-    public static function createPost(int $authorId, string $content, string $mediaUrl = null): int
+    public static function createPost(int $authorId, string $content): int
     {
         // On tente d'ajouter le post en base de données
-        $result = Post::addPost($authorId, $content, $mediaUrl);
+        $result = Post::addPost($authorId, $content);
         // Si une erreur est survenue lors de l'appel du modèle
         if ($result instanceof Exception) {
             // On définit l'erreur du contrôleur
-            $result = new Exception('Une erreur est survenue lors de la création du post ' . $content . ' par l\'utilisateur ' . $authorId . ' et l\'URL ' . $mediaUrl ?? '(nulle)' . ' !');
+            $result = new Exception('Une erreur est survenue lors de la création du post ' . $content . ' par l\'utilisateur ' . $authorId . ' !');
             // On logge l'erreur
             Controller::printLog(Controller::getError($result));
             // On renvoie un échec
