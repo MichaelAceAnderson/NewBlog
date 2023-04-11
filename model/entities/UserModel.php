@@ -32,7 +32,7 @@ class User
                 if (!Model::getStmt()->bindParam('nickname', $nickname, PDO::PARAM_STR)) {
                     // Si le paramètre n'a pas pu être attaché
                     // On lance une erreur qui sera rattrapée plus bas
-                    throw new Exception("Le pseudo n'a pas pu être attaché à la requête de changement de pseudo !");
+                    throw new Exception("Le pseudo \"$nickname\" n'a pas pu être attaché à la requête de changement de pseudo !");
                 }
                 // Hasher le mot de passe
                 $password = password_hash($password, PASSWORD_ARGON2ID);
@@ -44,13 +44,13 @@ class User
                 if (!Model::getStmt()->bindParam('password', $password, PDO::PARAM_STR)) {
                     // Si le paramètre n'a pas pu être attaché
                     // On lance une erreur qui sera rattrapée plus bas
-                    throw new Exception("Le mot de passe n'a pas pu être attaché à la requête de changement de pseudo !");
+                    throw new Exception("Le mot de passe \"$password\" n'a pas pu être attaché à la requête de changement de pseudo !");
                 }
                 // Attacher le booléen administrateur en paramètre à la requête préparée
                 if (!Model::getStmt()->bindParam('is_mod', $is_mod, PDO::PARAM_BOOL)) {
                     // Si le paramètre n'a pas pu être attaché
                     // On lance une erreur qui sera rattrapée plus bas
-                    throw new Exception("Le booléen administrateur n'a pas pu être attaché à la requête de changement de pseudo !");
+                    throw new Exception('Le booléen administrateur (' . $is_mod ? 'true' : 'false' . ')n\'a pas pu être attaché à la requête de changement de pseudo !');
                 }
 
                 // Exécuter la requête
@@ -154,7 +154,7 @@ class User
                 if (!Model::getStmt()->bindParam('id', $id, PDO::PARAM_STR)) {
                     // Si le paramètre n'a pas pu être attaché
                     // On lance une erreur qui sera rattrapée plus bas
-                    throw new Exception("L'id utilisateur n'a pas pu être attaché à la requête de récupération des données de l'utilisateur !");
+                    throw new Exception("L'id utilisateur \"$id\" n'a pas pu être attaché à la requête de récupération des données de l'utilisateur !");
                 }
 
                 // Exécuter la requête
@@ -212,7 +212,7 @@ class User
                 if (!Model::getStmt()->bindParam('nickname', $nickname, PDO::PARAM_STR)) {
                     // Si le paramètre n'a pas pu être attaché
                     // On lance une erreur qui sera rattrapée plus bas
-                    throw new Exception("Le pseudo utilisateur n'a pas pu être attaché à la requête de récupération des données de l'utilisateur !");
+                    throw new Exception("Le pseudo utilisateur \"$nickname\" n'a pas pu être attaché à la requête de récupération des données de l'utilisateur !");
                 }
                 // Exécuter la requête
                 if (Model::getStmt()->execute() === false) {
@@ -271,13 +271,13 @@ class User
                 if (!Model::getStmt()->bindParam('id', $id, PDO::PARAM_INT)) {
                     // Si le paramètre n'a pas pu être attaché
                     // On lance une erreur qui sera rattrapée plus bas
-                    throw new Exception("L'id utilisateur n'a pas pu être attaché à la requête de modification du pseudo de l'utilisateur !");
+                    throw new Exception("L'id utilisateur \"$id\" n'a pas pu être attaché à la requête de modification du pseudo de l'utilisateur !");
                 }
                 // Attacher le nouveau pseudo en paramètre à la requête préparée
                 if (!Model::getStmt()->bindParam('newNickname', $newNickname, PDO::PARAM_STR)) {
                     // Si le paramètre n'a pas pu être attaché
                     // On lance une erreur qui sera rattrapée plus bas
-                    throw new Exception("Le nouveau pseudo n'a pas pu être attaché à la requête de modification du pseudo de l'utilisateur !");
+                    throw new Exception("Le nouveau pseudo \"$newNickname\" n'a pas pu être attaché à la requête de modification du pseudo de l'utilisateur !");
                 }
                 // Exécuter la requête
                 if (Model::getStmt()->execute() === false) {
@@ -331,7 +331,7 @@ class User
                 if (!Model::getStmt()->bindParam('id', $id, PDO::PARAM_INT)) {
                     // Si le paramètre n'a pas pu être attaché
                     // On lance une erreur qui sera rattrapée plus bas
-                    throw new Exception("L'id utilisateur n'a pas pu être attaché à la requête de modification du mot de passe de l'utilisateur !");
+                    throw new Exception("L'id utilisateur \"$id\" n'a pas pu être attaché à la requête de modification du mot de passe de l'utilisateur !");
                 }
                 // Hasher le mot de passe
                 $newPassword = password_hash($newPassword, PASSWORD_BCRYPT);
@@ -343,7 +343,7 @@ class User
                 if (!Model::getStmt()->bindParam('newPassword', $newPassword, PDO::PARAM_STR)) {
                     // Si le paramètre n'a pas pu être attaché
                     // On lance une erreur qui sera rattrapée plus bas
-                    throw new Exception("Le nouveau mot de passe n'a pas pu être attaché à la requête de modification du mot de passe de l'utilisateur !");
+                    throw new Exception("Le nouveau mot de passe \"$newPassword\" n'a pas pu être attaché à la requête de modification du mot de passe de l'utilisateur !");
                 }
                 // Exécuter la requête
                 if (Model::getStmt()->execute() === false) {
@@ -399,7 +399,7 @@ class User
                 if (!Model::getStmt()->bindParam('id', $id, PDO::PARAM_INT)) {
                     // Si le paramètre n'a pas pu être attaché
                     // On lance une erreur qui sera rattrapée plus bas
-                    throw new Exception("L'id utilisateur n'a pas pu être attaché à la requête de suppression de l'utilisateur !");
+                    throw new Exception("L'id utilisateur \"$id\" n'a pas pu être attaché à la requête de suppression de l'utilisateur !");
                 }
                 // Exécuter la requête
                 if (Model::getStmt()->execute() === false) {

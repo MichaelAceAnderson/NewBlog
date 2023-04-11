@@ -30,7 +30,7 @@ class Post
                 if (!Model::getStmt()->bindParam('content', $content, PDO::PARAM_STR)) {
                     // Si le paramètre n'a pas pu être attaché
                     // On lance une erreur qui sera attrapée plus bas
-                    throw new Exception("Impossible d'attacher le contenu du post en paramètre à la requête d'insertion du post !");
+                    throw new Exception("Impossible d'attacher le contenu du post \"$content\" en paramètre à la requête d'insertion du post !");
                 }
                 // Attacher l'id de l'auteur en paramètre à la requête préparée
                 if (!Model::getStmt()->bindParam('id_user_author', $authorId, PDO::PARAM_INT)) {
@@ -152,7 +152,7 @@ class Post
                 if (!Model::getStmt()->bindParam('id_post', $postId, PDO::PARAM_INT)) {
                     // Si l'id du post n'a pas pu être attaché à la requête
                     // On lance une erreur qui sera attrapée plus bas
-                    throw new Exception("Impossible d'attacher l'id du post en paramètre à la requête de récupération du post !");
+                    throw new Exception("Impossible d'attacher l'id \"$postId\" du post en paramètre à la requête de récupération du post !");
                 }
 
                 // Exécuter la requête

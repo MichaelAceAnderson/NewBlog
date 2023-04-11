@@ -338,7 +338,7 @@ final class Blog
                 // Attacher la nouvelle description en paramètre à la requête préparée
                 if (!Model::getStmt()->bindParam('newDescription', $newDescription, PDO::PARAM_STR)) {
                     // Si la description n'a pas pu être attachée
-                    throw new Exception("Impossible d'attacher la description en paramètre à la requête de mise à jour de la description du blog !");
+                    throw new Exception("Impossible d'attacher la description \"$newDescription\" en paramètre à la requête de mise à jour de la description du blog !");
                 }
 
                 // Exécuter la requête
@@ -392,7 +392,7 @@ final class Blog
                 // Attacher le nouveau logo en paramètre à la requête préparée
                 if (!Model::getStmt()->bindParam('newLogo', $newLogoURL, PDO::PARAM_STR)) {
                     // Si le logo n'a pas pu être attaché
-                    throw new Exception("Impossible d'attacher le logo en paramètre à la requête de mise à jour du logo du blog !");
+                    throw new Exception("Impossible d'attacher le logo \"$newLogoURL\" en paramètre à la requête de mise à jour du logo du blog !");
                 }
 
                 // Exécuter la requête
@@ -446,7 +446,7 @@ final class Blog
                 // Attacher la nouvelle image de fond en paramètre à la requête préparée
                 if (!Model::getStmt()->bindParam('newBackground', $newBackground, PDO::PARAM_STR)) {
                     // Si l'image de fond n'a pas pu être attachée
-                    throw new Exception("Impossible d'attacher l'image de fond en paramètre à la requête de mise à jour de l'image de fond du blog !");
+                    throw new Exception("Impossible d'attacher l'image de fond \"$newBackground\" en paramètre à la requête de mise à jour de l'image de fond du blog !");
                 }
 
                 // Exécuter la requête
