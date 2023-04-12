@@ -23,9 +23,9 @@ into a single project. It is not yet finished but it aimes to use:
   - [Table of contents](#table-of-contents)
   - [Getting started](#getting-started)
   - [To do (upcoming versions)](#to-do-upcoming-versions)
-    - [Version 3.0 - International update](#version-30---international-update)
+    - [Version 3.2 - Interaction update](#version-32---interaction-update)
+    - [Version 3.1 - International update](#version-31---international-update)
     - [Version 3.0 - API update](#version-30---api-update)
-    - [Version 2.2 - Editor update](#version-22---editor-update)
     - [Version 2.1 - Developers update](#version-21---developers-update)
     - [Version 2.0 - Rewriting from scratch](#version-20---rewriting-from-scratch)
   - [Changelog (global changes)](#changelog-global-changes)
@@ -73,7 +73,15 @@ Step 8: Use the admin page to manage the blog settings
 
 ## To do (upcoming versions)
 
-### Version 3.0 - International update
+### Version 3.2 - Interaction update
+
+ ![3.2](https://img.shields.io/badge/3.2-yellow)
+
+- [ ] Add advanced post editor with markdown support (front/back)
+- [ ] Add possibility to create multiple accounts on a same blog (front/back)
+- [ ] Add comments system (front/back)
+
+### Version 3.1 - International update
 
  ![3.1](https://img.shields.io/badge/3.1-yellow)
 
@@ -87,12 +95,6 @@ Step 8: Use the admin page to manage the blog settings
 - [ ] Add API for external applications
 - [ ] Add JS live updates
 - [ ] Add JS/PHP input validation (uploaded files types, e-mails RegEx, URLs etc...)
-
-### Version 2.2 - Editor update
-
- ![2.2](https://img.shields.io/badge/2.2-yellow)
-
-- [ ] Add advanced post editor with markdown support (front/back)
 
 ### Version 2.1 - Developers update
 
