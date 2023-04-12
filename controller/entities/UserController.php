@@ -183,7 +183,7 @@ if (isset($_POST['fLogin'])) {
         $user = UserController::getUserInfoByCredentials($_POST['fUserName'], $_POST['fPass']);
         if (!$user) {
             // Si l'utilisateur n'existe pas ou que le mot de passe n'est pas bon, stocker l'erreur
-            $formError = 'Connexion impossible, veuillez vérifier vos identifiants.';
+            Controller::setState(STATE_ERROR, 'Connexion impossible, veuillez vérifier vos identifiants.');
         } else {
             // Si l'utilisateur existe et que le mot de passe est bon, stocker les informations dans la session
             $_SESSION['id_user'] = $user->id_user;
@@ -194,7 +194,7 @@ if (isset($_POST['fLogin'])) {
         }
     } else {
         // Si tous les champs ne sont pas remplis, stocker l'erreur
-        $formError = 'Veuillez remplir tous les champs.';
+        Controller::setState(STATE_ERROR, 'Veuillez remplir tous les champs.');
     }
 }
 // Si l'utilisateur se déconnecte
@@ -211,33 +211,33 @@ if (isset($_POST['fLogOut'])) {
 if (isset($_POST['fChangeUserName'])) {
     if (!isset($_POST['fUserName']) || empty($_POST['fUserName'])) {
         // Si l'utilisateur n'a pas rempli son nom d'utilisateur actuel, stocker l'erreur à afficher dans la vue
-        $formError = 'Veuillez d\'abord renseigner votre nom d\'utilisateur actuel !';
+        Controller::setState(STATE_ERROR, 'Veuillez d\'abord renseigner votre nom d\'utilisateur actuel !');
     } else {
         if ($_POST['fUserName'] != $_SESSION['nickname']) {
             // Si le pseudo actuel ne correspond pas à celui de la session, stocker l'erreur à afficher dans la vue
-            $formError = 'Le nom d\'utilisateur actuel que vous avez renseigné ne correspond pas à celui de votre compte !';
+            Controller::setState(STATE_ERROR, 'Le nom d\'utilisateur actuel que vous avez renseigné ne correspond pas à celui de votre compte !');
         } else {
             if (
                 !isset($_POST['fNewUserName']) || empty($_POST['fNewUserName'])
                 || !isset($_POST['fNewUserNameConfirm']) || empty($_POST['fNewUserNameConfirm'])
             ) {
                 // Si l'utilisateur n'a pas rempli tous les champs requis, stocker l'erreur à afficher dans la vue
-                $formError = 'Veuillez saisir votre nouveau nom d\'utilisateur et le confirmer en-dessous.';
+                Controller::setState(STATE_ERROR, 'Veuillez saisir votre nouveau nom d\'utilisateur et le confirmer en-dessous.');
             } else {
                 if ($_POST['fNewUserName'] != $_POST['fNewUserNameConfirm']) {
                     // Si les deux champs de nouveau pseudo ne correspondent pas, stocker l'erreur à afficher dans la vue
-                    $formError = 'Les deux noms d\'utilisateur ne correspondent pas.';
+                    Controller::setState(STATE_ERROR, 'Les deux noms d\'utilisateur ne correspondent pas.');
                 }
                 // S'il n'y a pas d'erreur, tenter de changer le nom d'utilisateur
-                if (!isset($formError)) {
+                if (Controller::getState()['state'] != STATE_ERROR) {
                     // Tenter de changer le nom de l'utilisateur
                     $result = UserController::changeUsername($_SESSION['id_user'], $_POST['fNewUserName']);
                     if ($result) {
                         $_SESSION['nickname'] = $_POST['fNewUserName'];
                         // Si le nom d'utilisateur a bien été changé, afficher le message de succès
-                        $formSuccess = 'Votre nom d\'utilisateur a bien été changé !';
+                        Controller::setState(STATE_SUCCESS, 'Votre nom d\'utilisateur a bien été changé !');
                     } else {
-                        $formError = 'Une erreur est survenue, veuillez réessayer.';
+                        Controller::setState(STATE_ERROR, 'Une erreur est survenue, veuillez réessayer.');
                     }
                 }
             }
@@ -249,12 +249,12 @@ if (isset($_POST['fChangeUserName'])) {
 if (isset($_POST['fChangePassword'])) {
     if (!isset($_POST['fPass']) || empty($_POST['fPass'])) {
         // Si l'utilisateur n'a pas rempli son mot de passe actuel, stocker l'erreur à afficher dans la vue
-        $formError = 'Veuillez d\'abord renseigner votre mot de passe actuel !';
+        Controller::setState(STATE_ERROR, 'Veuillez d\'abord renseigner votre mot de passe actuel !');
     } else {
         // Si l'utilisateur a rempli son mot de passe actuel, vérifier qu'il est correct
         if (!UserController::getUserInfoByCredentials($_SESSION['nickname'], $_POST['fPass'])) {
             // Si le mot de passe actuel ne correspond pas à celui de la session, stocker l'erreur à afficher dans la vue
-            $formError = 'Le mot de passe actuel que vous avez renseigné est incorrect !';
+            Controller::setState(STATE_ERROR, 'Le mot de passe actuel que vous avez renseigné est incorrect !');
         } else {
             // Si l'utilisateur a rempli tous les champs requis, vérifier que les deux champs de nouveau mot de passe correspondent
             if (
@@ -262,22 +262,22 @@ if (isset($_POST['fChangePassword'])) {
                 || !isset($_POST['fNewPassConfirm']) || empty($_POST['fNewPassConfirm'])
             ) {
                 // Si l'utilisateur n'a pas rempli tous les champs requis, stocker l'erreur à afficher dans la vue
-                $formError = 'Veuillez saisir votre mot de passe actuel, votre nouveau mot de passe et le confirmer en-dessous.';
+                Controller::setState(STATE_ERROR, 'Veuillez saisir votre mot de passe actuel, votre nouveau mot de passe et le confirmer en-dessous.');
             } else {
                 if ($_POST['fNewPass'] != $_POST['fNewPassConfirm']) {
                     // Si les deux champs de nouveau mot de passe ne correspondent pas, stocker l'erreur à afficher dans la vue
-                    $formError = 'La confirmation de mot de passe ne correspond pas avec votre nouveau mot de passe.';
+                    Controller::setState(STATE_ERROR, 'La confirmation de mot de passe ne correspond pas avec votre nouveau mot de passe.');
                 }
                 // S'il n'y a pas d'erreur, tenter de changer le mot de passe
-                if (!isset($formError)) {
+                if (Controller::getState()['state'] != STATE_ERROR) {
                     // Tenter de changer le mot de passe de l'utilisateur
                     $passChanged = UserController::changeUserPassword($_SESSION['id_user'], $_POST['fNewPass']);
                     if (!$passChanged) {
                         // Si le mot de passe n'a pas pu être changé, stocker l'erreur à afficher dans la vue
-                        $formError = 'Une erreur est survenue lors du changement de votre mot de passe, veuillez réessayer.';
+                        Controller::setState(STATE_ERROR, 'Une erreur est survenue lors du changement de votre mot de passe, veuillez réessayer.');
                     } else {
                         // Si le mot de passe a bien été changé, afficher le message de succès
-                        $formSuccess = 'Votre mot de passe a bien été changé !';
+                        Controller::setState(STATE_SUCCESS, 'Votre mot de passe a bien été changé !');
                     }
                 }
             }

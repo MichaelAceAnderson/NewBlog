@@ -20,13 +20,15 @@
     <div class="content">
         <!-- Afficher un panel pour chaque post  -->
         <?php
-        if (isset($formError)) {
+        // Vérifier si une erreur a été stockée par le contrôleur
+        if (Controller::getState()['state'] == STATE_ERROR) {
             // Si le contrôleur a stocké une erreur, l'afficher
-            echo '<h1 class="notification error">' . $formError . '</h1>';
+            echo '<h1 class="notification error">' . Controller::getState()['message'] . '</h1>';
         }
-        if (isset($formSuccess)) {
+        // Vérifier si un succès a été stocké par le contrôleur
+        if (Controller::getState()['state'] == STATE_SUCCESS) {
             // Si le contrôleur a stocké un succès, l'afficher
-            echo '<h1 class="notification success">' . $formSuccess . '</h1>';
+            echo '<h1 class="notification success">' . Controller::getState()['message'] . '</h1>';
         }
 
         $posts = PostController::getAllPosts();

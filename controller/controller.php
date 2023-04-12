@@ -3,8 +3,18 @@ require_once __DIR__ . DIRECTORY_SEPARATOR . '..' . DIRECTORY_SEPARATOR . 'model
 
 // Code s'appuyant sur le modèle et appelé par les formulaires des vues
 
+// Définir les constantes d'état
+define("STATE_NONE", -1);
+define("STATE_SUCCESS", 1);
+define("STATE_ERROR", 0);
 class Controller
 {
+    /* PROPRIÉTÉS/ATTRIBUTS */
+    // État de la dernière action effectuée
+    private static int $state = STATE_NONE;
+    // Message de la dernière action effectuée
+    private static string $message = "";
+
     /* FONCTIONS DE SORTIE DES DONNÉES */
     // Définir le contenu de la page comme étant une sortie Json
     public static function returnJsonHttpResponse(bool $success, string|array $data): void
@@ -99,6 +109,17 @@ class Controller
             return false;
         }
         return true;
+    }
+    // Définir l'état à afficher dans les vues
+    public static function setState(int $state, string $message): void
+    {
+        self::$state = $state;
+        self::$message = $message;
+    }
+    // Récupérer l'état de la dernière action effectuée
+    public static function getState(): array
+    {
+        return array('state' => self::$state, 'message' => self::$message);
     }
 }
 

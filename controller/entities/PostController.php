@@ -171,14 +171,14 @@ if (isset($_POST['fPost'])) {
     // On vérifie que le contenu du post n'est pas vide
     if (!isset($_POST['fPostContent']) || empty($_POST['fPostContent'])) {
         // Si le contenu du post est vide, on affiche un message d'erreur
-        $formError = 'Le contenu du post est vide';
+        Controller::setState(STATE_ERROR, 'Le contenu du post est vide');
     } else {
         // On récupère l'id du prochain post à créer
         $postId = PostController::getNextPostId();
         // Si une erreur est survenue lors de la récupération de l'id du prochain post
         if (!$postId) {
             // On affiche un message d'erreur
-            $formError = 'Une erreur est survenue lors de la communication avec la base de données';
+            Controller::setState(STATE_ERROR, 'Une erreur est survenue lors de la communication avec la base de données');
         } else {
             // Si un fichier a été uploadé
             if (!empty($_FILES) && $_FILES['fPostMedia']['error'] != UPLOAD_ERR_NO_FILE) {
@@ -187,15 +187,15 @@ if (isset($_POST['fPost'])) {
                 // Si une erreur est survenue lors de l'upload
                 if ($_FILES['fPostMedia']['error'] != UPLOAD_ERR_OK || !$_FILES['fPostMedia']['tmp_name']) {
                     // On stocke le message d'erreur à afficher
-                    $formError = 'Erreur: Le fichier n\'a pas pu être uploadé';
+                    Controller::setState(STATE_ERROR, 'Erreur: Le fichier n\'a pas pu être uploadé');
                 } elseif ((!preg_match("/video\//", $_FILES['fPostMedia']['type'])) && !preg_match("/image\//", $_FILES['fPostMedia']['type'])) {
                     // Si le fichier n'est pas une image ou une vidéo
                     // On stocke le message d'erreur à afficher
-                    $formError = 'Votre fichier doit être une image ou une vidéo !';
+                    Controller::setState(STATE_ERROR, 'Votre fichier doit être une image ou une vidéo !');
                 } elseif ($_FILES['fPostMedia']['size'] > 1000000000) {
                     // Si la taille du fichier est supérieure à 10Mo
                     // On stocke le message d'erreur à afficher
-                    $formError = 'Le fichier est trop volumineux !';
+                    Controller::setState(STATE_ERROR, 'Le fichier est trop volumineux !');
                 } else {
                     if (preg_match("/image\//", $_FILES['fPostMedia']['type'])) {
                         // Si le fichier est une vidéo
@@ -223,22 +223,22 @@ if (isset($_POST['fPost'])) {
                         $mediaUrl = DIRECTORY_SEPARATOR . 'blog_data' . DIRECTORY_SEPARATOR . 'posts' . DIRECTORY_SEPARATOR . 'video' . DIRECTORY_SEPARATOR . ' . $postId . ' . DIRECTORY_SEPARATOR . $_FILES['fPostMedia']['name'];
                     }
                     if (!move_uploaded_file($_FILES['fPostMedia']['tmp_name'], $_SERVER['DOCUMENT_ROOT'] . $mediaUrl)) {
-                        $formError = 'Impossible d\'uploader le fichier en raison d\'une erreur côté serveur';
+                        Controller::setState(STATE_ERROR, 'Impossible d\'uploader le fichier en raison d\'une erreur côté serveur');
                     }
                 }
             }
         }
     }
     // S'il n'y a eu aucune erreur
-    if (!isset($formError)) {
+    if (Controller::getState()['state'] != STATE_ERROR) {
         // On tente d'ajouter le post en base de données
         $postCreation = PostController::createPost($_SESSION['id_user'], $_POST['fPostContent']);
         if (!$postCreation) {
             // Si une erreur survient, on stocke le message d'erreur à afficher
-            $formError = 'Une erreur est survenue lors de l\'ajout du post';
+            Controller::setState(STATE_ERROR, 'Une erreur est survenue lors de l\'ajout du post');
         } else {
             // Si l'ajout du post s'est bien déroulé, on stocke le message de succès à afficher
-            $formSuccess = 'Le post a bien été ajouté !';
+            Controller::setState(STATE_SUCCESS, 'Le post a bien été ajouté !');
         }
     }
 }
@@ -248,10 +248,10 @@ if (isset($_POST['fClearPosts'])) {
     // On tente de supprimer tous les posts en base de données
     if (PostController::clearPosts() < 0) {
         // Sinon, on stocke le message d'erreur à afficher
-        $formError = 'Une erreur est survenue lors de la suppression des posts';
+        Controller::setState(STATE_ERROR, 'Une erreur est survenue lors de la suppression des posts');
     } else {
         // Si la suppression des posts s'est bien déroulée, on stocke le message de succès à afficher
-        $formSuccess = 'Tous les posts ont bien été supprimés !';
+        Controller::setState(STATE_SUCCESS, 'Tous les posts ont bien été supprimés !');
     }
 }
 
@@ -260,9 +260,9 @@ if (isset($_POST['fDeletePostId'])) {
     // On tente de supprimer le post précisé en base de données
     if (!PostController::deletePost($_POST['fDeletePostId'])) {
         // Sinon, on stocke le message d'erreur à afficher
-        $formError = 'Une erreur est survenue lors de la suppression du post';
+        Controller::setState(STATE_ERROR, 'Une erreur est survenue lors de la suppression du post');
     } else {
         // Si la suppression du post s'est bien déroulée, on stocke le message de succès à afficher
-        $formSuccess = 'Le post a bien été supprimé !';
+        Controller::setState(STATE_SUCCESS, 'Le post a bien été supprimé !');
     }
 }

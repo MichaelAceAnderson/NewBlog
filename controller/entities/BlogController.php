@@ -290,7 +290,7 @@ if (isset($_POST['fInstall'])) {
         if ($installStatus instanceof Exception) {
             // Si une erreur est survenue, on journalise le message d'erreur et on l'affiche à l'utilisateur
             // Controller::printLog(Controller::getError($installStatus));
-            $formError = Model::getError($installStatus, HTML);
+            Controller::setState(STATE_ERROR, Model::getError($installStatus, HTML));
         } else {
             if ($installStatus) {
                 // Si l'installation a bien réussi
@@ -304,11 +304,11 @@ if (isset($_POST['fInstall'])) {
                 header('Location: /');
             } else {
                 // Ne devrait jamais arriver
-                $formError = 'Une erreur est survenue lors de l\'installation du blog !';
+                Controller::setState(STATE_ERROR, 'Une erreur est survenue lors de l\'installation du blog !');
             }
         }
     } else {
-        $formError = 'Veuillez remplir tous les champs !';
+        Controller::setState(STATE_ERROR, 'Veuillez remplir tous les champs !');
     }
 }
 
@@ -319,13 +319,13 @@ if (isset($_POST['fChangeBlogName'])) {
         $blogNameUpdateStatus = BlogController::setBlogName($_POST['fBlogName']);
         if ($blogNameUpdateStatus) {
             // Si la modification a réussi, on stocke un message de succès
-            $formSuccess = 'Le nom du blog a bien été modifié !';
+            Controller::setState(STATE_SUCCESS, 'Le nom du blog a bien été modifié !');
         } else {
             // Si la modification a échoué, on affiche un message d'erreur
-            $formError = 'Une erreur est survenue lors de la modification du nom du blog !';
+            Controller::setState(STATE_ERROR, 'Une erreur est survenue lors de la modification du nom du blog !');
         }
     } else {
-        $formError = 'Veuillez remplir tous les champs !';
+        Controller::setState(STATE_ERROR, 'Veuillez remplir tous les champs !');
     }
 }
 
@@ -336,13 +336,13 @@ if (isset($_POST['fChangeBlogDesc'])) {
         $blogDescUpdateStatus = BlogController::setDescription($_POST['fBlogDesc']);
         if ($blogDescUpdateStatus) {
             // Si la modification a réussi, on stocke un message de succès
-            $formSuccess = 'La description a bien été modifiée !';
+            Controller::setState(STATE_SUCCESS, 'La description a bien été modifiée !');
         } else {
             // Si la modification a échoué, on affiche un message d'erreur
-            $formError = 'Une erreur est survenue lors de la modification de la description !';
+            Controller::setState(STATE_ERROR, 'Une erreur est survenue lors de la modification de la description !');
         }
     } else {
-        $formError = 'Veuillez remplir tous les champs !';
+        Controller::setState(STATE_ERROR, 'Veuillez remplir tous les champs !');
     }
 }
 
@@ -355,13 +355,13 @@ if (isset($_POST['fChangeLogo'])) {
 
         if ($_FILES['fLogoFile']['error'] != UPLOAD_ERR_OK || !$_FILES['fLogoFile']['tmp_name']) {
             // Si une erreur est survenue lors de l'upload, on stocke le message d'erreur à afficher
-            $formError = 'Erreur: Le fichier n\'a pas pu être uploadé';
+            Controller::setState(STATE_ERROR, 'Erreur: Le fichier n\'a pas pu être uploadé');
         } elseif (!preg_match("/image\//", $_FILES['fLogoFile']['type'])) {
             // Si le fichier n'est pas une image, on stocke le message d'erreur à afficher
-            $formError = 'Votre fichier doit être une image ou une vidéo !';
+            Controller::setState(STATE_ERROR, 'Votre fichier doit être une image ou une vidéo !');
         } elseif ($_FILES['fLogoFile']['size'] > 10485760) {
             // Si la taille du fichier est supérieure à 10Mo, on stocke le message d'erreur à afficher
-            $formError = 'Le fichier est trop volumineux !';
+            Controller::setState(STATE_ERROR, 'Le fichier est trop volumineux !');
         } else {
             // On supprime l'ancien logo
             foreach (glob($_SERVER['DOCUMENT_ROOT'] . '/blog_data' . DIRECTORY_SEPARATOR . 'img' . DIRECTORY_SEPARATOR . 'logo.*') as $imgFile) {
@@ -386,22 +386,22 @@ if (isset($_POST['fChangeLogo'])) {
                 )
             ) {
                 // Si une erreur survient, on stocke le message d'erreur à afficher
-                $formError = 'Impossible d\'uploader le fichier en raison d\'une erreur côté serveur';
+                Controller::setState(STATE_ERROR, 'Impossible d\'uploader le fichier en raison d\'une erreur côté serveur');
             } else {
                 // Si l'upload a réussi, on stocke un message de succès
-                $formSuccess = 'Le logo a bien été modifié !';
+                Controller::setState(STATE_SUCCESS, 'Le logo a bien été modifié !');
             }
         }
         // Si on ne rencontre aucune erreur pendant l'upload
-        if (!isset($formError)) {
+        if (Controller::getState()['state'] != STATE_ERROR) {
             // On met à jour l'URL du logo
             $logoURLUpdateStatus = BlogController::setLogoURL($logoPath);
             if ($logoURLUpdateStatus) {
                 // Si la modification a réussi, on stocke un message de succès
-                $formSuccess = 'Le logo a bien été modifié !';
+                Controller::setState(STATE_SUCCESS, 'Le logo a bien été modifié !');
             } else {
                 // Si la modification a échoué, on affiche un message d'erreur
-                $formError = 'Une erreur est survenue lors de la modification du logo !';
+                Controller::setState(STATE_ERROR, 'Une erreur est survenue lors de la modification du logo !');
             }
         }
     } else {
@@ -422,10 +422,10 @@ if (isset($_POST['fChangeLogo'])) {
         $logoURLUpdateStatus = BlogController::setLogoURL($_POST['fLogoURL']);
         if ($logoURLUpdateStatus) {
             // Si la modification a réussi, on stocke un message de succès
-            $formSuccess = 'L\'URL du logo a bien été modifié !';
+            Controller::setState(STATE_SUCCESS, 'L\'URL du logo a bien été modifié !');
         } else {
             // Si la modification a échoué, on affiche un message d'erreur
-            $formError = 'Une erreur est survenue lors de la modification du logo !';
+            Controller::setState(STATE_ERROR, 'Une erreur est survenue lors de la modification du logo !');
         }
     }
 }
@@ -439,13 +439,13 @@ if (isset($_POST['fChangeBgURL'])) {
 
         if ($_FILES['fBgFile']['error'] != UPLOAD_ERR_OK || !$_FILES['fBgFile']['tmp_name']) {
             // Si une erreur est survenue lors de l'upload, on stocke le message d'erreur à afficher
-            $formError = 'Erreur: Le fichier n\'a pas pu être uploadé';
+            Controller::setState(STATE_ERROR, 'Erreur: Le fichier n\'a pas pu être uploadé');
         } elseif (!preg_match("/image\//", $_FILES['fBgFile']['type'])) {
             // Si le fichier n'est pas une image, on stocke le message d'erreur à afficher
-            $formError = 'Votre fichier doit être une image ou une vidéo !';
+            Controller::setState(STATE_ERROR, 'Votre fichier doit être une image ou une vidéo !');
         } elseif ($_FILES['fBgFile']['size'] > 10485760) {
             // Si la taille du fichier est supérieure à 10Mo, on stocke le message d'erreur à afficher
-            $formError = 'Le fichier est trop volumineux !';
+            Controller::setState(STATE_ERROR, 'Le fichier est trop volumineux !');
         } else {
             // On supprime l'ancienne image de fond
             foreach (glob($_SERVER['DOCUMENT_ROOT'] . DIRECTORY_SEPARATOR . 'blog_data' . DIRECTORY_SEPARATOR . 'img' . DIRECTORY_SEPARATOR . 'background.*') as $imgFile) {
@@ -469,22 +469,22 @@ if (isset($_POST['fChangeBgURL'])) {
                 )
             ) {
                 // Si une erreur survient, on stocke le message d'erreur à afficher
-                $formError = 'Impossible d\'uploader le fichier en raison d\'une erreur côté serveur';
+                Controller::setState(STATE_ERROR, 'Impossible d\'uploader le fichier en raison d\'une erreur côté serveur');
             } else {
                 // Si l'upload a réussi, on stocke un message de succès
-                $formSuccess = 'L\'image de fond a bien été modifiée !';
+                Controller::setState(STATE_SUCCESS, 'L\'image de fond a bien été modifiée !');
             }
         }
         // Si on ne rencontre aucune erreur pendant l'upload
-        if (!isset($formError)) {
+        if (Controller::getState()['state'] != STATE_ERROR) {
             // On met à jour l'URL de l'image de fond
             $bgURLUpdateStatus = BlogController::setBackgroundURL($bgPath);
             if ($bgURLUpdateStatus) {
                 // Si la modification a réussi, on stocke un message de succès
-                $formSuccess = 'L\'image de fond a bien été modifiée !';
+                Controller::setState(STATE_SUCCESS, 'L\'image de fond a bien été modifiée !');
             } else {
                 // Si la modification a échoué, on affiche un message d'erreur
-                $formError = 'Une erreur est survenue lors de la modification de l\'image de fond !';
+                Controller::setState(STATE_ERROR, 'Une erreur est survenue lors de la modification de l\'image de fond !');
             }
         }
     } else {
@@ -505,10 +505,10 @@ if (isset($_POST['fChangeBgURL'])) {
         $bgURLUpdateStatus = BlogController::setBackgroundURL($_POST['fBgURL']);
         if ($bgURLUpdateStatus) {
             // Si la modification a réussi, on stocke un message de succès
-            $formSuccess = 'L\'URL de l\'image de fond a bien été modifiée !';
+            Controller::setState(STATE_SUCCESS, 'L\'URL de l\'image de fond a bien été modifiée !');
         } else {
             // Si la modification a échoué, on affiche un message d'erreur
-            $formError = 'Une erreur est survenue lors de la modification de l\'image de fond !';
+            Controller::setState(STATE_ERROR, 'Une erreur est survenue lors de la modification de l\'image de fond !');
         }
     }
 }
