@@ -119,6 +119,8 @@ Step 8: Use the admin page to manage the blog settings
 - [ ] Try to make a model method for uploading files (back)
 - [ ] Upload progress bar (front/back)
 - [ ] Try to cache blog info to prevent useless DB requests (back)
+- [ ] Add constants & global variables for re-used values \[ex: paths, links, ...\] (back)
+- [ ] Make app portable by replacing absolute paths (DOCUMENT_ROOT) with relative paths (\_\_DIR\_\_) (back)
 
 ### Version 2.0 - Rewriting from scratch
 
@@ -134,9 +136,6 @@ Step 8: Use the admin page to manage the blog settings
 
 To-do:
 
-- [ ] Add constants & global variables for re-used values \[ex: paths, links, ...\] (back)
-- [ ] Make app portable by replacing absolute paths (DOCUMENT_ROOT) with relative paths (\_\_DIR\_\_) (back)
-- [ ] Move file management to Model (back)
 - [ ] Make a Controller::getState function to get current formError/formSuccess message (front/back)
 - [ ] Handle missing extensions errors (back/front)
 - [ ] Handle missing file authorizations errors (back/front)

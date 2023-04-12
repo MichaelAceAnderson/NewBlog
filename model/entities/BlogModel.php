@@ -7,6 +7,25 @@ final class Blog
     // Installer la base de données du blog
     public static function installDB(): bool|Exception
     {
+        // Supprimer toutes les images de post dans le cas d'une réinstallation
+        if (file_exists($_SERVER['DOCUMENT_ROOT'] . DIRECTORY_SEPARATOR . 'blog_data' . DIRECTORY_SEPARATOR . 'posts' . DIRECTORY_SEPARATOR . 'img' . DIRECTORY_SEPARATOR) && is_dir($_SERVER['DOCUMENT_ROOT'] . DIRECTORY_SEPARATOR . 'blog_data' . DIRECTORY_SEPARATOR . 'posts' . DIRECTORY_SEPARATOR . 'img' . DIRECTORY_SEPARATOR)) {
+            if (!Model::rmdir_r($_SERVER['DOCUMENT_ROOT'] . DIRECTORY_SEPARATOR . 'blog_data' . DIRECTORY_SEPARATOR . 'posts' . DIRECTORY_SEPARATOR . 'img' . DIRECTORY_SEPARATOR . '*')) {
+                // Si la suppression a échoué
+                // On logge l'erreur
+                Model::printLog('Impossible de supprimer toutes les images de post !');
+                return false;
+            }
+        }
+
+        // Supprimer toutes les vidéos de post dans le cas d'une réinstallation
+        if (file_exists($_SERVER['DOCUMENT_ROOT'] . DIRECTORY_SEPARATOR . 'blog_data' . DIRECTORY_SEPARATOR . 'posts' . DIRECTORY_SEPARATOR . 'video' . DIRECTORY_SEPARATOR) && is_dir($_SERVER['DOCUMENT_ROOT'] . DIRECTORY_SEPARATOR . 'blog_data' . DIRECTORY_SEPARATOR . 'posts' . DIRECTORY_SEPARATOR . 'video' . DIRECTORY_SEPARATOR)) {
+            if (!Model::rmdir_r($_SERVER['DOCUMENT_ROOT'] . DIRECTORY_SEPARATOR . 'blog_data' . DIRECTORY_SEPARATOR . 'posts' . DIRECTORY_SEPARATOR . 'video' . DIRECTORY_SEPARATOR . '*')) {
+                // Si la suppression a échoué
+                // On logge l'erreur
+                Model::printLog('Impossible de supprimer toutes les vidéos de post !');
+                return false;
+            }
+        }
         // Tenter d'installer la base de données du blog
         try {
             // Si la connexion n'a pas pu être créée

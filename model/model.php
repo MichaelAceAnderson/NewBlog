@@ -139,6 +139,7 @@ class Model
                             // S'il est impossible de supprimer l'élément
                             // On logge l'erreur
                             Model::printLog('Impossible de supprimer l\'élément ' . $path . DIRECTORY_SEPARATOR . $object);
+                            return false;
                         }
                     }
                 }
@@ -147,6 +148,7 @@ class Model
                 // S'il est impossible de supprimer le dossier
                 // On logge l'erreur
                 Model::printLog('Impossible de supprimer le dossier ' . $path);
+                return false;
             }
         }
         // On renvoie un succès
