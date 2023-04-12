@@ -10,12 +10,19 @@
     } else {
         echo '<h1 class="notification warning">Assurez-vous d\'avoir une base de données PostGreSQL nommée "newblog" en cours d\'exécution !</h1>';
 
-        if (isset($formError)) {
-            echo '<h1 class="notification error">' . $formError . '</h1>';
+        // Vérifier si une erreur a été stockée par le contrôleur
+        if (Controller::getState()['state'] == STATE_ERROR) {
+            // Si le contrôleur a stocké une erreur, l'afficher
+            echo '<h1 class="notification error">' . Controller::getState()['message'] . '</h1>';
+        }
+        // Vérifier si un succès a été stocké par le contrôleur
+        elseif (Controller::getState()['state'] == STATE_SUCCESS) {
+            // Si le contrôleur a stocké un succès, l'afficher
+            echo '<h1 class="notification success">' . Controller::getState()['message'] . '</h1>';
         }
         ?>
-    <!-- Définir les identifiants de la BDD -->
-    <!-- <form method="post" action="" autocomplete="off">
+        <!-- Définir les identifiants de la BDD -->
+        <!-- <form method="post" action="" autocomplete="off">
             <div class="panel">
                 <h1>Configurer l'accès à la base de données</h1>
                 <div class="panel-content">
@@ -29,7 +36,7 @@
                 </div>
             </div>
         </form> -->
-    <?php
+        <?php
     }
     ?>
 </div>

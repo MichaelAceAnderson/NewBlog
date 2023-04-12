@@ -6,10 +6,16 @@ if (!isset($_SESSION['id_user'])) {
     ?>
     <div class="main">
         <?php
-        if (isset($formError))
-            echo '<h1 class="notification error">' . $formError . '</h1>';
-        if (isset($formSuccess))
-            echo '<h1 class="notification success">' . $formSuccess . '</h1>';
+        // Vérifier si une erreur a été stockée par le contrôleur
+        if (Controller::getState()['state'] == STATE_ERROR) {
+            // Si le contrôleur a stocké une erreur, l'afficher
+            echo '<h1 class="notification error">' . Controller::getState()['message'] . '</h1>';
+        }
+        // Vérifier si un succès a été stocké par le contrôleur
+        elseif (Controller::getState()['state'] == STATE_SUCCESS) {
+            // Si le contrôleur a stocké un succès, l'afficher
+            echo '<h1 class="notification success">' . Controller::getState()['message'] . '</h1>';
+        }
         ?>
         <!-- Changer de pseudo  -->
         <div class="panel">
