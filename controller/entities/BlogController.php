@@ -219,6 +219,7 @@ class BlogController
     // Récupérer l'URL de l'image de fond du blog
     public static function getBackgroundURL(): string
     {
+        $defaultBgURL = '/view/img/circuits.jpg';
         // On tente de récupérer les infos du blog en base de données
         $result = Blog::selectBlog();
         // Si une erreur est survenue lors de l'appel du modèle
@@ -228,11 +229,30 @@ class BlogController
             // On logge l'erreur
             Controller::printLog(Controller::getError($result));
             // On retourne l'URL par défaut
-            return '/view/img/circuits.jpg';
+            return $defaultBgURL;
         } else {
-            // Si la récupération des infos du blog a réussi, on renvoie l'URL de l'image de fond s'il y en a une
-            // Sinon, on renvoie l'URL de l'image de fond par défaut
-            return $result[0]->background_url ?? '/view/img/circuits.jpg';
+            // Si la récupération des infos du blog a réussi
+            // On renvoie l'URL de l'image de fond s'il y en a une
+            if (!is_null($result[0]->background_url)) {
+                // On s'assure de bien renvoyer un chemin relatif et compatible avec le navigateur
+                return str_replace(
+                    // On cherche le début du chemin absolu du fichier
+                    $_SERVER['DOCUMENT_ROOT'],
+                    // On le remplace par rien
+                    '',
+                    // On cherche des expressions régulières
+                    preg_replace(
+                        // On l'URL du site et les séparateurs de répertoire par un chemin relatif
+                        array('/' . 'http(s?):\/\/' . $_SERVER['SERVER_NAME'] . '/', '/\\' . DIRECTORY_SEPARATOR . '/'),
+                        array('', '/'),
+                        $result[0]->background_url
+                    )
+                    // Si le résultat est nul, on renvoie l'URL de l'image de fond par défaut
+                ) ?? $defaultBgURL;
+            } else {
+                // S'il n'y a pas d'URL d'image de fond, on renvoie l'URL de l'image de fond par défaut
+                return $defaultBgURL;
+            }
         }
     }
     // Récupérer l'URL du logo du blog
@@ -364,7 +384,7 @@ if (isset($_POST['fChangeLogo'])) {
             Controller::setState(STATE_ERROR, 'Le fichier est trop volumineux !');
         } else {
             // On supprime l'ancien logo
-            foreach (glob($_SERVER['DOCUMENT_ROOT'] . '/blog_data' . DIRECTORY_SEPARATOR . 'img' . DIRECTORY_SEPARATOR . 'logo.*') as $imgFile) {
+            foreach (glob($_SERVER['DOCUMENT_ROOT'] . DIRECTORY_SEPARATOR . 'blog_data' . DIRECTORY_SEPARATOR . 'img' . DIRECTORY_SEPARATOR . 'logo.*') as $imgFile) {
                 // Si c'est un fichier et pas un sous-dossier
                 if (is_file($imgFile)) {
                     // Supprimer le fichier
