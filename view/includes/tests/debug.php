@@ -25,7 +25,7 @@ if (!isset($_SESSION['is_mod']) || $_SESSION['is_mod'] == false) {
 $_POST['postVar'] = 'Une valeur de formulaire';
 $test = 'Chaîne de test';
 // Définition des regex pour le formatage
-$formatting = array(array('/\\n/', '/\[(\w+)\]/'), array('<br>', '<b>[${1}]</b>'));
+$formatting = array(array('/\\n/', '/' . PHP_EOL . '/', '/\[(\w+)\]/'), array('<br>', '', '<b>[${1}]</b>'));
 
 // Variables de PHP
 echo '<b>PHP Vars: </b><br>';
@@ -42,13 +42,13 @@ if (isset($http_response_header)) {
     echo '<b>Valeurs de http_response_header: </b><span>' . preg_replace($formatting[0], $formatting[1], print_r($http_response_header, true)) . '</span><br>';
 }
 // Variables définies
-echo '<b>Defined vars: </font></b><span>' . preg_replace($formatting[0], $formatting[1], print_r(get_defined_vars(), true)) . '</span><br>\n';
+echo '<b>Defined vars: </font></b><span>' . preg_replace($formatting[0], $formatting[1], print_r(get_defined_vars(), true)) . '</span><br>' . PHP_EOL;
 // Constantes définies
-echo '<b>Defined constants: </font></b><span>' . preg_replace($formatting[0], $formatting[1], print_r(get_defined_constants(), true)) . '</span><br>\n';
+echo '<b>Defined constants: </font></b><span>' . preg_replace($formatting[0], $formatting[1], print_r(get_defined_constants(), true)) . '</span><br>' . PHP_EOL;
 // Chemin du fichier de travail (page en cours)
-echo '<b>Current working directory: </font></b><span>' . print_r(getcwd(), true) . '</span><br>\n';
+echo '<b>Current working directory: </font></b><span>' . print_r(getcwd(), true) . '</span><br>' . PHP_EOL;
 // Chemin du présent fichier (debug.php, différent du cwd si appelé depuis un autre fichier)
-echo '<b>__DIR__: </font></b><span>' . __DIR__ . '</span><br>\n';
+echo '<b>__DIR__: </font></b><span>' . __DIR__ . '</span><br>' . PHP_EOL;
 // Dernière erreur renvoyée par PHP
 echo '<b>Valeurs de php_errormsg: </b><span>' . preg_replace($formatting[0], $formatting[1], print_r(error_get_last(), true)) . '</span><br>';
 
@@ -62,11 +62,11 @@ $posconf = strlen($C) - $conflen - 1;
 $D = substr($C, 1, $posconf);
 $host = 'http://' . $_SERVER['SERVER_NAME'] . '/' . $D;
 
-echo '<b>Host: </b><span>' . $host . '</span><br>\n';
+echo '<b>Host: </b><span>' . $host . '</span><br>' . PHP_EOL;
 
 // PHP Info
-// echo '<b>PHP Info: </font></b><span>' . phpinfo() . '</span><br>\n';
+// echo '<b>PHP Info: </font></b><span>' . phpinfo() . '</span><br>'.PHP_EOL;
 // PHP Info 32
-// echo '<b>PHP Info 32: </font></b><span>" . phpinfo(32) . "</span><br>\n';
+// echo '<b>PHP Info 32: </font></b><span>" . phpinfo(32) . "</span><br>'.PHP_EOL;
 
 ?>

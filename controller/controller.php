@@ -75,7 +75,7 @@ class Controller
         }
         if ($mode == RAW) {
             // Définition des regex pour le formatage
-            $formatting = array(array('/\<br\>|\<br\/\>/', '/\<b\>|\<\/b\>/'), array('\n', ''));
+            $formatting = array(array('/\<br\>|\<br\/\>/', '/\<b\>|\<\/b\>/', '/' . PHP_EOL . '/'), array('\n', '', ''));
             // Formater le message d'erreur pour remplacer les sauts de ligne bruts par des sauts de ligne HTML
             $errorMsg = preg_replace($formatting[0], $formatting[1], $errorMsg);
         }
@@ -96,7 +96,7 @@ class Controller
             // S'il est impossible d'ouvrir le fichier de log
             return false;
         }
-        if (!fwrite($logFile, '\n[' . $date . '] Contrôleur: ' . $msg)) {
+        if (!fwrite($logFile, PHP_EOL . '[' . $date . '] Contrôleur: ' . $msg)) {
             // S'il est impossible d'écrire dans le fichier de log
             return false;
         }
