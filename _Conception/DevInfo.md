@@ -40,7 +40,7 @@ into a single project. It is not yet finished but it aimes to use:
       - [Model](#model)
       - [Controller](#controller)
       - [View](#view)
-    - [Code commenting \& variable naming standards](#code-commenting--variable-naming-standards)
+    - [Code conventions \& naming standards](#code-conventions--naming-standards)
 
 ## Getting started
 
@@ -244,7 +244,7 @@ It includes the common structure and the content specific to the page requested 
 // Include footer
 ```
 
-### Code commenting & variable naming standards
+### Code conventions & naming standards
 
 ```php
 /* SECTION */ //(with caps)
@@ -261,7 +261,7 @@ functionName(type: arg1, objectType|null: arg2) : returnType1 | returnType2 // (
     else{
         // If condition is false, meaning that [...]
         // Do this other action
-        doThisOtherAction();
+        doThisOtherAction('arg1', 'arg2'); // (/!\ with single quotes and escaped characters)
     }
 
     // execute this Function

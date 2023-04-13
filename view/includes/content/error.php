@@ -1,5 +1,5 @@
 <?php if (!(isset($_GET['static']) && $_GET['static'] == false)) {
-    header("Refresh:5; url=/");
+    header('Refresh:5; url=/');
     echo '<META http-equiv="refresh" content="5; URL=/">';
 } ?>
 <div class="main">
