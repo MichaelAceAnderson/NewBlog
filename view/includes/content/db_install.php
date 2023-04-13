@@ -8,6 +8,9 @@
         // Rediriger vers l'accueil
         header('Location: /');
     } else {
+        // Si la connexion à la BDD n'a pas pu être établie
+    
+        // Afficher un message d'erreur
         echo '<h1 class="notification warning">Assurez-vous d\'avoir une base de données PostGreSQL nommée "newblog" en cours d\'exécution !</h1>';
 
         // Vérifier si une erreur a été stockée par le contrôleur

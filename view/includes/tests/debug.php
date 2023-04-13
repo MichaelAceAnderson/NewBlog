@@ -20,6 +20,7 @@ if (!isset($_SESSION['is_mod']) || $_SESSION['is_mod'] == false) {
     }
 </style>
 <?php
+
 // Définitions de variables arbitraires à afficher par le debug
 $_POST['postVar'] = 'Une valeur de formulaire';
 $test = 'Chaîne de test';
@@ -27,7 +28,7 @@ $test = 'Chaîne de test';
 $formatting = array(array('/\\n/', '/\[(\w+)\]/'), array('<br>', '<b>[${1}]</b>'));
 
 // Variables de PHP
-echo '<b>PHP Vars: </b><br>\n';
+echo '<b>PHP Vars: </b><br>';
 if (!isset($_SESSION)) {
     session_start();
 }

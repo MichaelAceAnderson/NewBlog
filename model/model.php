@@ -161,36 +161,43 @@ class Model
     }
 }
 
-// Tenter de créer une connexion à la base de données
-try {
-    // Utilisation de PDO (PHP Data Objects) pour se connecter à la base de données
-    // PDO a l'avantage d'être compatible avec plusieurs SGBD (MySQL, PostgreSQL, SQLite, etc.)
-    Model::setPdo(
-        new \PDO(
-            'pgsql:host=' . DB_HOST . ';port=5432;dbname=' . DB_NAME . '',
-            DB_USER,
-            DB_PASS,
-            [
-                    \PDO::ATTR_DEFAULT_FETCH_MODE => \PDO::FETCH_OBJ,
-                    \PDO::ATTR_ERRMODE => \PDO::ERRMODE_EXCEPTION,
-                    \PDO::ATTR_TIMEOUT => 2,
-                // \PDO::ATTR_EMULATE_PREPARES => true,
-                // \PDO::ATTR_PERSISTENT => true,
-                // \PDO::ATTR_STRINGIFY_FETCHES => true,
-            ]
-        )
-    );
-} catch (PDOException $e) {
-    // On logge l'erreur
-    Model::printLog(Model::getError($e));
-    // Si une erreur survient, on détruit la connexion
-    Model::setPdo(null);
+if (!extension_loaded('PDO')) {
+    Model::printLog('L\'extension PDO n\'est pas installée sur le serveur PHP !');
+    Controller::setState(STATE_ERROR, 'L\'extension PDO n\'est pas installée sur le serveur PHP !');
+} elseif (!extension_loaded('pdo_pgsql')) {
+    Model::printLog('L\'extension pdo_pgsql pour PostGreSQL n\'est pas installée sur le serveur PHP !');
+    Controller::setState(STATE_ERROR, 'L\'extension pdo_pgsql pour PostGreSQL n\'est pas installée sur le serveur PHP !');
+} else {
+    // Tenter de créer une connexion à la base de données
+    try {
+        // Utilisation de PDO (PHP Data Objects) pour se connecter à la base de données
+        // PDO a l'avantage d'être compatible avec plusieurs SGBD (MySQL, PostgreSQL, SQLite, etc.)
+        Model::setPdo(
+            new \PDO(
+                'pgsql:host=' . DB_HOST . ';port=5432;dbname=' . DB_NAME . '',
+                DB_USER,
+                DB_PASS,
+                [
+                        \PDO::ATTR_DEFAULT_FETCH_MODE => \PDO::FETCH_OBJ,
+                        \PDO::ATTR_ERRMODE => \PDO::ERRMODE_EXCEPTION,
+                        \PDO::ATTR_TIMEOUT => 2,
+                    // \PDO::ATTR_EMULATE_PREPARES => true,
+                    // \PDO::ATTR_PERSISTENT => true,
+                    // \PDO::ATTR_STRINGIFY_FETCHES => true,
+                ]
+            )
+        );
+    } catch (PDOException $e) {
+        // On logge l'erreur
+        Model::printLog(Model::getError($e));
+        // Si une erreur survient, on détruit la connexion
+        Model::setPdo(null);
+    }
+    // Si la connexion est établie, on logge le message
+    if (Model::getPdo() != null) {
+        Model::printLog('Connexion à la base de données réussie');
+    }
 }
-// Si la connexion est établie, on logge le message
-if (Model::getPdo() != null) {
-    Model::printLog('Connexion à la base de données réussie');
-}
-
 // Inclusion de tous les contrôleurs dans le dossier entities
 foreach (glob(__DIR__ . '\entities\*.php') as $filename) {
     if (!include_once $filename) {
