@@ -16,21 +16,26 @@ if (!isset($_SESSION)) {
 
 
 // Hôte de la base de données
-define("DB_HOST", "localhost");
+define('DB_HOST', 'localhost');
 // Nom de la base à utiliser
-define("DB_NAME", "newblog");
+define('DB_NAME', 'newblog');
 // Nom de l'utilisateur de BDD
-define("DB_USER", "postgres");
+define('DB_USER', 'postgres');
 // Nom de l'utilisateur de BDD
-define("DB_PASS", "PG770rwx");
+define('DB_PASS', 'PG770rwx');
 // 0: Aucune erreur affichée/loggée, 
 // 1: Erreurs destinées à l'utilisateur, 
 // 2: Provenance directe des erreurs (développeurs), 
 // 3: Retraçace complet de la provenance (développeurs)
-define("LOGLEVEL", 3);
+define('LOGLEVEL', 3);
 // Constante pour le type d'affichage des erreurs
-define("RAW", 1);
-define("HTML", 2);
+define('RAW', 1);
+define('HTML', 2);
+
+// Définir les constantes d'état
+define('STATE_NONE', -1);
+define('STATE_SUCCESS', 1);
+define('STATE_ERROR', 0);
 class Model
 {
     /* PROPRIÉTÉS/ATTRIBUTS */
@@ -69,20 +74,20 @@ class Model
     // Formater l'erreur d'une exception
     public static function getError(Exception $error, int $mode = RAW): string
     {
-        $errorMsg = "";
+        $errorMsg = '';
         if (LOGLEVEL >= 1) {
-            $errorMsg = "Erreur: " . $error->getMessage();
+            $errorMsg = 'Erreur: ' . $error->getMessage();
         }
         if (LOGLEVEL >= 2) {
-            $errorMsg .= "<br>Provenance de l'erreur: " . $error->getFile() . ":" . $error->getLine();
+            $errorMsg .= '<br>Provenance de l\'erreur: ' . $error->getFile() . ':' . $error->getLine();
         }
         if (LOGLEVEL >= 3) {
-            $errorMsg .= "<br>Trace d'erreur (string): " . $error->getTraceAsString();
-            $errorMsg .= "<br>Code d'erreur: " . $error->getCode();
+            $errorMsg .= '<br>Trace d\'erreur (string): ' . $error->getTraceAsString();
+            $errorMsg .= '<br>Code d\'erreur: ' . $error->getCode();
         }
         if ($mode == RAW) {
             // Définition des regex pour le formatage
-            $formatting = array(array("/\<br\>|\<br\/\>/", "/\<b\>|\<\/b\>/"), array("\n", ""));
+            $formatting = array(array('/\<br\>|\<br\/\>/', '/\<b\>|\<\/b\>/'), array('\n', ''));
             // Formater le message d'erreur pour remplacer les sauts de ligne bruts par des sauts de ligne HTML
             $errorMsg = preg_replace($formatting[0], $formatting[1], $errorMsg);
         }
@@ -93,7 +98,7 @@ class Model
     public static function printLog(string $msg): bool
     {
         $date = new DateTime();
-        $date = $date->format("d-m-y h:i:s");
+        $date = $date->format('d-m-y h:i:s');
         if (LOGLEVEL < 1) {
             // Si le niveau de log est inférieur à 1, on ne logge pas
             return false;
@@ -103,7 +108,7 @@ class Model
             // S'il est impossible d'ouvrir le fichier de log
             return false;
         }
-        if (!fwrite($logFile, "\n[" . $date . "] Modèle: " . $msg)) {
+        if (!fwrite($logFile, '\n[' . $date . '] Modèle: ' . $msg)) {
             // S'il est impossible d'écrire dans le fichier de log
             return false;
         }
@@ -128,9 +133,9 @@ class Model
             // Pour chaque élément du dossier
             foreach ($objects as $object) {
                 // S'il ne s'agit ni du dossier courant, ni du dossier parent
-                if ($object != "." && $object != "..") {
+                if ($object != '.' && $object != '..') {
                     // Si l'élément est un dossier
-                    if (is_dir($path . DIRECTORY_SEPARATOR . $object) && !is_link($path . "/" . $object)) {
+                    if (is_dir($path . DIRECTORY_SEPARATOR . $object) && !is_link($path . '/' . $object)) {
                         // On relance la fonction sur ce sous-dossier
                         self::rmdir_r($path . DIRECTORY_SEPARATOR . $object);
                     } else {
@@ -183,12 +188,12 @@ try {
 }
 // Si la connexion est établie, on logge le message
 if (Model::getPdo() != null) {
-    Model::printLog("Connexion à la base de données réussie");
+    Model::printLog('Connexion à la base de données réussie');
 }
 
 // Inclusion de tous les contrôleurs dans le dossier entities
 foreach (glob(__DIR__ . '\entities\*.php') as $filename) {
     if (!include_once $filename) {
-        Model::printLog("Impossible d'inclure le fichier " . $filename);
+        Model::printLog('Impossible d\'inclure le fichier ' . $filename);
     }
 }

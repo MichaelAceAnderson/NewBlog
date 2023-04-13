@@ -1,12 +1,14 @@
 <?php
-if (isset($_POST["submit"])) {
-	if (empty($_POST["mail"])) $error = "L'adresse mail ne peut pas être vide !";
-	elseif (empty($_POST["msg"])) $error = "Le message doit comporter un contenu !";
-	else {
-		$mail = $_POST["mail"];
-		$msg = $_POST["msg"];
-		$error = false;
-	}
+if (isset($_POST['submit'])) {
+    if (empty($_POST['mail']))
+        $error = 'L\'adresse mail ne peut pas être vide !';
+    elseif (empty($_POST['msg']))
+        $error = 'Le message doit comporter un contenu !';
+    else {
+        $mail = $_POST['mail'];
+        $msg = $_POST['msg'];
+        $error = false;
+    }
 }
 ?>
 

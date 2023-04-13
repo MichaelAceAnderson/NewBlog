@@ -13,7 +13,7 @@ class Controller
     // État de la dernière action effectuée
     private static int $state = STATE_NONE;
     // Message de la dernière action effectuée
-    private static string $message = "";
+    private static string $message = '';
 
     /* FONCTIONS DE SORTIE DES DONNÉES */
     // Définir le contenu de la page comme étant une sortie Json
@@ -28,7 +28,7 @@ class Controller
         header_remove();
 
         // Définir le type de contenu à JSON en UTF-8 (peut être changé)
-        header("Content-Type: application/json; charset=utf-8");
+        header('Content-Type: application/json; charset=utf-8');
 
         // Déterminer si la requête doit renvoyer un succès ou non
         // Code succès HTTP: 2xx; code erreur HTTP: 4xx, 5xx
@@ -59,27 +59,27 @@ class Controller
     // Récupérer des données JSON obtenues via requête POST
     public static function jsonToVar(): mixed
     {
-        return json_decode(file_get_contents("php://input"), true);
+        return json_decode(file_get_contents('php://input'), true);
     }
 
     /* AUTRES MÉTHODES */
     // Formater l'erreur d'une Exception
     public static function getError(Exception $error, int $mode = RAW)
     {
-        $errorMsg = "";
+        $errorMsg = '';
         if (LOGLEVEL >= 1) {
-            $errorMsg = "Erreur: " . $error->getMessage();
+            $errorMsg = 'Erreur: ' . $error->getMessage();
         }
         if (LOGLEVEL >= 2) {
-            $errorMsg .= "<br>Provenance de l'erreur: " . $error->getFile() . ":" . $error->getLine();
+            $errorMsg .= '<br>Provenance de l\'erreur: ' . $error->getFile() . ':' . $error->getLine();
         }
         if (LOGLEVEL >= 3) {
-            $errorMsg .= "<br>Trace d'erreur (string): " . $error->getTraceAsString();
-            $errorMsg .= "<br>Code d'erreur: " . $error->getCode();
+            $errorMsg .= '<br>Trace d\'erreur (string): ' . $error->getTraceAsString();
+            $errorMsg .= '<br>Code d\'erreur: ' . $error->getCode();
         }
         if ($mode == RAW) {
             // Définition des regex pour le formatage
-            $formatting = array(array("/\<br\>|\<br\/\>/", "/\<b\>|\<\/b\>/"), array("\n", ""));
+            $formatting = array(array('/\<br\>|\<br\/\>/', '/\<b\>|\<\/b\>/'), array('\n', ''));
             // Formater le message d'erreur pour remplacer les sauts de ligne bruts par des sauts de ligne HTML
             $errorMsg = preg_replace($formatting[0], $formatting[1], $errorMsg);
         }
@@ -90,7 +90,7 @@ class Controller
     public static function printLog(string $msg): bool
     {
         $date = new DateTime();
-        $date = $date->format("d-m-y h:i:s");
+        $date = $date->format('d-m-y h:i:s');
         if (LOGLEVEL < 1) {
             // Si le niveau de log est inférieur à 1, on ne logge pas
             return false;
@@ -100,7 +100,7 @@ class Controller
             // S'il est impossible d'ouvrir le fichier de log
             return false;
         }
-        if (!fwrite($logFile, "\n[" . $date . "] Contrôleur: " . $msg)) {
+        if (!fwrite($logFile, '\n[' . $date . '] Contrôleur: ' . $msg)) {
             // S'il est impossible d'écrire dans le fichier de log
             return false;
         }
@@ -126,6 +126,6 @@ class Controller
 // Inclusion de tous les contrôleurs dans le dossier entities
 foreach (glob(__DIR__ . DIRECTORY_SEPARATOR . 'entities' . DIRECTORY_SEPARATOR . '*.php') as $filename) {
     if (!include_once $filename) {
-        Controller::printLog("Impossible d'inclure le fichier " . $filename);
+        Controller::printLog('Impossible d\'inclure le fichier ' . $filename);
     }
 }

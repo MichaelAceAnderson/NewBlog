@@ -14,7 +14,7 @@ class PostController
         // Si une erreur est survenue lors de l'appel du modèle
         if ($result instanceof Exception) {
             // On définit l'erreur du contrôleur
-            $result = new Exception('Une erreur est survenue lors de la création du post ' . $content . ' par l\'utilisateur ' . $authorId . ' !');
+            $result = new Exception('Une erreur est survenue lors de la création du post "' . $content . '" par l\'utilisateur "' . $authorId . '" !');
             // On logge l'erreur
             Controller::printLog(Controller::getError($result));
             // On renvoie un échec
@@ -35,7 +35,7 @@ class PostController
         // Si une erreur est survenue lors de l'appel du modèle
         if ($result instanceof Exception) {
             // On définit l'erreur du contrôleur
-            $result = new Exception('Une erreur est survenue lors de la récupération du post ' . $postId . ' !');
+            $result = new Exception('Une erreur est survenue lors de la récupération du post "' . $postId . '" !');
             // On logge l'erreur
             Controller::printLog(Controller::getError($result));
             // On renvoie un échec
@@ -93,7 +93,7 @@ class PostController
         // Si une erreur est survenue lors de l'appel du modèle
         if ($result instanceof Exception) {
             // On définit l'erreur du contrôleur
-            $result = new Exception('Une erreur est survenue lors de la modification du pseudo de l\'utilisateur ' . $id . ' !');
+            $result = new Exception('Une erreur est survenue lors de la modification du pseudo de l\'utilisateur "' . $id . '" !');
             // On logge l'erreur
             Controller::printLog(Controller::getError($result));
             // On renvoie un échec
@@ -112,7 +112,7 @@ class PostController
         // Si une erreur est survenue lors de l'appel du modèle
         if ($result instanceof Exception) {
             // On définit l'erreur du contrôleur
-            $result = new Exception('Une erreur est survenue lors de la modification du mot de passe de l\'utilisateur ' . $id . ' en ' . $newPassword . ' !');
+            $result = new Exception('Une erreur est survenue lors de la modification du mot de passe de l\'utilisateur "' . $id . '" en "' . $newPassword . '" !');
             // On logge l'erreur
             Controller::printLog(Controller::getError($result));
             // On renvoie un échec
@@ -152,7 +152,7 @@ class PostController
         // Si une erreur est survenue lors de l'appel du modèle
         if ($result instanceof Exception) {
             // On définit l'erreur du contrôleur
-            $result = new Exception('Une erreur est survenue lors de la suppression du post ' . $postId . ' !');
+            $result = new Exception('Une erreur est survenue lors de la suppression du post "' . $postId . '" !');
             // On logge l'erreur
             Controller::printLog(Controller::getError($result));
             // On renvoie un échec
@@ -188,7 +188,7 @@ if (isset($_POST['fPost'])) {
                 if ($_FILES['fPostMedia']['error'] != UPLOAD_ERR_OK || !$_FILES['fPostMedia']['tmp_name']) {
                     // On stocke le message d'erreur à afficher
                     Controller::setState(STATE_ERROR, 'Erreur: Le fichier n\'a pas pu être uploadé');
-                } elseif ((!preg_match("/video\//", $_FILES['fPostMedia']['type'])) && !preg_match("/image\//", $_FILES['fPostMedia']['type'])) {
+                } elseif ((!preg_match('/video\//', $_FILES['fPostMedia']['type'])) && !preg_match('/image\//', $_FILES['fPostMedia']['type'])) {
                     // Si le fichier n'est pas une image ou une vidéo
                     // On stocke le message d'erreur à afficher
                     Controller::setState(STATE_ERROR, 'Votre fichier doit être une image ou une vidéo !');
@@ -197,7 +197,7 @@ if (isset($_POST['fPost'])) {
                     // On stocke le message d'erreur à afficher
                     Controller::setState(STATE_ERROR, 'Le fichier est trop volumineux !');
                 } else {
-                    if (preg_match("/image\//", $_FILES['fPostMedia']['type'])) {
+                    if (preg_match('/image\//', $_FILES['fPostMedia']['type'])) {
                         // Si le fichier est une vidéo
 
                         // Si le dossier de stockage des images de post n'existe pas
@@ -209,7 +209,7 @@ if (isset($_POST['fPost'])) {
                         mkdir($_SERVER['DOCUMENT_ROOT'] . DIRECTORY_SEPARATOR . 'blog_data' . DIRECTORY_SEPARATOR . 'posts' . DIRECTORY_SEPARATOR . 'img' . DIRECTORY_SEPARATOR . $postId);
                         // On le place dans le dossier du post partie image
                         $mediaUrl = DIRECTORY_SEPARATOR . 'blog_data' . DIRECTORY_SEPARATOR . 'posts' . DIRECTORY_SEPARATOR . 'img' . DIRECTORY_SEPARATOR . $postId . DIRECTORY_SEPARATOR . $_FILES['fPostMedia']['name'];
-                    } elseif (preg_match("/video\//", $_FILES['fPostMedia']['type'])) {
+                    } elseif (preg_match('/video\//', $_FILES['fPostMedia']['type'])) {
                         // Si le fichier est une vidéo
 
                         // Si le dossier de stockage des images de post n'existe pas
