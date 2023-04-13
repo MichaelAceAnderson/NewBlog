@@ -136,7 +136,6 @@ Step 8: Use the admin page to manage the blog settings
 
 To-do:
 
-- [ ] Handle missing extensions errors (back/front)
 - [ ] Handle missing file authorizations errors (back/front)
 
 ## Changelog (global changes)

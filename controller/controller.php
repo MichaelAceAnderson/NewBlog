@@ -3,10 +3,6 @@ require_once __DIR__ . DIRECTORY_SEPARATOR . '..' . DIRECTORY_SEPARATOR . 'model
 
 // Code s'appuyant sur le modèle et appelé par les formulaires des vues
 
-// Définir les constantes d'état
-define("STATE_NONE", -1);
-define("STATE_SUCCESS", 1);
-define("STATE_ERROR", 0);
 class Controller
 {
     /* PROPRIÉTÉS/ATTRIBUTS */
