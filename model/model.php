@@ -87,7 +87,7 @@ class Model
         }
         if ($mode == RAW) {
             // Définition des regex pour le formatage
-            $formatting = array(array('/\<br\>|\<br\/\>/', '/\<b\>|\<\/b\>/'), array('\n', ''));
+            $formatting = array(array('/\<br\>|\<br\/\>/', '/\<b\>|\<\/b\>/', '/' . PHP_EOL . '/'), array('\n', '', ''));
             // Formater le message d'erreur pour remplacer les sauts de ligne bruts par des sauts de ligne HTML
             $errorMsg = preg_replace($formatting[0], $formatting[1], $errorMsg);
         }
@@ -108,7 +108,7 @@ class Model
             // S'il est impossible d'ouvrir le fichier de log
             return false;
         }
-        if (!fwrite($logFile, '\n[' . $date . '] Modèle: ' . $msg)) {
+        if (!fwrite($logFile, PHP_EOL . '[' . $date . '] Modèle: ' . $msg)) {
             // S'il est impossible d'écrire dans le fichier de log
             return false;
         }
@@ -135,7 +135,7 @@ class Model
                 // S'il ne s'agit ni du dossier courant, ni du dossier parent
                 if ($object != '.' && $object != '..') {
                     // Si l'élément est un dossier
-                    if (is_dir($path . DIRECTORY_SEPARATOR . $object) && !is_link($path . '/' . $object)) {
+                    if (is_dir($path . DIRECTORY_SEPARATOR . $object) && !is_link($path . DIRECTORY_SEPARATOR . $object)) {
                         // On relance la fonction sur ce sous-dossier
                         self::rmdir_r($path . DIRECTORY_SEPARATOR . $object);
                     } else {
