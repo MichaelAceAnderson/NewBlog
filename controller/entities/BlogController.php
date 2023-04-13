@@ -409,7 +409,7 @@ if (isset($_POST['fChangeLogo'])) {
                 Controller::setState(STATE_ERROR, 'Impossible d\'uploader le fichier en raison d\'une erreur côté serveur');
             } else {
                 // Si l'upload a réussi, on stocke un message de succès
-                Controller::setState(STATE_SUCCESS, 'Le logo a bien été modifié !');
+                Controller::setState(STATE_SUCCESS, 'Le logo a bien été modifié ! S\'il ne s\'affiche pas tout de suite, videz votre cache !');
             }
         }
         // Si on ne rencontre aucune erreur pendant l'upload
@@ -418,7 +418,7 @@ if (isset($_POST['fChangeLogo'])) {
             $logoURLUpdateStatus = BlogController::setLogoURL($logoPath);
             if ($logoURLUpdateStatus) {
                 // Si la modification a réussi, on stocke un message de succès
-                Controller::setState(STATE_SUCCESS, 'Le logo a bien été modifié !');
+                Controller::setState(STATE_SUCCESS, 'Le logo a bien été modifié ! S\'il ne s\'affiche pas tout de suite, videz votre cache !');
             } else {
                 // Si la modification a échoué, on affiche un message d'erreur
                 Controller::setState(STATE_ERROR, 'Une erreur est survenue lors de la modification du logo !');
@@ -442,7 +442,7 @@ if (isset($_POST['fChangeLogo'])) {
         $logoURLUpdateStatus = BlogController::setLogoURL($_POST['fLogoURL']);
         if ($logoURLUpdateStatus) {
             // Si la modification a réussi, on stocke un message de succès
-            Controller::setState(STATE_SUCCESS, 'L\'URL du logo a bien été modifié !');
+            Controller::setState(STATE_SUCCESS, 'L\'URL du logo a bien été modifié ! S\'il ne s\'affiche pas tout de suite, videz votre cache !');
         } else {
             // Si la modification a échoué, on affiche un message d'erreur
             Controller::setState(STATE_ERROR, 'Une erreur est survenue lors de la modification du logo !');
@@ -492,7 +492,7 @@ if (isset($_POST['fChangeBgURL'])) {
                 Controller::setState(STATE_ERROR, 'Impossible d\'uploader le fichier en raison d\'une erreur côté serveur');
             } else {
                 // Si l'upload a réussi, on stocke un message de succès
-                Controller::setState(STATE_SUCCESS, 'L\'image de fond a bien été modifiée !');
+                Controller::setState(STATE_SUCCESS, 'L\'image de fond a bien été modifiée ! Si elle ne s\'affiche pas tout de suite, videz votre cache !');
             }
         }
         // Si on ne rencontre aucune erreur pendant l'upload
@@ -501,7 +501,7 @@ if (isset($_POST['fChangeBgURL'])) {
             $bgURLUpdateStatus = BlogController::setBackgroundURL($bgPath);
             if ($bgURLUpdateStatus) {
                 // Si la modification a réussi, on stocke un message de succès
-                Controller::setState(STATE_SUCCESS, 'L\'image de fond a bien été modifiée !');
+                Controller::setState(STATE_SUCCESS, 'L\'image de fond a bien été modifiée ! Si elle ne s\'affiche pas tout de suite, videz votre cache !');
             } else {
                 // Si la modification a échoué, on affiche un message d'erreur
                 Controller::setState(STATE_ERROR, 'Une erreur est survenue lors de la modification de l\'image de fond !');
@@ -525,7 +525,7 @@ if (isset($_POST['fChangeBgURL'])) {
         $bgURLUpdateStatus = BlogController::setBackgroundURL($_POST['fBgURL']);
         if ($bgURLUpdateStatus) {
             // Si la modification a réussi, on stocke un message de succès
-            Controller::setState(STATE_SUCCESS, 'L\'URL de l\'image de fond a bien été modifiée !');
+            Controller::setState(STATE_SUCCESS, 'L\'URL de l\'image de fond a bien été modifiée ! Si elle ne s\'affiche pas tout de suite, videz votre cache !');
         } else {
             // Si la modification a échoué, on affiche un message d'erreur
             Controller::setState(STATE_ERROR, 'Une erreur est survenue lors de la modification de l\'image de fond !');
