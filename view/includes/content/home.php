@@ -54,10 +54,11 @@
                 $videoPath = $_SERVER['DOCUMENT_ROOT'] . DIRECTORY_SEPARATOR . 'blog_data' . DIRECTORY_SEPARATOR . 'posts' . DIRECTORY_SEPARATOR . 'video' . DIRECTORY_SEPARATOR . $post->id_post;
                 if (file_exists($videoPath) && is_dir($videoPath)) {
                     // Si le dossier existe
-                    foreach (glob($videoPath . '/*') as $videoFile) {
+                    foreach (glob($videoPath . DIRECTORY_SEPARATOR . '*') as $videoFile) {
                         // Pour tous les fichiers dans le dossier
+                        // Afficher l'image avec un chemin source reformaté pour être compatible avec le navigateur
                         echo '<video class="post-media" alt="Vidéo du post" preload ="auto" controls autoplay muted loop playsinline>
-                                <source src="' . str_replace($_SERVER['DOCUMENT_ROOT'], '', $videoFile) . '">
+                                <source src="' . str_replace(array($_SERVER['DOCUMENT_ROOT'], DIRECTORY_SEPARATOR), array('', '/'), $videoFile) . '">
                             </video>';
                     }
                 }
@@ -65,9 +66,10 @@
                 $imagePath = $_SERVER['DOCUMENT_ROOT'] . DIRECTORY_SEPARATOR . 'blog_data' . DIRECTORY_SEPARATOR . 'posts' . DIRECTORY_SEPARATOR . 'img' . DIRECTORY_SEPARATOR . $post->id_post;
                 if (file_exists($imagePath) && is_dir($imagePath)) {
                     // Si le dossier existe
-                    foreach (glob($imagePath . '/*') as $imageFile) {
+                    foreach (glob($imagePath . DIRECTORY_SEPARATOR . '*') as $imageFile) {
                         // Pour tous les fichiers dans le dossier
-                        echo '<img class="post-media" src="' . str_replace($_SERVER['DOCUMENT_ROOT'], '', $imageFile) . '" alt="Image du post"/>';
+                        // Afficher l'image avec un chemin source reformaté pour être compatible avec le navigateur
+                        echo '<img class="post-media" src="' . str_replace(array($_SERVER['DOCUMENT_ROOT'], DIRECTORY_SEPARATOR), array('', '/'), $imageFile) . '" alt="Image du post"/>';
                     }
                 }
 
