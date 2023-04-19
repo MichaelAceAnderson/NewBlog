@@ -119,9 +119,11 @@ class Controller
     }
 }
 
-// Inclusion de tous les contrôleurs dans le dossier entities
-foreach (glob(__DIR__ . DIRECTORY_SEPARATOR . 'entities' . DIRECTORY_SEPARATOR . '*.php') as $filename) {
-    if (!include_once $filename) {
-        Controller::printLog('Impossible d\'inclure le fichier ' . $filename);
-    }
-}
+/// NOTE: Il n'est pas possible d'inclure via un foreach, il faut suivre l'ordre selon l'interdépendance des contrôleurs/données
+
+// Inclure le contrôleur d'utilisateurs
+require_once __DIR__ . DIRECTORY_SEPARATOR . 'entities' . DIRECTORY_SEPARATOR . 'UserController.php';
+// Inclure le contrôleur du blog
+require_once __DIR__ . DIRECTORY_SEPARATOR . 'entities' . DIRECTORY_SEPARATOR . 'BlogController.php';
+// Inclure le contrôleur de posts
+require_once __DIR__ . DIRECTORY_SEPARATOR . 'entities' . DIRECTORY_SEPARATOR . 'PostController.php';
