@@ -8,8 +8,15 @@ ErrorDocument 503 /?page=error&code=503
 # Disable directory browsing
 Options -Indexes
 
-# Prevent access to txt files
-<FilesMatch "\.(.txt|sql|loo|lo1|gitignore)$">
+# Prevent access to development files
+<FilesMatch "\.(gitignore|htaccess)$">
     Order allow,deny
     Deny from all
 </FilesMatch>
+
+# Prevent access to specific folder to everyone except localhost
+# <FilesMatch "(RegEx_Here!)">
+#     Order deny,allow
+#     Deny from all
+#     Allow from 127.0.0.1
+# </FilesMatch>
