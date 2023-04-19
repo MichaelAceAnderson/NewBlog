@@ -123,6 +123,7 @@ Step 8: Use the admin page to manage the blog settings
 - [ ] Make app portable by replacing absolute paths (DOCUMENT_ROOT) with relative paths (\_\_DIR\_\_) (back)
 - [ ] Display missing file authorizations errors (back/front)
 - [ ] Prevent access to development files with .htaccess (back)
+- [ ] Replace .gitkeep by mkdir in PrintLog method (back)
 
 ### Version 2.0 - Rewriting from scratch
 
