@@ -287,6 +287,67 @@ header .account form input[type="submit"] {
     margin: 0;
 }
 
+/* Titres des posts */
+.post-title {
+    font-size: 20px;
+    font-weight: bold;
+    text-align: center;
+}
+
+
+/* Titres des posts */
+.post-summary {
+    font-size: 20px;
+    text-indent: 10px;
+    padding: 0 20px;
+}
+
+
+/* Tags des posts */
+.post-tags {
+    font-size: 15px;
+    margin: 5px auto;
+    font-style: italic;
+    text-align: center;
+    color: gray;
+}
+
+/* Bouton pour afficher/cacher le contenu d'un post */
+.post-container .post-content-toggle {
+    background: #333;
+    font-family: inherit;
+    color: white;
+    border: 3px var(--lighter2) solid;
+    padding: 5px 10px;
+    margin: 5px 20px;
+    font-size: 15px;
+    cursor: pointer;
+    transition: 0.3s ease-in;
+}
+
+/* Survol des boutons pour afficher/cacher le contenu d'un post */
+.post-container .post-content-toggle:hover {
+    background: var(--themecolor2);
+    color: white;
+    border: 3px var(--darker) solid;
+    transition: 0.3s ease-out;
+}
+
+/* Clic des boutons pour afficher/cacher le contenu d'un post */
+.post-container .post-content-toggle:active {
+    background: transparent;
+    border: 3px var(--darker2) solid;
+    color: black;
+    transition: 0.1s;
+}
+
+/* Contenu des posts */
+.post-container .post-content {
+    padding: 10px 20px;
+    margin: 0;
+    position: relative;
+}
+
 /* Paragraphes des posts */
 .post-container .post-content p {
     text-shadow: none;
@@ -295,10 +356,21 @@ header .account form input[type="submit"] {
     text-indent: 10px;
 }
 
-/* Paragraphes du contenu des posts */
-.post-container .post-content {
-    padding: 10px 20px;
-    margin: 0;
+/* Paragraphes réduits des posts */
+.post-container .post-content.short {
+    max-height: 350px;
+    overflow: hidden;
+}
+
+/* Dégradé cachant le texte qui déborde */
+.post-container .post-content.short::before {
+    content: "";
+    position: absolute;
+    bottom: 0;
+    left: 0;
+    height: 40px;
+    width: 100%;
+    background: linear-gradient(rgba(0, 0, 0, 0), white);
 }
 
 /* Media des posts */

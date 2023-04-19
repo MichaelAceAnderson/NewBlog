@@ -36,12 +36,34 @@ CREATE SEQUENCE IF NOT EXISTS post_seq; -- Compteur incrémenté à chaque nouve
 ALTER SEQUENCE post_seq RESTART WITH 1; -- Redémarre le compteur à 1
 CREATE TABLE IF NOT EXISTS nb_post(
    id_post INT DEFAULT NEXTVAL ('post_seq'),
+   title VARCHAR(64) NOT NULL,
+   summary TEXT NOT NULL,
+   tags TEXT NOT NULL,
    content TEXT NOT NULL,
    time_stamp TIMESTAMP(0) NOT NULL DEFAULT now(),
    id_user_author INT NOT NULL,
    CONSTRAINT PK_nb_post PRIMARY KEY(id_post),
    CONSTRAINT FK_nb_post_nb_user_author FOREIGN KEY(id_user_author) REFERENCES nb_user(id_user)
 );
+
+-- Pour plus tard: 
+-- /!\ Retirer l'attribut tags de la table des posts 
+-- -- Création de la table des tags
+-- CREATE TABLE IF NOT EXISTS nb_tag(
+--    id_tag INT NOT NULL,
+--    tag_name VARCHAR(32) NOT NULL,
+--    CONSTRAINT PK_nb_tag PRIMARY KEY(id_tag),
+--    CONSTRAINT AK_nb_tag UNIQUE(tag_name)
+-- );
+
+-- -- Création de la table avec les tags associés aux posts
+-- CREATE TABLE IF NOT EXISTS nb_post_tag(
+--    id_post INT NOT NULL,
+--    id_tag INT NOT NULL,
+--    CONSTRAINT PK_nb_post_tag PRIMARY KEY(id_post, id_tag),
+--    CONSTRAINT FK_nb_nb_post_tag FOREIGN KEY(id_post) REFERENCES nb_post(id_post),
+--    CONSTRAINT FK_nb_nb_post_tag FOREIGN KEY(id_tag) REFERENCES nb_tag(id_tag)
+-- );
 
 -- Utilisateurs
 DO
