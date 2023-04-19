@@ -354,6 +354,7 @@ header .account form input[type="submit"] {
     font-size: 20px;
     margin: 5px 0;
     text-indent: 10px;
+    text-align: justify;
 }
 
 /* Paragraphes réduits des posts */
