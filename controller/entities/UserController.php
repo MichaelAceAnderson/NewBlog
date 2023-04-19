@@ -8,7 +8,7 @@ class UserController
     public static function createUser(string $nickname, string $password, bool $is_mod = false): bool
     {
         // On tente d'ajouter l'utilisateur en base de données
-        $result = User::addUser($nickname, $password, $is_mod);
+        $result = User::insertUser($nickname, $password, $is_mod);
         // Si une erreur est survenue lors de l'appel du modèle
         if ($result instanceof Exception) {
             // On définit l'erreur du contrôleur
