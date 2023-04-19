@@ -198,8 +198,8 @@ if (!extension_loaded('PDO')) {
         Model::printLog('Connexion à la base de données réussie');
     }
 }
-// Inclusion de tous les contrôleurs dans le dossier entities
-foreach (glob(__DIR__ . '\entities\*.php') as $filename) {
+// Inclusion de tous les modèles dans le dossier entities
+foreach (glob(__DIR__ . DIRECTORY_SEPARATOR . 'entities' . DIRECTORY_SEPARATOR . '*.php') as $filename) {
     if (!include_once $filename) {
         Model::printLog('Impossible d\'inclure le fichier ' . $filename);
     }
