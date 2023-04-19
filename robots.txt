@@ -1,4 +1,5 @@
 user-agent: *
+disallow: /_Conception/*
 disallow: /blog_data/*
 disallow: /controller/*
 disallow: /model/*

@@ -20,7 +20,7 @@ if (isset($_POST['submit'])) {
 
     <div class="content">
         <p class="outlined">
-            Ce site a été réalisé entièrement avec HTML5, CSS3, JavaScript ES 2020. Sans Framework. À la mano. Et ça
+            Ce CMS a été réalisé entièrement avec HTML5, CSS3, JavaScript ES 2020. Sans Framework. À la mano. Et ça
             c'est la classe.
         </p>
     </div>

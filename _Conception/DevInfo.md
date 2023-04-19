@@ -12,7 +12,7 @@ into a single project. It is not yet finished but it aimes to use:
 - Object Oriented Programming (encapsulation, inheritance, etc...)
 - MVC web architecture
 - Database management (procedures, views, triggers)
-- Cybersecurity (prepared requests, password encryption, etc...) ⚠️ Needs penetration testing
+- Cybersecurity (prepared requests, password encryption, etc...) ⚠️ Needs penetration testing (2.0)
 - Project management (Git versioning, UML, documentation, etc...)
 - Testing (unit, functional, integration, performance etc...)
 - Deployment & DevOps (Web server, DB server, CI/CD, Docker, etc...)
@@ -46,8 +46,8 @@ into a single project. It is not yet finished but it aimes to use:
 
 Required:
 
-- XAMPP (Apache/PHP)
-- PostGreSQL database
+- XAMPP (Apache/PHP) updated to the latest version
+- PostGreSQL database up to date
 - VSCode (or any other IDE)
 - A web browser (NewBlog was only tested on Edge)
 
@@ -121,22 +121,20 @@ Step 8: Use the admin page to manage the blog settings
 - [ ] Try to cache blog info to prevent useless DB requests (back)
 - [ ] Add constants & global variables for re-used values \[ex: paths, links, ...\] (back)
 - [ ] Make app portable by replacing absolute paths (DOCUMENT_ROOT) with relative paths (\_\_DIR\_\_) (back)
+- [ ] Display missing file authorizations errors (back/front)
+- [ ] Prevent access to development files with .htaccess (back)
 
 ### Version 2.0 - Rewriting from scratch
 
- ![2.0](https://img.shields.io/badge/2.0-blue)
+ ![2.0](https://img.shields.io/badge/2.0-green)
 
-- [X] Refactorization to Model-View-Controller
-- [X] Separate Model into entities
+- [X] Refactorized to Model-View-Controller
+- [X] Separated Model into entities
 - [X] New design
-- [X] Add Error logging
-- [X] Add password hashing
-- [X] Add page redirection (protection against direct access to files)
-- [X] Add conception/UML diagrams
-
-To-do:
-
-- [ ] Handle missing file authorizations errors (back/front)
+- [X] Added Error logging
+- [X] Added password hashing
+- [X] Added page redirection (protection against direct access to files)
+- [X] Added conception/UML diagrams
 
 ## Changelog (global changes)
 
