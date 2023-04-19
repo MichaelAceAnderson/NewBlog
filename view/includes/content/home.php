@@ -76,7 +76,7 @@
                     foreach (glob($imagePath . DIRECTORY_SEPARATOR . '*') as $imageFile) {
                         // Pour tous les fichiers dans le dossier
                         // Afficher l'image avec un chemin source reformaté pour être compatible avec le navigateur
-                        echo '<img class="post-media" src="' . str_replace(array($_SERVER['DOCUMENT_ROOT'], DIRECTORY_SEPARATOR), array('', '/'), $imageFile) . '" alt="Image du post"/>';
+                        echo '<img class="post-media" src="' . str_replace(array($_SERVER['DOCUMENT_ROOT'], DIRECTORY_SEPARATOR), array('', '/'), $imageFile) . '" alt="Image du post" decoding="async"/>';
                     }
                 }
 
@@ -90,3 +90,5 @@
         ?>
     </div>
 </section>
+<!-- Script permettant d'afficher/cacher le contenu des posts avec un bouton -->
+<script src="/view/js/postDetails.js"></script>
