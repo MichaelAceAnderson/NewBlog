@@ -4,7 +4,7 @@ class Post
 {
     /* MÉTHODES */
     // Création d'un post en BDD
-    public static function addPost(int $authorId, string $title, string $summary, string $tags, string $content): int|Exception
+    public static function insertPost(int $authorId, string $title, string $summary, string $tags, string $content): int|Exception
     {
         // Tenter d'ajouter le post en BDD
         try {
@@ -257,7 +257,7 @@ class Post
         }
     }
     // Création d'un post en BDD
-    public static function clearPosts(): int|Exception
+    public static function deletePosts(): int|Exception
     {
         // Tenter de supprimer les posts
         try {

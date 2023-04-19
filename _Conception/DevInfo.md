@@ -27,8 +27,8 @@ into a single project. It is not yet finished but it aimes to use:
     - [Version 3.1 - International update](#version-31---international-update)
     - [Version 3.0 - API update](#version-30---api-update)
     - [Version 2.1 - Developers update](#version-21---developers-update)
+  - [Changelog](#changelog)
     - [Version 2.0 - Rewriting from scratch](#version-20---rewriting-from-scratch)
-  - [Changelog (global changes)](#changelog-global-changes)
     - [Version 1.1 - MVC Update](#version-11---mvc-update)
     - [Version 1.0 - First release](#version-10---first-release)
   - [Documentation](#documentation)
@@ -75,7 +75,7 @@ Step 8: Use the admin page to manage the blog settings
 
 ### Version 3.2 - Interaction update
 
- ![3.2](https://img.shields.io/badge/3.2-yellow)
+ ![3.2](https://img.shields.io/badge/3.2-yellow?style=flat-square)
 
 - [ ] Add advanced post editor with markdown support (front/back)
 - [ ] Add possibility to create multiple accounts on a same blog (front/back)
@@ -83,14 +83,14 @@ Step 8: Use the admin page to manage the blog settings
 
 ### Version 3.1 - International update
 
- ![3.1](https://img.shields.io/badge/3.1-yellow)
+ ![3.1](https://img.shields.io/badge/3.1-yellow?style=flat-square)
 
 - [ ] Add language detection/selection system with constants & language files
 - [ ] Convert code comments to English
 
 ### Version 3.0 - API update
 
- ![3.0](https://img.shields.io/badge/3.0-yellow)
+ ![3.0](https://img.shields.io/badge/3.0-yellow?style=flat-square)
 
 - [ ] Add API for external applications
 - [ ] Add JS live updates
@@ -98,7 +98,7 @@ Step 8: Use the admin page to manage the blog settings
 
 ### Version 2.1 - Developers update
 
- ![2.1](https://img.shields.io/badge/2.1-yellow)
+ ![2.1](https://img.shields.io/badge/2.1-yellow?style=flat-square)
 
 - [ ] Switch to Nginx & PHP-FPM (WinNMP ?) (back)
 - [ ] HTTPS certificate (back)
@@ -125,10 +125,15 @@ Step 8: Use the admin page to manage the blog settings
 - [ ] Prevent access to development files with .htaccess (back)
 - [ ] Replace .gitkeep by mkdir in PrintLog method (back)
 - [ ] Add password confirmation in installation page (front/back)
+- [ ] Add Update system to avoid reinstalling the blog (front/back)
+- [ ] Add possibility to delete post if the user is the author (front/back)
+- [ ] Add a table for tags and a table to link tags with posts (back)
+
+## Changelog
 
 ### Version 2.0 - Rewriting from scratch
 
- ![2.0](https://img.shields.io/badge/2.0-green)
+ ![2.0](https://img.shields.io/badge/2.0-green?style=flat-square)
 
 - [X] Refactorized to Model-View-Controller
 - [X] Separated Model into entities
@@ -138,11 +143,9 @@ Step 8: Use the admin page to manage the blog settings
 - [X] Added page redirection (protection against direct access to files)
 - [X] Added conception/UML diagrams
 
-## Changelog (global changes)
-
 ### Version 1.1 - MVC Update
 
- ![1.1](https://img.shields.io/badge/1.1-brightgreen)
+ ![1.1](https://img.shields.io/badge/1.1-brightgreen?style=flat-square)
 
 - [x] Converted structure to Model-View-Controller
 - [x] Fixed errors due to obsolete URLs
@@ -150,7 +153,7 @@ Step 8: Use the admin page to manage the blog settings
 
 ### Version 1.0 - First release
 
- ![1.0](https://img.shields.io/badge/1.0-brightgreen)
+ ![1.0](https://img.shields.io/badge/1.0-brightgreen?style=flat-square)
 Features:
 
 - [x] Text posts
@@ -226,6 +229,7 @@ Every other controller is yet to become a child of the Controller class and is u
 class SpecificController{
     /* METHODS */ // (return booleans adapted to the context or Exceptions on Model-related errors)
 }
+// Handle POST requests submitted by view forms and call the appropriate controller methods
 ```
 
 #### View

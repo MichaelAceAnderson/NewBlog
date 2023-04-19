@@ -10,7 +10,7 @@ class PostController
     public static function createPost(int $authorId, string $title, string $summary, string $tags, string $content): int
     {
         // On tente d'ajouter le post en base de données
-        $result = Post::addPost($authorId, $title, $summary, $tags, $content);
+        $result = Post::insertPost($authorId, $title, $summary, $tags, $content);
         // Si une erreur est survenue lors de l'appel du modèle
         if ($result instanceof Exception) {
             // On définit l'erreur du contrôleur
@@ -129,7 +129,7 @@ class PostController
     public static function clearPosts(): int
     {
         // On tente de supprimer tous les posts en base de données et les fichiers associés
-        $result = Post::clearPosts();
+        $result = Post::deletePosts();
         // Si une erreur est survenue, on l'affiche et on la logge
         if ($result instanceof Exception) {
             // On définit l'erreur du contrôleur

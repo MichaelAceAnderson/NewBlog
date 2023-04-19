@@ -6,7 +6,7 @@ class User
 
     /* Insertions */
     // Création d'un utilisateur en BDD
-    public static function addUser(string $nickname, string $password, bool $is_mod): bool|Exception
+    public static function insertUser(string $nickname, string $password, bool $is_mod): bool|Exception
     {
         // Tenter d'ajouter un utilisateur
         try {

@@ -2,35 +2,53 @@
 
 NewBlog is a basic CMS (Content Managing system) written in PHP allowing you to post text/media content on your own blog.
 
+![Home screen](/_Conception/HomeScreen.jpg)
+
 Looking for developers information ? Check out the [DevInfo](_Conception/DevInfo.md) file.
 
 ## Upcoming
 
+### Version 3.2 - Interaction update
+
+- [ ] Other users can register on your blog
+- [ ] Other users can comment and react on your posts
+- [ ] Post editor improvements
+
+### Version 3.1 - International update
+
+- [ ] Language detection and possibility to pick language
+
+### Version 3.0 - API update
+
+- [ ] Ability to use the API to manage your blog from an external application
+- [ ] Post updates are shown in real time
+
 ### Version 2.1 - Developers update
 
- ![2.1](https://img.shields.io/badge/2.1-yellow)
+ ![2.1](https://img.shields.io/badge/2.1-yellow?style=flat-square)
 
-### > Version 2.0 - Rewriting from scratch
+## Changelog
 
- ![2.0](https://img.shields.io/badge/2.0-blue)
+### Version 2.0 - Rewriting from scratch
+
+ ![2.0](https://img.shields.io/badge/2.0-green?style=flat-square)
 
 - [X] New design
+- [X] Post titles, summaries and tags
 - [X] Storage via database
 - [X] Page indexation
 - [X] Improved security
 
-## Changelog
-
 ### Version 1.1 - MVC Update
 
- ![1.1](https://img.shields.io/badge/1.1-brightgreen)
+ ![1.1](https://img.shields.io/badge/1.1-brightgreen?style=flat-square)
 
 - [x] Fixed errors due to obsolete URLs
 - [x] Various bug fixes
 
 ### Version 1.0 - First release
 
- ![1.0](https://img.shields.io/badge/1.0-brightgreen)
+ ![1.0](https://img.shields.io/badge/1.0-brightgreen?style=flat-square)
 Features:
 
 - [x] Text posts
