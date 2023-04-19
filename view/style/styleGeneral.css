@@ -355,6 +355,7 @@ header .account form input[type="submit"] {
     margin: 5px 0;
     text-indent: 10px;
     text-align: justify;
+    overflow-wrap: break-word;
 }
 
 /* Paragraphes réduits des posts */
