@@ -48,6 +48,13 @@
                 }
                 echo '</h1>';
                 echo '<div class="post-container">';
+                echo '<div class="post-title">' . $post->title . '</div>';
+                echo '<div class="post-tags">';
+                foreach (explode(";", $post->tags) as $tag) {
+                    echo '#' . $tag . ' ';
+                }
+                echo '</div>';
+                echo '<div class="post-summary">' . $post->summary . '</div>';
                 echo '<div class="post-content">';
 
                 // S'il existe un dossier contenant les vidéos du post

@@ -7,14 +7,14 @@ class PostController
 
     /* Insertions */
     // Ajouter un post 
-    public static function createPost(int $authorId, string $content): int
+    public static function createPost(int $authorId, string $title, string $summary, string $tags, string $content): int
     {
         // On tente d'ajouter le post en base de données
-        $result = Post::addPost($authorId, $content);
+        $result = Post::addPost($authorId, $title, $summary, $tags, $content);
         // Si une erreur est survenue lors de l'appel du modèle
         if ($result instanceof Exception) {
             // On définit l'erreur du contrôleur
-            $result = new Exception('Une erreur est survenue lors de la création du post "' . $content . '" par l\'utilisateur "' . $authorId . '" !');
+            $result = new Exception('Une erreur est survenue lors de la création du post "' . $title . '" par l\'utilisateur "' . $authorId . '" avec le contenu "' . $content . '", le sommaire "' . $summary . '" et les tags "' . $tags . '" !');
             // On logge l'erreur
             Controller::printLog(Controller::getError($result));
             // On renvoie un échec
@@ -168,10 +168,27 @@ class PostController
 
 // Si un formulaire de création de post est soumis
 if (isset($_POST['fPost'])) {
-    // On vérifie que le contenu du post n'est pas vide
-    if (!isset($_POST['fPostContent']) || empty($_POST['fPostContent'])) {
-        // Si le contenu du post est vide, on affiche un message d'erreur
-        Controller::setState(STATE_ERROR, 'Le contenu du post est vide');
+    // On vérifie que le titre du post n'est pas vide
+    if (!isset($_POST['fPostTitle']) || empty($_POST['fPostTitle'])) {
+        // Si le titre du post est vide
+        // On affiche un message d'erreur
+        Controller::setState(STATE_ERROR, 'Le titre du post est vide');
+    } elseif (strlen($_POST['fPostTitle']) > 64) {
+        // Si le titre est trop long
+        // On affiche un message d'erreur
+        Controller::setState(STATE_ERROR, 'Le titre du post ne peut pas dépasser 64 caractères !');
+    } elseif (!isset($_POST['fPostSummary']) || empty($_POST['fPostSummary'])) {
+        // Si le sommaire du post est vide
+        // On affiche un message d'erreur
+        Controller::setState(STATE_ERROR, 'Le sommaire du post ne peut pas être vide !');
+    } elseif (!isset($_POST['fPostContent']) || empty($_POST['fPostContent'])) {
+        // Si le contenu du post est vide
+        // On affiche un message d'erreur
+        Controller::setState(STATE_ERROR, 'Le contenu du post ne peut pas être vide !');
+    } elseif (!isset($_POST['fPostTags']) || empty($_POST['fPostTags'])) {
+        // Si les tags du post sont vides
+        // On affiche un message d'erreur
+        Controller::setState(STATE_ERROR, 'Vous devez spécifier des tags !');
     } else {
         // On récupère l'id du prochain post à créer
         $postId = PostController::getNextPostId();
@@ -232,7 +249,7 @@ if (isset($_POST['fPost'])) {
     // S'il n'y a eu aucune erreur
     if (Controller::getState()['state'] != STATE_ERROR) {
         // On tente d'ajouter le post en base de données
-        $postCreation = PostController::createPost($_SESSION['id_user'], $_POST['fPostContent']);
+        $postCreation = PostController::createPost($_SESSION['id_user'], $_POST['fPostTitle'], $_POST['fPostSummary'], $_POST['fPostTags'], $_POST['fPostContent']);
         if (!$postCreation) {
             // Si une erreur survient, on stocke le message d'erreur à afficher
             Controller::setState(STATE_ERROR, 'Une erreur est survenue lors de l\'ajout du post');

@@ -4,7 +4,7 @@ class Post
 {
     /* MÉTHODES */
     // Création d'un post en BDD
-    public static function addPost(int $authorId, string $content): int|Exception
+    public static function addPost(int $authorId, string $title, string $summary, string $tags, string $content): int|Exception
     {
         // Tenter d'ajouter le post en BDD
         try {
@@ -17,7 +17,7 @@ class Post
 
                 // Préparer la requête
                 $stmt = Model::getPdo()->prepare(
-                    'INSERT INTO newblog.nb_post (content, id_user_author) VALUES (:content, :id_user_author);'
+                    'INSERT INTO newblog.nb_post (title, summary, tags, content, id_user_author) VALUES (:title, :summary, :tags, :content, :id_user_author);'
                 );
                 // Si la requête n'a pas pu être préparée
                 if (!$stmt) {
@@ -26,6 +26,24 @@ class Post
                 }
                 // Définir la requête à traiter
                 Model::setStmt($stmt);
+                // Attacher le titre du post en paramètre à la requête préparée
+                if (!Model::getStmt()->bindParam('title', $title, PDO::PARAM_INT)) {
+                    // Si le paramètre n'a pas pu être attaché
+                    // On lance une erreur qui sera attrapée plus bas
+                    throw new Exception('Impossible d\'attacher le titre du post "' . $title . '" en paramètre à la requête d\'insertion du post !');
+                }
+                // Attacher le sommaire du post en paramètre à la requête préparée
+                if (!Model::getStmt()->bindParam('summary', $summary, PDO::PARAM_INT)) {
+                    // Si le paramètre n'a pas pu être attaché
+                    // On lance une erreur qui sera attrapée plus bas
+                    throw new Exception('Impossible d\'attacher le sommaire du post "' . $summary . '"en paramètre à la requête d\'insertion du post !');
+                }
+                // Attacher les tags du post en paramètre à la requête préparée
+                if (!Model::getStmt()->bindParam('tags', $tags, PDO::PARAM_INT)) {
+                    // Si le paramètre n'a pas pu être attaché
+                    // On lance une erreur qui sera attrapée plus bas
+                    throw new Exception('Impossible d\'attacher les tags du post "' . $tags . '" en paramètre à la requête d\'insertion du post !');
+                }
                 // Attacher le contenu du post en paramètre à la requête préparée
                 if (!Model::getStmt()->bindParam('content', $content, PDO::PARAM_STR)) {
                     // Si le paramètre n'a pas pu être attaché
