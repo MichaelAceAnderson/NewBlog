@@ -124,6 +124,7 @@ Step 8: Use the admin page to manage the blog settings
 - [ ] Display missing file authorizations errors (back/front)
 - [ ] Prevent access to development files with .htaccess (back)
 - [ ] Replace .gitkeep by mkdir in PrintLog method (back)
+- [ ] Add password confirmation in installation page (front/back)
 
 ### Version 2.0 - Rewriting from scratch
 
