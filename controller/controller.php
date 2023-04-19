@@ -75,8 +75,8 @@ class Controller
         }
         if ($mode == RAW) {
             // Définition des regex pour le formatage
-            $formatting = array(array('/\<br\>|\<br\/\>/', '/\<b\>|\<\/b\>/', '/' . PHP_EOL . '/'), array('\n', '', ''));
-            // Formater le message d'erreur pour remplacer les sauts de ligne bruts par des sauts de ligne HTML
+            $formatting = array(array('/\<br\>|\<br\/\>/', '/\<b\>|\<\/b\>/'), array(PHP_EOL, ''));
+            // Formater le message d'erreur pour remplacer les sauts de ligne HTML par des sauts de ligne bruts
             $errorMsg = preg_replace($formatting[0], $formatting[1], $errorMsg);
         }
 
