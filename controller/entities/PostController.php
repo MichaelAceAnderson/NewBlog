@@ -25,7 +25,7 @@ class PostController
             // On définit l'erreur du contrôleur
             $result = new Exception('Une erreur est survenue lors de la création du post "' . $title . '" par l\'utilisateur "' . $authorId . '" avec le contenu "' . $content . '", le sommaire "' . $summary . '" et les tags "' . $tags . '" !');
             // On logge l'erreur
-            Controller::printLog(Controller::getError($result));
+            Controller::printLog(Model::getError($result));
             // On renvoie un échec
             return false;
         } else {
@@ -46,7 +46,7 @@ class PostController
             // On définit l'erreur du contrôleur
             $result = new Exception('Une erreur est survenue lors de la récupération du post "' . $postId . '" !');
             // On logge l'erreur
-            Controller::printLog(Controller::getError($result));
+            Controller::printLog(Model::getError($result));
             // On renvoie un échec
             return false;
         } else {
@@ -65,7 +65,7 @@ class PostController
             // On définit l'erreur du contrôleur
             $result = new Exception('Une erreur est survenue lors de la récupération des posts !');
             // On logge l'erreur
-            Controller::printLog(Controller::getError($result));
+            Controller::printLog(Model::getError($result));
             // On renvoie un échec
             return false;
         } else {
@@ -84,7 +84,7 @@ class PostController
             // On définit l'erreur du contrôleur
             $result = new Exception('Une erreur est survenue lors de la récupération de l\'id du prochain post !');
             // On logge l'erreur
-            Controller::printLog(Controller::getError($result));
+            Controller::printLog(Model::getError($result));
             // On renvoie un échec
             return false;
         } else {
@@ -104,7 +104,7 @@ class PostController
             // On définit l'erreur du contrôleur
             $result = new Exception('Une erreur est survenue lors de la modification du pseudo de l\'utilisateur "' . $id . '" !');
             // On logge l'erreur
-            Controller::printLog(Controller::getError($result));
+            Controller::printLog(Model::getError($result));
             // On renvoie un échec
             return false;
         } else {
@@ -123,7 +123,7 @@ class PostController
             // On définit l'erreur du contrôleur
             $result = new Exception('Une erreur est survenue lors de la modification du mot de passe de l\'utilisateur "' . $id . '" en "' . $newPassword . '" !');
             // On logge l'erreur
-            Controller::printLog(Controller::getError($result));
+            Controller::printLog(Model::getError($result));
             // On renvoie un échec
             return false;
         } else {
@@ -144,7 +144,7 @@ class PostController
             // On définit l'erreur du contrôleur
             $result = new Exception('Une erreur est survenue lors de la suppression des posts !');
             // On logge l'erreur
-            Controller::printLog(Controller::getError($result));
+            Controller::printLog(Model::getError($result));
             // On retourne -1 pour indiquer que la requête a échoué
             return -1;
         } else {
@@ -163,7 +163,7 @@ class PostController
             // On définit l'erreur du contrôleur
             $result = new Exception('Une erreur est survenue lors de la suppression du post "' . $postId . '" !');
             // On logge l'erreur
-            Controller::printLog(Controller::getError($result));
+            Controller::printLog(Model::getError($result));
             // On renvoie un échec
             return false;
         } else {

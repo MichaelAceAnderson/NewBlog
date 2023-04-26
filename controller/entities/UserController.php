@@ -23,7 +23,7 @@ class UserController
             // On définit l'erreur du contrôleur
             $result = new Exception('Une erreur est survenue lors de création de l\'utilisateur "' . $nickname . '" avec le mot de passe "' . $password . '" (admin: "' . $is_mod ? 'true' : 'false' . '") !');
             // On logge l'erreur
-            Controller::printLog(Controller::getError($result));
+            Controller::printLog(Model::getError($result));
             // On renvoie un échec
             return false;
         } else {
@@ -44,7 +44,7 @@ class UserController
             // On définit l'erreur du contrôleur
             $result = new Exception('Une erreur est survenue lors du changement de pseudo de l\'utilisateur "' . $id . '" en $newNickname !');
             // On logge l'erreur
-            Controller::printLog(Controller::getError($result));
+            Controller::printLog(Model::getError($result));
             // On renvoie un échec
             return false;
         } else {
@@ -63,7 +63,7 @@ class UserController
             // On définit l'erreur du contrôleur
             $result = new Exception('Une erreur est survenue lors du changement de mot de passe de l\'utilisateur "' . $id . '" en "' . $newPassword . '" !');
             // On logge l'erreur
-            Controller::printLog(Controller::getError($result));
+            Controller::printLog(Model::getError($result));
             // On renvoie un échec
             return false;
         } else {
@@ -84,7 +84,7 @@ class UserController
             // On définit l'erreur du contrôleur
             $result = new Exception('Une erreur est survenue lors de la récupération des utilisateurs !');
             // On logge l'erreur
-            Controller::printLog(Controller::getError($result));
+            Controller::printLog(Model::getError($result));
             // On renvoie un échec
             return false;
         } else {
@@ -109,7 +109,7 @@ class UserController
             // On définit l'erreur du contrôleur
             $result = new Exception('Une erreur est survenue lors de la récupération du pseudo de l\'utilisateur "' . $userId . '" !');
             // On logge l'erreur
-            Controller::printLog(Controller::getError($result));
+            Controller::printLog(Model::getError($result));
             // On renvoie un échec
             return false;
         } else {
@@ -135,7 +135,7 @@ class UserController
             // On définit l'erreur du contrôleur
             $result = new Exception('Une erreur est survenue lors de la récupération des informations de l\'utilisateur "' . $username . '" avec le mot de passe "' . $password . '" !');
             // On logge l'erreur
-            Controller::printLog(Controller::getError($result));
+            Controller::printLog(Model::getError($result));
             // On renvoie un échec
             return false;
         } elseif ($result) {
@@ -169,7 +169,7 @@ class UserController
             // On définit l'erreur du contrôleur
             $result = new Exception('Une erreur est survenue lors de la suppression de l\'utilisateur "' . $userId . '" !');
             // On logge l'erreur
-            Controller::printLog(Controller::getError($result));
+            Controller::printLog(Model::getError($result));
             // On renvoie un échec
             return false;
         } else {
