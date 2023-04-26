@@ -406,7 +406,7 @@ header .account form input[type="submit"] {
 
 /* Avertissements */
 .notification.warning {
-    background: rgba(255, 255, 0, 0.8);
+    background: rgba(255, 200, 0, 0.8);
 }
 
 /* Erreurs */
