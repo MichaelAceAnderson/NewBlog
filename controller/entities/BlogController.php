@@ -22,7 +22,7 @@ class BlogController
             // On définit l'erreur du contrôleur
             $result = new Exception('Une erreur est survenue lors de la vérification de l\'installation du blog !');
             // On logge l'erreur
-            Controller::printLog(Controller::getError($result));
+            Controller::printLog(Model::getError($result));
             // On renvoie un échec
             return false;
         } else {
@@ -49,7 +49,7 @@ class BlogController
                 // On définit l'erreur à renvoyer
                 $error = new Exception('Une erreur inattendue est survenue lors de l\'installation de la base de données (Nom: "' . $blogName . '", Description: "' . $blogDescription . '", Image de fond: "' . $bgURL . '", Administrateur: "' . $adminPass . '", Mot de passe admin: "' . $adminPass . '") !');
                 // On logge l'erreur
-                Controller::printLog(Controller::getError($error));
+                Controller::printLog(Model::getError($error));
                 // On renvoie l'erreur
                 return $error;
             } else {
@@ -61,7 +61,7 @@ class BlogController
                     // On définit l'erreur à renvoyer
                     $error = new Exception('L\'utilisateur administrateur $adminName avec le mot de passe "' . $adminPass . '" n\'a pas pu être créé en base de données !');
                     // On logge l'erreur
-                    Controller::printLog(Controller::getError($error));
+                    Controller::printLog(Model::getError($error));
                     // On renvoie l'erreur
                     return $error;
                 } else {
@@ -72,7 +72,7 @@ class BlogController
                         // On définit l'erreur à renvoyer
                         $error = new Exception('L\'utilisateur administrateur "' . $adminName . '" avec le mot de passe "' . $adminPass . '" n\'a pas pu être récupéré en base de données !');
                         // On logge l'erreur
-                        Controller::printLog(Controller::getError($error));
+                        Controller::printLog(Model::getError($error));
                         // On renvoie l'erreur
                         return $error;
                     }
@@ -89,7 +89,7 @@ class BlogController
                             // On définit l'erreur à renvoyer
                             $error = new Exception('Les données du blog n\'ont pas pu être insérées en base de données  (Nom: "' . $blogName . '", Description: "' . $blogDescription . '", Image de fond: "' . $bgURL . '", Administrateur: "' . $adminPass . '", Mot de passe admin: "' . $adminPass . '") !');
                             // On logge l'erreur
-                            Controller::printLog(Controller::getError($error));
+                            Controller::printLog(Model::getError($error));
                             // On renvoie l'erreur
                             return $error;
                         } else {
@@ -119,7 +119,7 @@ class BlogController
             // On définit l'erreur du contrôleur
             $result = new Exception('Une erreur est survenue lors de la définition du nom du blog en "' . $newBlogName . '" !');
             // On logge l'erreur
-            Controller::printLog(Controller::getError($result));
+            Controller::printLog(Model::getError($result));
             // On renvoie un échec
             return false;
         } else {
@@ -138,7 +138,7 @@ class BlogController
             // On définit l'erreur du contrôleur
             $result = new Exception('Une erreur est survenue lors de la définition de l\'URL de l\'image de fond en "' . $newBackgroundURL . '" !');
             // On logge l'erreur
-            Controller::printLog(Controller::getError($result));
+            Controller::printLog(Model::getError($result));
             // On renvoie un échec
             return false;
         } else {
@@ -157,7 +157,7 @@ class BlogController
             // On définit l'erreur du contrôleur
             $result = new Exception('Une erreur est survenue lors de la définition de l\'URL du logo en "' . $newLogoURL . '" !');
             // On logge l'erreur
-            Controller::printLog(Controller::getError($result));
+            Controller::printLog(Model::getError($result));
             // On renvoie un échec
             return false;
         } else {
@@ -176,7 +176,7 @@ class BlogController
             // On définit l'erreur du contrôleur
             $result = new Exception('Une erreur est survenue lors de la définition de la description du blog en "' . $newDescription . '" !');
             // On logge l'erreur
-            Controller::printLog(Controller::getError($result));
+            Controller::printLog(Model::getError($result));
             // On renvoie un échec
             return false;
         } else {
@@ -197,7 +197,7 @@ class BlogController
             // On définit l'erreur du contrôleur
             $result = new Exception('Une erreur est survenue lors de la récupération du nom du blog !');
             // On logge l'erreur
-            Controller::printLog(Controller::getError($result));
+            Controller::printLog(Model::getError($result));
             // On renvoie faux
             return false;
         } else {
@@ -216,7 +216,7 @@ class BlogController
             // On définit l'erreur du contrôleur
             $result = new Exception('Une erreur est survenue lors de la récupération de la description du blog !');
             // On logge l'erreur
-            Controller::printLog(Controller::getError($result));
+            Controller::printLog(Model::getError($result));
             // On renvoie faux
             return false;
         } else {
@@ -236,7 +236,7 @@ class BlogController
             // On définit l'erreur du contrôleur
             $result = new Exception('Une erreur est survenue lors de la récupération de l\'URL de l\'image de fond du blog !');
             // On logge l'erreur
-            Controller::printLog(Controller::getError($result));
+            Controller::printLog(Model::getError($result));
             // On retourne l'URL par défaut
             return $defaultBgURL;
         } else {
@@ -274,7 +274,7 @@ class BlogController
             // On définit l'erreur du contrôleur
             $result = new Exception('Une erreur est survenue lors de la récupération de l\'URL du logo du blog !');
             // On logge l'erreur
-            Controller::printLog(Controller::getError($result));
+            Controller::printLog(Model::getError($result));
             // On renvoie l'URL du logo par défaut
             return '/view/img/logo.jpg';
         } else {
@@ -293,7 +293,7 @@ class BlogController
             // On définit l'erreur du contrôleur
             $result = new Exception('Une erreur est survenue lors de la récupération de la date de création du blog !');
             // On logge l'erreur
-            Controller::printLog(Controller::getError($result));
+            Controller::printLog(Model::getError($result));
             // On renvoie un échec
             return false;
         } else {
@@ -318,7 +318,7 @@ if (isset($_POST['fInstall'])) {
         $installStatus = BlogController::installBlog($_POST['fUserName'], $_POST['fPass'], $_POST['fBlogName'], $_POST['fBlogDesc'], $_POST['fBgURL']);
         if ($installStatus instanceof Exception) {
             // Si une erreur est survenue, on journalise le message d'erreur et on l'affiche à l'utilisateur
-            // Controller::printLog(Controller::getError($installStatus));
+            // Controller::printLog(Model::getError($installStatus));
             Controller::setState(STATE_ERROR, Model::getError($installStatus, HTML));
         } else {
             if ($installStatus) {

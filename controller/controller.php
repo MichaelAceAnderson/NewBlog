@@ -68,29 +68,6 @@ class Controller
     }
 
     /* AUTRES MÉTHODES */
-    // Formater l'erreur d'une Exception
-    public static function getError(Exception $error, int $mode = RAW)
-    {
-        $errorMsg = '';
-        if (LOGLEVEL >= 1) {
-            $errorMsg = 'Erreur: ' . $error->getMessage();
-        }
-        if (LOGLEVEL >= 2) {
-            $errorMsg .= '<br>Provenance de l\'erreur: ' . $error->getFile() . ':' . $error->getLine();
-        }
-        if (LOGLEVEL >= 3) {
-            $errorMsg .= '<br>Trace d\'erreur (string): ' . $error->getTraceAsString();
-            $errorMsg .= '<br>Code d\'erreur: ' . $error->getCode();
-        }
-        if ($mode == RAW) {
-            // Définition des regex pour le formatage
-            $formatting = array(array('/\<br\>|\<br\/\>/', '/\<b\>|\<\/b\>/'), array(PHP_EOL, ''));
-            // Formater le message d'erreur pour remplacer les sauts de ligne HTML par des sauts de ligne bruts
-            $errorMsg = preg_replace($formatting[0], $formatting[1], $errorMsg);
-        }
-
-        return $errorMsg;
-    }
     // Écrire dans un fichier log
     public static function printLog(string $msg): bool
     {

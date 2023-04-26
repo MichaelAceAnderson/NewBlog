@@ -99,8 +99,8 @@ class Model
     // Écrire dans un fichier log
     public static function printLog(string $msg): bool
     {
-        $date = new DateTime();
-        $date = $date->format('d-m-y h:i:s');
+        $date = new DateTime('now', new DateTimeZone('Europe/Paris'));
+        $date = $date->format('d-m-y H:i:s');
         if (LOGLEVEL < 1) {
             // Si le niveau de log est inférieur à 1, on ne logge pas
             return false;
@@ -125,7 +125,7 @@ class Model
         if (!is_dir($path)) {
             // Si ce n'est pas un dossier
             // On logge l'erreur
-            Model::printLog('Impossible de supprimer l\'élément ' . $path . ' car ce n\'est pas un dossier');
+            self::printLog('Impossible de supprimer l\'élément ' . $path . ' car ce n\'est pas un dossier');
             // On renvoie un échec
             return false;
         } else {
@@ -145,7 +145,7 @@ class Model
                         if (!unlink($path . DIRECTORY_SEPARATOR . $object)) {
                             // S'il est impossible de supprimer l'élément
                             // On logge l'erreur
-                            Model::printLog('Impossible de supprimer l\'élément ' . $path . DIRECTORY_SEPARATOR . $object);
+                            self::printLog('Impossible de supprimer l\'élément ' . $path . DIRECTORY_SEPARATOR . $object);
                             return false;
                         }
                     }
@@ -154,7 +154,7 @@ class Model
             if (!rmdir($path)) {
                 // S'il est impossible de supprimer le dossier
                 // On logge l'erreur
-                Model::printLog('Impossible de supprimer le dossier ' . $path);
+                self::printLog('Impossible de supprimer le dossier ' . $path);
                 return false;
             }
         }
