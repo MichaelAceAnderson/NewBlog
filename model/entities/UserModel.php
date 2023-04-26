@@ -1,5 +1,13 @@
 <?php
 
+// Si l'utilisateur n'utilise pas ce fichier dans un autre contexte
+// que depuis la page index.php, le rediriger à l'accueil
+if ($_SERVER['PHP_SELF'] != '/index.php') {
+    echo '<meta http-equiv="refresh" content="0; url=/" />';
+    header('Location: /');
+    exit();
+}
+
 class User
 {
     /* MÉTHODES */
