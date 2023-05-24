@@ -23,6 +23,7 @@ into a single project. It is not yet finished but it aimes to use:
   - [Table of contents](#table-of-contents)
   - [Getting started](#getting-started)
   - [To do (upcoming versions)](#to-do-upcoming-versions)
+    - [Version 3.3 - Security update](#version-33---security-update)
     - [Version 3.2 - Interaction update](#version-32---interaction-update)
     - [Version 3.1 - International update](#version-31---international-update)
     - [Version 3.0 - API update](#version-30---api-update)
@@ -72,6 +73,26 @@ Step 7: Use the account page (click on the username in the top right corner) to 
 Step 8: Use the admin page to manage the blog settings
 
 ## To do (upcoming versions)
+
+### Version 3.3 - Security update
+
+ ![3.3](https://img.shields.io/badge/3.3-yellow?style=flat-square)
+
+- [ ] Penetration testing
+- [ ] Add CSRF protection
+- [ ] Add XSS protection (stored or reflected -> Escape variables)
+- [ ] Check SQL injections & add automatic tests
+- [ ] Add password strength checker
+- [ ] Add password reset system
+- [ ] Add 2 factors authentication
+- [ ] Add captcha
+- [ ] Add HTTPS certificate
+- [ ] Add cookie consent banner
+- [ ] Add GDPR/RGPD compliance:
+  - [ ] Add privacy policy
+  - [ ] Add terms of use
+  - [ ] Add cookie policy
+  - [ ] Add cookie consent banner
 
 ### Version 3.2 - Interaction update
 
@@ -128,6 +149,18 @@ Step 8: Use the admin page to manage the blog settings
 - [ ] Add Update system to avoid reinstalling the blog (front/back)
 - [ ] Add possibility to delete post if the user is the author (front/back)
 - [ ] Add a table for tags and a table to link tags with posts (back)
+- [ ] Improve isDbInstalled method (back)
+- [ ] Add mediaUrl to posts & documentation (back)
+- [ ] Add custom Exceptions with specific codes [using constants ?] (back)
+- [ ] Refactor code with naming conventions & message standards (back)
+- [ ] Reformat indentation in debug page (back)
+- [ ] Add ValueError | Error catch after password hashing (back)
+- [ ] Add section comments in every Model & Controller (back)
+- [ ] Check code validity (back)
+- [ ] Improve error message logging [see Convergence project] (back)
+- [ ] Add user action logs in Controller (back)
+- [ ] Remove default values in SQL table creation -> Pass them to the Model (back)
+- [ ] Try PHP_CodeSniffer
 
 ## Changelog
 
