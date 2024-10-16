@@ -149,6 +149,9 @@ Step 8: Use the admin page to manage the blog settings
 - [ ] Add Update system to avoid reinstalling the blog (front/back)
 - [ ] Add possibility to delete post if the user is the author (front/back)
 - [ ] Add a table for tags and a table to link tags with posts (back)
+- [ ] Add possibility to filter posts by tag
+- [ ] Make tags appear in head meta for indexation (back)
+- [ ] Add missing variable precisions in log (back)
 - [ ] Improve isDbInstalled method (back)
 - [ ] Add mediaUrl to posts & documentation (back)
 - [ ] Add custom Exceptions with specific codes [using constants ?] (back)
