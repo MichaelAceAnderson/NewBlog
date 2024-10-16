@@ -62,7 +62,7 @@ class Post
                 if (!Model::getStmt()->bindParam('id_user_author', $authorId, PDO::PARAM_INT)) {
                     // Si le paramètre n'a pas pu être attaché
                     // On lance une erreur qui sera attrapée plus bas
-                    throw new Exception('Impossible d\'attacher l\'id de l\'auteur en paramètre à la requête d\'insertion du post !');
+                    throw new Exception('Impossible d\'attacher l\'id de l\'auteur "' . $authorId . '" en paramètre à la requête d\'insertion du post !');
                 }
 
                 // Exécuter la requête
@@ -162,7 +162,7 @@ class Post
                 // Si la connexion à réussi
                 // Préparer la requête
                 $stmt = Model::getPdo()->prepare(
-                    "SELECT newblog.nb_post.id_user_author, newblog.nb_user.nickname, newblog.nb_post.content, newblog.nb_post.time_stamp
+                    "SELECT newblog.nb_post.id_user_author, newblog.nb_user.nickname, newblog.nb_post.title, newblog.nb_post.summary, newblog.nb_post.tags, newblog.nb_post.content, newblog.nb_post.time_stamp
                     FROM newblog.nb_post JOIN newblog.nb_user
                     ON newblog.nb_post.id_user_author=nb_user.id_user
                     WHERE newblog.nb_post.id_post=:id_post"

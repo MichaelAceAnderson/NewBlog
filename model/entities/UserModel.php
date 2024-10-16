@@ -168,7 +168,7 @@ class User
                 // Exécuter la requête
                 if (Model::getStmt()->execute() === false) {
                     // Si la requête n'a pas pu être exécutée
-                    throw new Exception('La requête de récupération des données du blog a échoué !');
+                    throw new Exception('La requête de récupération des données de l\'utilisateur ' . $id . ' a échoué !');
                 } else {
                     // Si la requête a réussi
                     // Récupérer les résultats
@@ -176,7 +176,7 @@ class User
                     // Si la récupération des résultats a échoué
                     if ($result === false) {
                         // On lance une erreur qui sera rattrapée plus bas
-                        throw new Exception('La récupération des données de l\'utilisateur a échoué !');
+                        throw new Exception('La requête de récupération des données de l\'utilisateur ' . $id . ' a échoué !');
                     } else {
                         // Si la récupération des résultats a réussi
                         // On renvoie les résultats
@@ -226,7 +226,7 @@ class User
                 if (Model::getStmt()->execute() === false) {
                     // Si la requête n'a pas pu être exécutée
                     // On lance une erreur qui sera rattrapée plus bas
-                    throw new Exception('La requête de récupération des données du blog a échoué !');
+                    throw new Exception('La requête de récupération des données de l\'utilisateur "' . $nickname . '" a échoué !');
                 } else {
                     // Si la requête a réussi
                     // Récupérer les résultats
@@ -234,7 +234,7 @@ class User
                     // Si la récupération des résultats a échoué
                     if ($result === false) {
                         // On lance une erreur qui sera rattrapée plus bas
-                        throw new Exception('La récupération des données de l\'utilisateur a échoué !');
+                        throw new Exception('La requête de récupération des données de l\'utilisateur "' . $nickname . '" a échoué !');
                     } else {
                         // Si la récupération des résultats a réussi
                         // On renvoie les résultats

@@ -59,7 +59,7 @@ class BlogController
                 if (!UserController::createUser($adminName, $adminPass, true)) {
                     // Si l'utilisateur n'a pas pu être créé, on arrête l'installation
                     // On définit l'erreur à renvoyer
-                    $error = new Exception('L\'utilisateur administrateur $adminName avec le mot de passe "' . $adminPass . '" n\'a pas pu être créé en base de données !');
+                    $error = new Exception('L\'utilisateur administrateur "' . $adminName . '" avec le mot de passe "' . $adminPass . '" n\'a pas pu être créé en base de données !');
                     // On logge l'erreur
                     Controller::printLog(Model::getError($error));
                     // On renvoie l'erreur
