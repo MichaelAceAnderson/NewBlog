@@ -21,7 +21,7 @@
 
  ![2.1](https://img.shields.io/badge/2.1-yellow?style=flat-square)
 
-## Changelog
+## Released
 
 ### Version 2.0 - Rewriting from scratch
 
