@@ -1,0 +1,34 @@
+/* If the user prefers a light theme */
+@media (prefers-color-scheme: light) {
+	:root {
+		/* Text colors */
+		--textcolor: black;
+		--themecolor: rgb(255, 255, 255, 0.9);
+	}
+
+	*::-webkit-scrollbar-track {
+		background: var(--themecolor);
+	}
+
+	*::-webkit-scrollbar-thumb {
+		background: var(--darker);
+	}
+
+	*::-webkit-scrollbar-thumb:hover {
+		background: var(--darker);
+	}
+
+	*::-webkit-scrollbar-thumb:active {
+		background: var(--darker2);
+	}
+
+	/* Text outlines */
+	.outlined {
+		text-shadow: -1px -1px 0 white, 1px -1px 0 white, -1px 1px 0 white, 1px 1px 0 white;
+	}
+
+	/* Title line outlines */
+	.outlined hr {
+		box-shadow: -1px -1px 0 white, 1px -1px 0 white, -1px 1px 0 white, 1px 1px 0 white;
+	}
+}

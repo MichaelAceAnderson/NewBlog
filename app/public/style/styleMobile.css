@@ -1,0 +1,19 @@
+/* Responsive design */
+
+/* Large screens (+1080p) */
+@media screen and (min-width: 1500px) {
+
+	/* Section titles */
+	.title h1 {
+		font-size: 35px;
+	}
+}
+
+/* Phones */
+@media screen and (max-width: 780px) {
+
+	/* Section titles */
+	.title h1 {
+		font-size: 25px;
+	}
+}

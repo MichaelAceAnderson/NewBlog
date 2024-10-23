@@ -1,0 +1,71 @@
+services:
+  nb-mariadb-s:
+    container_name: "nb-mariadb-c"
+    build:
+      context: ../
+      dockerfile: ".docker/mariadb/Dockerfile.prod"
+    env_file:
+      - "mariadb/.env.prod"
+    restart: always
+    networks:
+      - nb-back-network
+    ports:
+      - 3306:3306
+    volumes:
+      - nb-mariadb-data:/var/lib/mysql/
+
+  nb-adminer-s:
+    container_name: "nb-adminer-c"
+    image: adminer
+    env_file:
+      - "adminer/.env.prod"
+    restart: always
+    ports:
+      - 8080:8080
+    networks:
+      - nb-back-network
+    depends_on:
+      - nb-mariadb-s
+
+  nb-php-s:
+    container_name: "nb-php-c"
+    build:
+      context: ../
+      dockerfile: ".docker/php/Dockerfile.prod"
+    env_file:
+      - "mariadb/.env.prod"
+      - "php/.env.prod"
+    restart: always
+    ports:
+      - "9000:9000"
+    networks:
+      - nb-back-network
+    depends_on:
+      - nb-mariadb-s
+
+  nb-nginx-s:
+    container_name: "nb-nginx-c"
+    build:
+      context: ../
+      dockerfile: ".docker/nginx/Dockerfile.prod"
+    env_file:
+      - "nginx/.env.prod"
+    restart: always
+    ports:
+      - "80:80"
+    networks:
+      - nb-back-network
+    depends_on:
+      - nb-php-s
+
+networks:
+  nb-back-network:
+    driver: bridge
+
+volumes:
+  nb-mariadb-data:
+    driver: local
+    driver_opts:
+      type: none
+      device: "./mariadb/data/"
+      o: bind
