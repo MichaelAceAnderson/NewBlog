@@ -1,0 +1,103 @@
+<mxfile host="65bd71144e">
+    <diagram id="kKbaQHDPACZrchQKF-Te" name="Page-1">
+        <mxGraphModel dx="1383" dy="440" grid="1" gridSize="10" guides="1" tooltips="1" connect="1" arrows="1" fold="1" page="1" pageScale="1" pageWidth="850" pageHeight="1100" math="0" shadow="0">
+            <root>
+                <mxCell id="0"/>
+                <mxCell id="1" parent="0"/>
+                <mxCell id="7IHg9uU4U2I5uhd31xPX-90" value="" style="endArrow=classic;html=1;rounded=0;strokeWidth=3;fillColor=#fff2cc;strokeColor=#d6b656;labelBorderColor=default;" parent="1" source="7IHg9uU4U2I5uhd31xPX-138" edge="1">
+                    <mxGeometry width="50" height="50" relative="1" as="geometry">
+                        <mxPoint x="-800" y="65" as="sourcePoint"/>
+                        <mxPoint x="-800" y="1585" as="targetPoint"/>
+                    </mxGeometry>
+                </mxCell>
+                <mxCell id="7IHg9uU4U2I5uhd31xPX-108" value="&lt;font size=&quot;1&quot; style=&quot;&quot;&gt;&lt;b style=&quot;font-size: 17px;&quot;&gt;Front-end&lt;/b&gt;&lt;/font&gt;" style="swimlane;fontStyle=0;childLayout=stackLayout;horizontal=1;startSize=26;fillColor=default;horizontalStack=0;resizeParent=1;resizeParentMax=0;resizeLast=0;collapsible=1;marginBottom=0;html=1;glass=0;labelBackgroundColor=none;labelBorderColor=none;fillStyle=solid;strokeColor=default;fontFamily=Helvetica;" parent="1" vertex="1">
+                    <mxGeometry x="-720" y="1424" width="580" height="126" as="geometry"/>
+                </mxCell>
+                <mxCell id="7IHg9uU4U2I5uhd31xPX-104" value="Index (&amp;includes)" style="swimlane;fontStyle=1;align=center;verticalAlign=top;childLayout=stackLayout;horizontal=1;startSize=26;horizontalStack=0;resizeParent=1;resizeParentMax=0;resizeLast=0;collapsible=1;marginBottom=0;fillColor=default;gradientColor=none;strokeColor=default;swimlaneLine=0;" parent="7IHg9uU4U2I5uhd31xPX-108" vertex="1">
+                    <mxGeometry y="26" width="580" height="100" as="geometry"/>
+                </mxCell>
+                <mxCell id="7IHg9uU4U2I5uhd31xPX-105" value="header.php&#10;head.php&#10;$_GET['page'].php&#10;footer.php" style="text;strokeColor=default;fillColor=default;align=left;verticalAlign=top;spacingLeft=4;spacingRight=4;overflow=hidden;rotatable=0;points=[[0,0.5],[1,0.5]];portConstraint=eastwest;gradientColor=none;swimlaneLine=0;" parent="7IHg9uU4U2I5uhd31xPX-104" vertex="1">
+                    <mxGeometry y="26" width="580" height="74" as="geometry"/>
+                </mxCell>
+                <mxCell id="7IHg9uU4U2I5uhd31xPX-112" value="Back-end" style="swimlane;fontStyle=1;childLayout=stackLayout;horizontal=1;startSize=26;fillColor=default;horizontalStack=0;resizeParent=1;resizeParentMax=0;resizeLast=0;collapsible=1;marginBottom=0;glass=0;labelBackgroundColor=none;labelBorderColor=none;fillStyle=solid;strokeColor=default;fontFamily=Helvetica;labelPosition=center;verticalLabelPosition=middle;align=center;verticalAlign=middle;fontSize=18;html=1;" parent="1" vertex="1">
+                    <mxGeometry x="-760" y="34" width="660" height="1342" as="geometry"/>
+                </mxCell>
+                <mxCell id="7IHg9uU4U2I5uhd31xPX-1" value="Model" style="swimlane;fontStyle=1;align=center;verticalAlign=top;childLayout=stackLayout;horizontal=1;startSize=26;horizontalStack=0;resizeParent=1;resizeParentMax=0;resizeLast=0;collapsible=1;marginBottom=0;fillColor=default;gradientColor=none;strokeColor=default;swimlaneLine=0;" parent="7IHg9uU4U2I5uhd31xPX-112" vertex="1">
+                    <mxGeometry y="26" width="660" height="180" as="geometry"/>
+                </mxCell>
+                <mxCell id="7IHg9uU4U2I5uhd31xPX-2" value="-pdo : ?PDO&#10;-stmt : mixed" style="text;strokeColor=default;fillColor=default;align=left;verticalAlign=top;spacingLeft=4;spacingRight=4;overflow=hidden;rotatable=0;points=[[0,0.5],[1,0.5]];portConstraint=eastwest;gradientColor=none;swimlaneLine=0;" parent="7IHg9uU4U2I5uhd31xPX-1" vertex="1">
+                    <mxGeometry y="26" width="660" height="44" as="geometry"/>
+                </mxCell>
+                <mxCell id="7IHg9uU4U2I5uhd31xPX-4" value="+setStmt(mixed $query): void&#10;+getStmt(): mixed&#10;+setPDO(?PDO $pdo) : void&#10;+getPdo(): ?PDO&#10;+getError(Exception $error, int $mode = RAW) : string&#10;+printLog(string $msg): bool&#10;+rmdir_r(string $path): bool" style="text;strokeColor=default;fillColor=default;align=left;verticalAlign=top;spacingLeft=4;spacingRight=4;overflow=hidden;rotatable=0;points=[[0,0.5],[1,0.5]];portConstraint=eastwest;gradientColor=none;swimlaneLine=0;" parent="7IHg9uU4U2I5uhd31xPX-1" vertex="1">
+                    <mxGeometry y="70" width="660" height="110" as="geometry"/>
+                </mxCell>
+                <mxCell id="7IHg9uU4U2I5uhd31xPX-40" value="PostModel" style="swimlane;fontStyle=1;align=center;verticalAlign=top;childLayout=stackLayout;horizontal=1;startSize=26;horizontalStack=0;resizeParent=1;resizeParentMax=0;resizeLast=0;collapsible=1;marginBottom=0;fillColor=default;gradientColor=none;strokeColor=default;swimlaneLine=0;" parent="7IHg9uU4U2I5uhd31xPX-112" vertex="1">
+                    <mxGeometry y="206" width="660" height="150" as="geometry"/>
+                </mxCell>
+                <mxCell id="7IHg9uU4U2I5uhd31xPX-41" value="" style="text;strokeColor=default;fillColor=default;align=left;verticalAlign=top;spacingLeft=4;spacingRight=4;overflow=hidden;rotatable=0;points=[[0,0.5],[1,0.5]];portConstraint=eastwest;gradientColor=none;swimlaneLine=0;" parent="7IHg9uU4U2I5uhd31xPX-40" vertex="1">
+                    <mxGeometry y="26" width="660" height="26" as="geometry"/>
+                </mxCell>
+                <mxCell id="7IHg9uU4U2I5uhd31xPX-43" value="+insertPost(int $authorId, string $title, string $summary, string $tags, string $content): int|Exception&#10;+selectPosts(): array|Exception&#10;+selectPost(int $postId): array|Exception&#10;+selectLastPostId(): int|Exception&#10;+deletePosts(): int|Exception&#10;+deletePost(int $id): bool|Exception" style="text;strokeColor=default;fillColor=default;align=left;verticalAlign=top;spacingLeft=4;spacingRight=4;overflow=hidden;rotatable=0;points=[[0,0.5],[1,0.5]];portConstraint=eastwest;gradientColor=none;swimlaneLine=0;" parent="7IHg9uU4U2I5uhd31xPX-40" vertex="1">
+                    <mxGeometry y="52" width="660" height="98" as="geometry"/>
+                </mxCell>
+                <mxCell id="7IHg9uU4U2I5uhd31xPX-32" value="BlogModel" style="swimlane;fontStyle=1;align=center;verticalAlign=top;childLayout=stackLayout;horizontal=1;startSize=26;horizontalStack=0;resizeParent=1;resizeParentMax=0;resizeLast=0;collapsible=1;marginBottom=0;fillColor=default;gradientColor=none;strokeColor=default;swimlaneLine=0;" parent="7IHg9uU4U2I5uhd31xPX-112" vertex="1">
+                    <mxGeometry y="356" width="660" height="180" as="geometry"/>
+                </mxCell>
+                <mxCell id="7IHg9uU4U2I5uhd31xPX-33" value="" style="text;strokeColor=default;fillColor=default;align=left;verticalAlign=top;spacingLeft=4;spacingRight=4;overflow=hidden;rotatable=0;points=[[0,0.5],[1,0.5]];portConstraint=eastwest;gradientColor=none;swimlaneLine=0;" parent="7IHg9uU4U2I5uhd31xPX-32" vertex="1">
+                    <mxGeometry y="26" width="660" height="26" as="geometry"/>
+                </mxCell>
+                <mxCell id="7IHg9uU4U2I5uhd31xPX-35" value="+installDB(): bool|Exception&#10;+insertBlog(string $blogName, string $description, int $adminId, string $bgURL = &quot;&quot;): bool|Exception&#10;+selectBlog(): array|Exception&#10;+selectBlogByName(string $blogName): array|Exception&#10;+updateBlogName(string $newBlogName): bool|Exception&#10;+updateDescription(string $newDescription): bool|Exception&#10;+updateLogoURL(string $newLogoURL): bool|Exception&#10;+updateBackgroundURL(string $newBackground): bool|Exception" style="text;strokeColor=default;fillColor=default;align=left;verticalAlign=top;spacingLeft=4;spacingRight=4;overflow=hidden;rotatable=0;points=[[0,0.5],[1,0.5]];portConstraint=eastwest;gradientColor=none;swimlaneLine=0;" parent="7IHg9uU4U2I5uhd31xPX-32" vertex="1">
+                    <mxGeometry y="52" width="660" height="128" as="geometry"/>
+                </mxCell>
+                <mxCell id="7IHg9uU4U2I5uhd31xPX-36" value="UserModel" style="swimlane;fontStyle=1;align=center;verticalAlign=top;childLayout=stackLayout;horizontal=1;startSize=26;horizontalStack=0;resizeParent=1;resizeParentMax=0;resizeLast=0;collapsible=1;marginBottom=0;fillColor=default;gradientColor=none;strokeColor=default;swimlaneLine=0;" parent="7IHg9uU4U2I5uhd31xPX-112" vertex="1">
+                    <mxGeometry y="536" width="660" height="160" as="geometry"/>
+                </mxCell>
+                <mxCell id="7IHg9uU4U2I5uhd31xPX-37" value="" style="text;strokeColor=default;fillColor=default;align=left;verticalAlign=top;spacingLeft=4;spacingRight=4;overflow=hidden;rotatable=0;points=[[0,0.5],[1,0.5]];portConstraint=eastwest;gradientColor=none;swimlaneLine=0;" parent="7IHg9uU4U2I5uhd31xPX-36" vertex="1">
+                    <mxGeometry y="26" width="660" height="26" as="geometry"/>
+                </mxCell>
+                <mxCell id="7IHg9uU4U2I5uhd31xPX-39" value="+insertUser(string $nickname, string $password, bool $is_mod): bool|Exception&#10;+selectUsers(): array|Exception&#10;+selectUserById(int $id): array|Exception&#10;+selectUserByName(string $nickname): array|Exception&#10;+updateUserName(int $id, string $newNickname): bool|Exception&#10;+updateUserPassword(int $id, string $newPassword): bool|Exception&#10;+deleteUser(int $id): bool|Exception" style="text;strokeColor=default;fillColor=default;align=left;verticalAlign=top;spacingLeft=4;spacingRight=4;overflow=hidden;rotatable=0;points=[[0,0.5],[1,0.5]];portConstraint=eastwest;gradientColor=none;swimlaneLine=0;" parent="7IHg9uU4U2I5uhd31xPX-36" vertex="1">
+                    <mxGeometry y="52" width="660" height="108" as="geometry"/>
+                </mxCell>
+                <mxCell id="7IHg9uU4U2I5uhd31xPX-5" value="Controller&#10;" style="swimlane;fontStyle=1;align=center;verticalAlign=top;childLayout=stackLayout;horizontal=1;startSize=26;horizontalStack=0;resizeParent=1;resizeParentMax=0;resizeLast=0;collapsible=1;marginBottom=0;fillColor=default;gradientColor=none;strokeColor=default;swimlaneLine=0;" parent="7IHg9uU4U2I5uhd31xPX-112" vertex="1">
+                    <mxGeometry y="696" width="660" height="112" as="geometry"/>
+                </mxCell>
+                <mxCell id="7IHg9uU4U2I5uhd31xPX-6" value="  " style="text;strokeColor=default;fillColor=default;align=left;verticalAlign=top;spacingLeft=4;spacingRight=4;overflow=hidden;rotatable=0;points=[[0,0.5],[1,0.5]];portConstraint=eastwest;gradientColor=none;swimlaneLine=0;" parent="7IHg9uU4U2I5uhd31xPX-5" vertex="1">
+                    <mxGeometry y="26" width="660" height="26" as="geometry"/>
+                </mxCell>
+                <mxCell id="7IHg9uU4U2I5uhd31xPX-8" value="+returnJsonHttpResponse(success: bool, data: string|array): void&#10;+returnJsonFromArray(dbArray: mixed): void&#10;+jsonToVar(): mixed" style="text;strokeColor=default;fillColor=default;align=left;verticalAlign=top;spacingLeft=4;spacingRight=4;overflow=hidden;rotatable=0;points=[[0,0.5],[1,0.5]];portConstraint=eastwest;gradientColor=none;swimlaneLine=0;" parent="7IHg9uU4U2I5uhd31xPX-5" vertex="1">
+                    <mxGeometry y="52" width="660" height="60" as="geometry"/>
+                </mxCell>
+                <mxCell id="7IHg9uU4U2I5uhd31xPX-22" value="UserController" style="swimlane;fontStyle=1;align=center;verticalAlign=top;childLayout=stackLayout;horizontal=1;startSize=26;horizontalStack=0;resizeParent=1;resizeParentMax=0;resizeLast=0;collapsible=1;marginBottom=0;fillColor=default;gradientColor=none;strokeColor=default;swimlaneLine=0;" parent="7IHg9uU4U2I5uhd31xPX-112" vertex="1">
+                    <mxGeometry y="808" width="660" height="172" as="geometry"/>
+                </mxCell>
+                <mxCell id="7IHg9uU4U2I5uhd31xPX-23" value=" " style="text;strokeColor=default;fillColor=default;align=left;verticalAlign=top;spacingLeft=4;spacingRight=4;overflow=hidden;rotatable=0;points=[[0,0.5],[1,0.5]];portConstraint=eastwest;gradientColor=none;swimlaneLine=0;" parent="7IHg9uU4U2I5uhd31xPX-22" vertex="1">
+                    <mxGeometry y="26" width="660" height="32" as="geometry"/>
+                </mxCell>
+                <mxCell id="7IHg9uU4U2I5uhd31xPX-25" value="+createUser(string $nickname, string $password, bool $is_mod = false): bool&#10;+changeUsername(int $id, string $newNickname): bool&#10;+changeUserPassword(int $id, string $newPassword): bool&#10;+getAllUsers(): array|false&#10;+getUserNameById(int $userId): string|false&#10;+getUserInfoByCredentials(string $username, string $password): object|false&#10;+deleteUser(int $userId): bool" style="text;strokeColor=default;fillColor=default;align=left;verticalAlign=top;spacingLeft=4;spacingRight=4;overflow=hidden;rotatable=0;points=[[0,0.5],[1,0.5]];portConstraint=eastwest;gradientColor=none;swimlaneLine=0;" parent="7IHg9uU4U2I5uhd31xPX-22" vertex="1">
+                    <mxGeometry y="58" width="660" height="114" as="geometry"/>
+                </mxCell>
+                <mxCell id="7IHg9uU4U2I5uhd31xPX-17" value="BlogController&#10;" style="swimlane;fontStyle=1;align=center;verticalAlign=top;childLayout=stackLayout;horizontal=1;startSize=26;horizontalStack=0;resizeParent=1;resizeParentMax=0;resizeLast=0;collapsible=1;marginBottom=0;fillColor=default;gradientColor=none;strokeColor=default;swimlaneLine=0;" parent="7IHg9uU4U2I5uhd31xPX-112" vertex="1">
+                    <mxGeometry y="980" width="660" height="212" as="geometry"/>
+                </mxCell>
+                <mxCell id="7IHg9uU4U2I5uhd31xPX-18" value=" " style="text;strokeColor=default;fillColor=default;align=left;verticalAlign=top;spacingLeft=4;spacingRight=4;overflow=hidden;rotatable=0;points=[[0,0.5],[1,0.5]];portConstraint=eastwest;gradientColor=none;swimlaneLine=0;" parent="7IHg9uU4U2I5uhd31xPX-17" vertex="1">
+                    <mxGeometry y="26" width="660" height="26" as="geometry"/>
+                </mxCell>
+                <mxCell id="7IHg9uU4U2I5uhd31xPX-20" value="+isInstalled(): bool&#10;+installBlog(adminName: string, adminPass: string, blogName: string, blogDescription: string, bgURL: string): bool | Exception&#10;+setBlogName(newBlogName: string): bool&#10;+setBackgroundURL(newBackgroundURL: string): bool&#10;+setDescription(newDescription: string): bool&#10;+getBlogName(): string | false&#10;+getBackgroundURL(): string | false&#10;+getBlogDescription(): string | false&#10;+getCreationDate(): string | false" style="text;strokeColor=default;fillColor=default;align=left;verticalAlign=top;spacingLeft=4;spacingRight=4;overflow=hidden;rotatable=0;points=[[0,0.5],[1,0.5]];portConstraint=eastwest;gradientColor=none;swimlaneLine=0;" parent="7IHg9uU4U2I5uhd31xPX-17" vertex="1">
+                    <mxGeometry y="52" width="660" height="160" as="geometry"/>
+                </mxCell>
+                <mxCell id="7IHg9uU4U2I5uhd31xPX-26" value="PostController" style="swimlane;fontStyle=1;align=center;verticalAlign=top;childLayout=stackLayout;horizontal=1;startSize=26;horizontalStack=0;resizeParent=1;resizeParentMax=0;resizeLast=0;collapsible=1;marginBottom=0;fillColor=default;gradientColor=none;strokeColor=default;swimlaneLine=0;" parent="7IHg9uU4U2I5uhd31xPX-112" vertex="1">
+                    <mxGeometry y="1192" width="660" height="150" as="geometry"/>
+                </mxCell>
+                <mxCell id="7IHg9uU4U2I5uhd31xPX-27" value=" " style="text;strokeColor=default;fillColor=default;align=left;verticalAlign=top;spacingLeft=4;spacingRight=4;overflow=hidden;rotatable=0;points=[[0,0.5],[1,0.5]];portConstraint=eastwest;gradientColor=none;swimlaneLine=0;" parent="7IHg9uU4U2I5uhd31xPX-26" vertex="1">
+                    <mxGeometry y="26" width="660" height="26" as="geometry"/>
+                </mxCell>
+                <mxCell id="7IHg9uU4U2I5uhd31xPX-29" value="+createPost(int $authorId, string $title, string $summary, string $tags, string $content, string $mediaUrl = null): int&#10;+getPost(int $postId): array|false&#10;+getAllPosts(): array|false&#10;+getNextPostId(): int|false&#10;+clearPosts(): int&#10;+deletePost(int $postId): bool" style="text;strokeColor=default;fillColor=default;align=left;verticalAlign=top;spacingLeft=4;spacingRight=4;overflow=hidden;rotatable=0;points=[[0,0.5],[1,0.5]];portConstraint=eastwest;gradientColor=none;swimlaneLine=0;" parent="7IHg9uU4U2I5uhd31xPX-26" vertex="1">
+                    <mxGeometry y="52" width="660" height="98" as="geometry"/>
+                </mxCell>
+                <mxCell id="7IHg9uU4U2I5uhd31xPX-138" value="&lt;span style=&quot;&quot;&gt;Include order&lt;/span&gt;" style="text;html=1;strokeColor=none;fillColor=none;align=center;verticalAlign=middle;whiteSpace=wrap;rounded=0;fontSize=17;fontFamily=Helvetica;labelBorderColor=default;labelBackgroundColor=default;" parent="1" vertex="1">
+                    <mxGeometry x="-830" y="30" width="60" height="30" as="geometry"/>
+                </mxCell>
+            </root>
+        </mxGraphModel>
+    </diagram>
+</mxfile>

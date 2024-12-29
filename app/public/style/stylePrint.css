@@ -1,0 +1,27 @@
+/* Style for printing, set to light theme regardless of user preference */
+@media (prefers-color-scheme: dark),
+(prefers-color-scheme: light),
+(prefers-color-scheme: no-preference) {
+	:root {
+		/* Text colors */
+		--textcolor: black;
+		--themecolor: white;
+		/* Element/Background colors */
+		--darker: rgb(0, 0, 0, 0.2);
+		--evendarker: rgb(0, 0, 0, 0.4);
+		--highlight: rgb(0, 0, 0, 0.1);
+		--highlight2: rgb(0, 0, 0, 0.2);
+	}
+}
+
+* {
+	outline: none;
+	break-after: avoid-page;
+	break-before: avoid-page;
+	break-inside: avoid-page;
+}
+
+/* Footer information */
+footer {
+	display: none;
+}

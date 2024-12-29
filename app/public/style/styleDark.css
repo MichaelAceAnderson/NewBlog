@@ -1,0 +1,37 @@
+/* If the user has no preference or prefers the dark theme */
+@media (prefers-color-scheme: dark),
+(prefers-color-scheme: no-preference) {
+
+	/* Common variables */
+	:root {
+		--textcolor: white;
+		--themecolor: rgb(23, 24, 25, 0.9);
+	}
+
+	/* Main paragraphs & section titles */
+	.main p,
+	.title h1 {
+		text-shadow: -1px -1px 0 black,
+			1px -1px 0 black,
+			-1px 1px 0 black,
+			1px 1px 0 black;
+	}
+
+	/* Title bar */
+	.title hr {
+		box-shadow: -1px -1px 0 black,
+			1px -1px 0 black,
+			-1px 1px 0 black,
+			1px 1px 0 black;
+	}
+
+	/* Text outlines */
+	.outlined {
+		text-shadow: -1px -1px 0 black, 1px -1px 0 black, -1px 1px 0 black, 1px 1px 0 black;
+	}
+
+	/* Title bar outlines */
+	.outlined hr {
+		box-shadow: -1px -1px 0 black, 1px -1px 0 black, -1px 1px 0 black, 1px 1px 0 black;
+	}
+}

@@ -1,0 +1,31 @@
+ErrorDocument 401 /?page=error&code=401
+ErrorDocument 403 /?page=error&code=403
+ErrorDocument 404 /?page=error&code=404
+ErrorDocument 406 /?page=error&code=406
+ErrorDocument 500 /?page=error&code=500
+ErrorDocument 503 /?page=error&code=503
+
+# Disable directory browsing
+Options -Indexes
+
+# Prevent access to Apache website configuration files
+<FilesMatch "^\.ht">
+	Order allow,deny
+	Deny from all
+	Satisfy all
+</FilesMatch>
+
+# Prevent access to git configuration files
+<FilesMatch "^\.git">
+	Order allow,deny
+	Deny from all
+	Satisfy all
+</FilesMatch>
+
+
+# Prevent access to specific folder to everyone except localhost
+# <FilesMatch "(RegEx_Here!)">
+#     Order deny,allow
+#     Deny from all
+#     Allow from 127.0.0.1
+# </FilesMatch>

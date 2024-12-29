@@ -1,0 +1,10 @@
+# Do not track IDE configuration files
+.vscode/
+# Do not track logs
+**/*.log*
+# Do not track database data
+.docker/mariadb/data/*
+# Do not track blog data such as images, videos, etc.
+**/blog_data/*
+# Keep directories containing a .gitkeep file but not necessarily their content
+!**/.gitkeep
